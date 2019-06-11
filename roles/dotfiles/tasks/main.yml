@@ -1,19 +1,27 @@
 ---
-- name: Create XDG config dir
-  file: >
-    path=~/.config
-    state=directory
+# Create user directories
+- name: Check user directories
+  stat:
+    path: "{{ item }}"
+  register: directory_stats
+  with_items:
+  - ~/bin
+  - ~/.config
+  - ~/.cache
+  - ~/.local
+  - ~/.local/share
+  - ~/.config/zsh
+  - ~/.config/fish
 
-- name: Create fish config dir
-  file: >
-    path=~/.config/fish
-    state=directory
+- name: Create multiple directories without disturbing previous permissions
+  file:
+    path: "{{ item.item }}"
+    state: directory
+  when: item.stat.exists == false
+  with_items:
+  - "{{ directory_stats.results }}"
 
-- name: Create user bin dir
-  file: >
-    path=~/bin
-    state=directory
-
+# symlink dotfiles
 - name: Symlink dotfiles
   file: >
     src={{ item.path }}
@@ -23,16 +31,18 @@
   with_items: '{{ dotfiles|default([]) }}'
   when: item.path is defined and item.dest is defined and item != ''
 
-- shell: test -e ~/.config/fisherman; echo $?
+# install fish plugins
+- stat:
+    path: ~/.config/fish/functions/fisher.fish
   register: exist_fisherman
-
-- name: Install fisherman
-  command: curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs https://git.io/fisher
-  when: exist_fisherman.stdout == 1
+ 
+- command: curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs https://git.io/fisher
+  when: exist_fisherman.stat.exists == false
 
 - name: Install fish plugins
   command: fish -c "fisher"
 
+# install VSCode extensions
 - name: Install vscode extensions
   shell: |
     cat ~/dotfiles/vscode/extensions | while read line
@@ -40,6 +50,7 @@
       code --install-extension $line
     done
 
+# install the VSCodeVim extension
 - shell: which im-select; echo $?
   register: exist_imselect
 

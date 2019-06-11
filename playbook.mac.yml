@@ -7,36 +7,363 @@
     - dotfiles
   vars:
     defaults_variables:
-      - { domain: NSGlobalDomain, key: AppleICUForce24HourTime, type: bool, value: true }
-      - { domain: NSGlobalDomain, key: InitialKeyRepeat, type: int, value: 15 }
-      - { domain: NSGlobalDomain, key: KeyRepeat, type: int, value: 2 }
-      - { domain: NSGlobalDomain, key: NSAutomaticDashSubstitutionEnabled, type: bool, value: false }
-      - { domain: NSGlobalDomain, key: NSAutomaticQuoteSubstitutionEnabled, type: bool, value: false }
-      - { domain: com.apple.AppleMultitouchTrackpad, key: Clicking, type: int, value: 1 }
-      - { domain: com.apple.AppleMultitouchTrackpad, key: TrackpadThreeFingerDrag, type: bool, value: true }
-      - { domain: com.apple.dock, key: showMissionControlGestureEnabled, type: bool, value: true }
-      - { domain: com.apple.dock, key: showAppExposeGestureEnabled, type: bool, value: true }
-      - { domain: com.apple.dock, key: showDesktopGestureEnabled, type: bool, value: true }
-      - { domain: com.apple.dock, key: showLaunchpadGestureEnabled, type: bool, value: true }
-      - { domain: com.apple.dock, key: autohide, type: bool, value: true }
-      - { domain: com.apple.dock, key: persistent-apps, type: array, value: [] }
-      - { domain: com.apple.dock, key: tilesize, type: int, value: 36 }
-      - { domain: com.apple.finder, key: NewWindowTarget, type: string, value: 'PfHm' }
-      - { domain: com.apple.finder, key: ShowStatusBar, type: bool, value: true }
-      - { domain: com.apple.finder, key: ShowPathbar, type: bool, value: true }
-      - { domain: com.apple.finder, key: ShowTabView, type: bool, value: true }
-      - { domain: com.apple.finder, key: AppleShowAllFiles, type: bool, value: true }
-      - { domain: com.apple.finder, key: FXPreferredViewStyle, type: string, value: 'clmv' }
-      - { domain: com.apple.finder, key: FXPreferredGroupBy, type: string, value: 'Kind' }
-      - { domain: com.apple.screensaver, key: askForPassword, type: int, value: 1 }
-      - { domain: com.apple.screensaver, key: askForPasswordDelay, type: float, value: 5.0 }
-      - { domain: com.apple.menuextra.battery, key: ShowPercent, type: string, value: 'YES' }
-      - { domain: com.apple.menuextra.clock, key: DateFormat, type: string, value: 'EEE MMM d  h:mm:ss' }
-      - { domain: com.microsoft.VSCode, key: ApplePressAndHoldEnabled, type: bool, value: false }
-      - { domain: co.zeit.hyper, key: ApplePressAndHoldEnabled, type: bool, value: false }
+      # NSGlobalDomain
+      - domain: NSGlobalDomain
+        key: AppleICUForce24HourTime
+        type: bool
+        value: true
+      - domain: NSGlobalDomain
+        key: AppleInterfaceStyle
+        type: string
+        value: 'Dark'
+      - domain: NSGlobalDomain
+        key: AppleKeyboardUIMode
+        type: int
+        value: 3
+      - domain: NSGlobalDomain
+        key: AppleLanguages
+        type: array
+        value:
+          - 'en-JP'
+          - 'ja-JP'
+          - 'en'
+      - domain: NSGlobalDomain
+        key: AppleLocale
+        type: string
+        value: 'en_JP'
+      - domain: NSGlobalDomain
+        key: ApplePressAndHoldEnabled
+        type: bool
+        value: false
+      - domain: NSGlobalDomain
+        key: AppleShowAllExtensions
+        type: bool
+        value: true
+      - domain: NSGlobalDomain
+        key: InitialKeyRepeat
+        type: int
+        value: 15
+      - domain: NSGlobalDomain
+        key: KeyRepeat
+        type: int
+        value: 2
+      - domain: NSGlobalDomain
+        key: NSAutomaticCapitalizationEnabled
+        type: bool
+        value: false
+      - domain: NSGlobalDomain
+        key: NSAutomaticDashSubstitutionEnabled
+        type: bool
+        value: false
+      - domain: NSGlobalDomain
+        key: NSAutomaticPeriodSubstitutionEnabled
+        type: bool
+        value: false
+      - domain: NSGlobalDomain
+        key: NSAutomaticQuoteSubstitutionEnabled
+        type: bool
+        value: false
+      - domain: NSGlobalDomain
+        key: NSAutomaticSpellingCorrectionEnabled
+        type: bool
+        value: false
+      - domain: NSGlobalDomain
+        key: NSAutomaticTextCompletionEnabled
+        type: bool
+        value: false
+      # com.apple
+      ## trackpad
+      - domain: com.apple.AppleMultitouchTrackpad
+        key: Clicking
+        type: bool
+        value: true
+      - domain: com.apple.AppleMultitouchTrackpad
+        key: TrackpadFiveFingerPinchGesture
+        type: int
+        value: 2
+      - domain: com.apple.AppleMultitouchTrackpad
+        key: TrackpadFourFingerHorizSwipeGesture
+        type: int
+        value: 2
+      - domain: com.apple.AppleMultitouchTrackpad
+        key: TrackpadFourFingerPinchGesture
+        type: int
+        value: 2
+      - domain: com.apple.AppleMultitouchTrackpad
+        key: TrackpadFourFingerVertSwipeGesture
+        type: int
+        value: 2
+      - domain: com.apple.AppleMultitouchTrackpad
+        key: TrackpadHandResting
+        type: bool
+        value: true
+      - domain: com.apple.AppleMultitouchTrackpad
+        key: TrackpadHorizScroll
+        type: int
+        value: 1
+      - domain: com.apple.AppleMultitouchTrackpad
+        key: TrackpadMomentumScroll
+        type: bool
+        value: true
+      - domain: com.apple.AppleMultitouchTrackpad
+        key: TrackpadPinch
+        type: int
+        value: 1
+      - domain: com.apple.AppleMultitouchTrackpad
+        key: TrackpadRightClick
+        type: bool
+        value: true
+      - domain: com.apple.AppleMultitouchTrackpad
+        key: TrackpadRotate
+        type: int
+        value: 1
+      - domain: com.apple.AppleMultitouchTrackpad
+        key: TrackpadScroll
+        type: bool
+        value: true
+      - domain: com.apple.AppleMultitouchTrackpad
+        key: TrackpadThreeFingerDrag
+        type: bool
+        value: true
+      - domain: com.apple.AppleMultitouchTrackpad
+        key: TrackpadThreeFingerHorizSwipeGesture
+        type: int
+        value: 0
+      - domain: com.apple.AppleMultitouchTrackpad
+        key: TrackpadThreeFingerTapGesture
+        type: int
+        value: 2
+      - domain: com.apple.AppleMultitouchTrackpad
+        key: TrackpadThreeFingerVertSwipeGesture
+        type: int
+        value: 0
+      - domain: com.apple.AppleMultitouchTrackpad
+        key: TrackpadTwoFingerDoubleTapGesture
+        type: int
+        value: 1
+      - domain: com.apple.AppleMultitouchTrackpad
+        key: TrackpadTwoFingerFromRightEdgeSwipeGesture
+        type: int
+        value: 3
+      ## dictionary
+      - domain: com.apple.DictionaryServices
+        key: DCSActiveDictionaries
+        type: array
+        value:
+          - 'com.apple.dictionary.ja-en.WISDOM'
+          - 'com.apple.dictionary.NOAD'
+          - 'com.apple.dictionary.OAWT'
+          - 'com.apple.dictionary.ja.Daijirin'
+          - '/System/Library/Frameworks/CoreServices.framework/Frameworks/DictionaryServices.framework/Resources/Wikipedia.wikipediadictionary'
+          - 'com.apple.dictionary.AppleDictionary'
+      ## input method
+      - domain: com.apple.HIToolbox
+        key: AppleEnabledInputSources
+        type: array
+        value:
+          - '{ "Bundle ID" = "com.apple.inputmethod.EmojiFunctionRowItem"; InputSourceKind = "Non Keyboard Input Method"; }'
+          - '{ InputSourceKind = "Keyboard Layout"; "KeyboardLayout ID" = 0; "KeyboardLayout Name" = "U.S."; }'
+          - '{ "Bundle ID" = "com.apple.inputmethod.Kotoeri"; "Input Mode" = "com.apple.inputmethod.Japanese"; InputSourceKind = "Input Mode"; }'
+          - '{ "Bundle ID" = "com.apple.inputmethod.Kotoeri"; InputSourceKind = "Keyboard Input Method"; }'
+      ## siri
+      - domain: com.apple.Siri
+        key: StatusMenuVisible
+        type: bool
+        value: false
+      - domain: com.apple.Siri
+        key: VoiceTriggerUserEnabled
+        type: bool
+        value: false
+      ## spotlight
+      - domain: com.apple.Spotlight
+        key: orderedItems
+        type: array
+        value:
+          - '{ enabled = 1; name = APPLICATIONS; }'
+          - '{ enabled = 0; name = "MENU_SPOTLIGHT_SUGGESTIONS"; }'
+          - '{ enabled = 1; name = "MENU_CONVERSION"; }'
+          - '{ enabled = 1; name = "MENU_EXPRESSION"; }'
+          - '{ enabled = 1; name = "MENU_DEFINITION"; }'
+          - '{ enabled = 0; name = "SYSTEM_PREFS"; }'
+          - '{ enabled = 0; name = DOCUMENTS; }'
+          - '{ enabled = 0; name = DIRECTORIES; }'
+          - '{ enabled = 0; name = PRESENTATIONS; }'
+          - '{ enabled = 0; name = SPREADSHEETS; }'
+          - '{ enabled = 0; name = PDF; }'
+          - '{ enabled = 0; name = MESSAGES; }'
+          - '{ enabled = 0; name = CONTACT; }'
+          - '{ enabled = 0; name = "EVENT_TODO"; }'
+          - '{ enabled = 0; name = IMAGES; }'
+          - '{ enabled = 0; name = BOOKMARKS; }'
+          - '{ enabled = 0; name = MUSIC; }'
+          - '{ enabled = 0; name = MOVIES; }' 
+          - '{ enabled = 0; name = FONTS; }' 
+          - '{ enabled = 0; name = "MENU_OTHER"; }' 
+          - '{ enabled = 0; name = SOURCE; }'
+      ## dock
+      - domain: com.apple.dock
+        key: autohide
+        type: bool
+        value: true
+      - domain: com.apple.dock
+        key: persistent-apps
+        type: array
+        value: []
+      - domain: com.apple.dock
+        key: showAppExposeGestureEnabled
+        type: bool
+        value: true
+      - domain: com.apple.dock
+        key: showDesktopGestureEnabled
+        type: bool
+        value: true
+      - domain: com.apple.dock
+        key: showLaunchpadGestureEnabled
+        type: bool
+        value: true
+      - domain: com.apple.dock
+        key: showMissionControlGestureEnabled
+        type: bool
+        value: true
+      - domain: com.apple.dock
+        key: tilesize
+        type: int
+        value: 36
+      ## finder
+      - domain: com.apple.finder
+        key: AppleShowAllFiles
+        type: bool
+        value: true
+      - domain: com.apple.finder
+        key: FXArrangeGroupViewBy
+        type: string
+        value: 'Name'
+      - domain: com.apple.finder
+        key: FXDefaultSearchScope
+        type: string
+        value: 'SCcf'
+      - domain: com.apple.finder
+        key: FXPreferredGroupBy
+        type: string
+        value: 'Kind'
+      - domain: com.apple.finder
+        key: FXPreferredViewStyle
+        type: string
+        value: 'clmv'
+      - domain: com.apple.finder
+        key: ShowExternalHardDrivesOnDesktop
+        type: bool
+        value: true
+      - domain: com.apple.finder
+        key: ShowHardDrivesOnDesktop
+        type: bool
+        value: false
+      - domain: com.apple.finder
+        key: ShowPathbar
+        type: bool
+        value: true
+      - domain: com.apple.finder
+        key: ShowPreviewPane
+        type: bool
+        value: false
+      - domain: com.apple.finder
+        key: ShowRecentTags
+        type: bool
+        value: false
+      - domain: com.apple.finder
+        key: ShowRemovableMediaOnDesktop
+        type: bool
+        value: true
+      - domain: com.apple.finder
+        key: ShowSidebar
+        type: bool
+        value: true
+      - domain: com.apple.finder
+        key: ShowStatusBar
+        type: bool
+        value: true
+      - domain: com.apple.finder
+        key: ShowTabView
+        type: bool
+        value: true
+      - domain: com.apple.finder
+        key: SidebarWidth
+        type: float
+        value: 150.0
+      ## japanese im (kotoeri)
+      - domain: com.apple.inputmethod.Kotoeri
+        key: JIMPrefAutocorrectionKey
+        type: bool
+        value: true
+      - domain: com.apple.inputmethod.Kotoeri
+        key: JIMPrefCandidateWindowFontKey
+        type: string
+        value: 'TsukuARdGothic-Bold'
+      - domain: com.apple.inputmethod.Kotoeri
+        key: JIMPrefConvertWithPunctuationKey
+        type: int
+        value: 0
+      - domain: com.apple.inputmethod.Kotoeri
+        key: JIMPrefFullWidthNumeralCharactersKey
+        type: bool
+        value: false
+      - domain: com.apple.inputmethod.Kotoeri
+        key: JIMPrefLiveConversionKey
+        type: bool
+        value: false
+      ## menu
+      - domain: com.apple.menuextra.battery
+        key: ShowPercent
+        type: string
+        value: 'YES'
+      - domain: com.apple.menuextra.clock
+        key: DateFormat
+        type: string
+        value: 'EEE MMM d  H:mm:ss' 
+      - domain: com.apple.menuextra.clock
+        key: FlashDateSeparators
+        type: bool
+        value: false
+      - domain: com.apple.menuextra.clock
+        key: IsAnalog
+        type: bool
+        value: false
+      - domain: com.apple.menuextra.textinput
+        key: ModeNameVisible
+        type: bool
+        value: false
+      ## screensaver
+      - domain: com.apple.screensaver
+        key: askForPassword
+        type: int
+        value: 1
+      - domain: com.apple.screensaver
+        key: askForPasswordDelay
+        type: float
+        value: 5.0
+      ## apps
+      - domain: com.microsoft.VSCode
+        key: ApplePressAndHoldEnabled
+        type: bool
+        value: false
+      - domain: co.zeit.hyper
+        key: ApplePressAndHoldEnabled
+        type: bool
+        value: false
     dotfiles:
-      - { path: ~/dotfiles/fish/config.fish, dest: ~/.config/fish/config.fish }
-      - { path: ~/dotfiles/fish/fishfile, dest: ~/.config/fish/fishfile }
-      - { path: ~/dotfiles/hyper/hyper.js, dest: ~/.hyper.js }
-      - { path: ~/dotfiles/vscode/settings.json, dest: ~/Library/Application Support/Code/User/settings.json }
-      - { path: ~/dotfiles/vscode/locale.json, dest: ~/Library/Application Support/Code/User/locale.json }
+      - path: ~/dotfiles/zsh/.zshenv
+        dest: ~/.zshenv
+      - path: ~/dotfiles/zsh/.zshrc
+        dest: ~/.config/zsh/.zshrc
+      - path: ~/dotfiles/zsh/zplug.zsh
+        dest: ~/.config/zsh/zplug.zsh
+      - path: ~/dotfiles/fish/config.fish
+        dest: ~/.config/fish/config.fish
+      - path: ~/dotfiles/fish/fishfile
+        dest: ~/.config/fish/fishfile
+      - path: ~/dotfiles/hyper/.hyper.js
+        dest: ~/.hyper.js
+      - path: ~/dotfiles/vscode/settings.json
+        dest: ~/Library/Application Support/Code/User/settings.json
+      - path: ~/dotfiles/vscode/locale.json
+        dest: ~/Library/Application Support/Code/User/locale.json

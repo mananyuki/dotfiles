@@ -6,6 +6,11 @@
     "editor.wordWrap": "on",
     "editor.cursorStyle": "block",
     "editor.cursorBlinking": "solid",
+    "explorer.confirmDragAndDrop": false,
+    "liveshare.featureSet": "stable",
+    "terminal.external.osxExec": "Hyper.app",
+    "terminal.integrated.fontSize": 16,
+    "terminal.integrated.rendererType": "dom",
     "window.zoomLevel": 0,
     "workbench.colorTheme": "Nord",
     "workbench.colorCustomizations": {
@@ -14,6 +19,7 @@
         "statusBar.debuggingBackground": "#88C0D0",
         "statusBar.foreground": "#3B4252"
     },
+    "workbench.startupEditor": "newUntitledFile",
 
     // Vim
     "vim.useSystemClipboard": true,
@@ -84,8 +90,5 @@
         "suppressWelcomeNotice": true
     },
     "gitlens.keymap": "alternate",
-    "gitlens.historyExplorer.enabled": false,
-
-    // languages
-    "tslint.autoFixOnSave": true
+    "gitlens.views.repositories.files.layout": "auto"
 }

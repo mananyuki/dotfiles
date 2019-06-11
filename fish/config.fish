@@ -6,6 +6,7 @@ set -gx LANG ja_JP.UTF-8
 
 # PATH
 set -gx PATH $GOPATH/bin $PATH
+set -g fish_user_paths "/usr/local/opt/gettext/bin" $fish_user_paths
 
 # keybind
 function my_key_bindings

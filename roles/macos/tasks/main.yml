@@ -12,10 +12,19 @@
   register: etc_shells
 
 - name: Add `/etc/shells`
-  lineinfile: dest=/etc/shells line='/usr/local/bin/fish' state=present owner=root group=wheel mode=0644
+  lineinfile: 
+    dest: /etc/shells
+    line: '{{ item }}'
+    state: present
+    owner: root
+    group: wheel
+    mode: 0644
   become: true
-  when: etc_shells.stdout.find('/usr/local/bin/fish') == -1
+  when: etc_shells.stdout.find('{{ item }}') == -1
+  with_items:
+    - /usr/local/bin/fish
+    - /usr/local/bin/zsh
 
 - name: Change default shell
-  shell: chsh -s /usr/local/bin/fish
-  when: etc_shells.stdout.find('/usr/local/bin/fish') == -1
+  shell: chsh -s /usr/local/bin/zsh
+  when: etc_shells.stdout.find('/usr/local/bin/zsh') == -1
