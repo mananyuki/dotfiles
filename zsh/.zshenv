@@ -28,6 +28,7 @@ export GIT_EDITOR="${EDITOR}"
 # golang
 export GOPATH="$HOME"
 export GOBIN="$GOPATH/bin"
+export GO111MODULE=on
 export PATH="$GOBIN:$PATH"
 
 # Source management

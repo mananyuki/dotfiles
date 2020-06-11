@@ -12,6 +12,7 @@
   - ~/.local/share
   - ~/.config/zsh
   - ~/.config/fish
+  - ~/.config/nvim
 
 - name: Create multiple directories without disturbing previous permissions
   file:
@@ -32,15 +33,40 @@
   when: item.path is defined and item.dest is defined and item != ''
 
 # install fish plugins
-- stat:
-    path: ~/.config/fish/functions/fisher.fish
-  register: exist_fisherman
- 
-- command: curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs https://git.io/fisher
-  when: exist_fisherman.stat.exists == false
+# - stat:
+#     path: ~/.config/fish/functions/fisher.fish
+#   register: exist_fisherman
 
-- name: Install fish plugins
-  command: fish -c "fisher"
+# - command: curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs https://git.io/fisher
+#   when: exist_fisherman.stat.exists == false
+
+# - name: Install fish plugins
+#   command: fish -c "fisher"
+
+# install some runtimes
+- name: Install some runtimes with asdf-vm
+  shell: |
+    asdf plugin-add {{ item.plugin }} && {{ item.post_add|default('echo "post-add command is nothing"') }}
+    asdf install {{ item.plugin }} {{ item.version }}
+    asdf global {{ item.plugin }} {{ item.version }} && {{ item.post_install|default('echo "post-install command is nothing"') }}
+  with_items:
+  - plugin: golang
+    version: '1.14.4'
+  - plugin: haskell
+    version: '8.6.5'
+  - plugin: java
+    version: 'amazon-corretto-11.0.3.7.1'
+  - plugin: maven
+    version: '3.6.1'
+  - plugin: nodejs
+    version: '14.4.0'
+    post_add: bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
+  - plugin: rust
+    version: '1.44.0'
+  - plugin: sbt
+    version: '1.3.8'
+  - plugin: terraform
+    version: '0.12.5'
 
 # install VSCode extensions
 - name: Install vscode extensions
@@ -57,3 +83,9 @@
 - name: Install VSCodeVim extensions
   shell: curl -Ls https://raw.githubusercontent.com/daipeihust/im-select/master/install_mac.sh | sh
   when: exist_imselect.stdout == 1
+
+# install nvim extension
+- name: Install nvim extension
+  shell: |
+    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim

@@ -14,6 +14,16 @@
     "window.zoomLevel": 0,
     "workbench.colorTheme": "Nord",
     "workbench.colorCustomizations": {
+        "activityBar.background": "#add3de",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#bf60aa",
+        "activityBarBadge.foreground": "#15202b",
+        "titleBar.activeBackground": "#88c0d0",
+        "titleBar.inactiveBackground": "#88c0d099",
+        "titleBar.activeForeground": "#15202b",
+        "titleBar.inactiveForeground": "#15202b99",
+        "statusBarItem.hoverBackground": "#63adc2",
         "statusBar.background": "#88C0D0",
         "statusBar.noFolderBackground": "#88C0D0",
         "statusBar.debuggingBackground": "#88C0D0",
@@ -90,5 +100,83 @@
         "suppressWelcomeNotice": true
     },
     "gitlens.keymap": "alternate",
-    "gitlens.views.repositories.files.layout": "auto"
+    "gitlens.views.repositories.files.layout": "auto",
+    "peacock.favoriteColors": [
+        {
+            "name": "Angular Red",
+            "value": "#b52e31"
+        },
+        {
+            "name": "Auth0 Orange",
+            "value": "#eb5424"
+        },
+        {
+            "name": "Azure Blue",
+            "value": "#007fff"
+        },
+        {
+            "name": "C# Purple",
+            "value": "#68217A"
+        },
+        {
+            "name": "Gatsby Purple",
+            "value": "#639"
+        },
+        {
+            "name": "Go Cyan",
+            "value": "#5dc9e2"
+        },
+        {
+            "name": "Java Blue-Gray",
+            "value": "#557c9b"
+        },
+        {
+            "name": "JavaScript Yellow",
+            "value": "#f9e64f"
+        },
+        {
+            "name": "Mandalorian Blue",
+            "value": "#1857a4"
+        },
+        {
+            "name": "Node Green",
+            "value": "#215732"
+        },
+        {
+            "name": "React Blue",
+            "value": "#00b3e6"
+        },
+        {
+            "name": "Something Different",
+            "value": "#832561"
+        },
+        {
+            "name": "Vue Green",
+            "value": "#42b883"
+        }
+    ],
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "metals.customRepositories": [
+        "ivy2Local",
+        "central"
+    ],
+    "[yaml]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "terraform.indexing": {
+        "enabled": false,
+        "liveIndexing": false,
+        "delay": 500,
+        "exclude": [
+            ".terraform/**/*",
+            "**/.terraform/**/*"
+        ]
+    },
+    "terraform.languageServer": {
+        "enabled": true,
+        "args": []
+    },
+    "go.useLanguageServer": true
 }

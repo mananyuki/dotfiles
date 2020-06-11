@@ -157,14 +157,12 @@
           - '/System/Library/Frameworks/CoreServices.framework/Frameworks/DictionaryServices.framework/Resources/Wikipedia.wikipediadictionary'
           - 'com.apple.dictionary.AppleDictionary'
       ## input method
-      - domain: com.apple.HIToolbox
-        key: AppleEnabledInputSources
-        type: array
-        value:
-          - '{ "Bundle ID" = "com.apple.inputmethod.EmojiFunctionRowItem"; InputSourceKind = "Non Keyboard Input Method"; }'
-          - '{ InputSourceKind = "Keyboard Layout"; "KeyboardLayout ID" = 0; "KeyboardLayout Name" = "U.S."; }'
-          - '{ "Bundle ID" = "com.apple.inputmethod.Kotoeri"; "Input Mode" = "com.apple.inputmethod.Japanese"; InputSourceKind = "Input Mode"; }'
-          - '{ "Bundle ID" = "com.apple.inputmethod.Kotoeri"; InputSourceKind = "Keyboard Input Method"; }'
+      # - domain: com.apple.HIToolbox
+      #   key: AppleEnabledInputSources
+      #   type: array
+      #   value:
+      #     - '{ InputSourceKind = "Keyboard Layout"; "KeyboardLayout ID" = 0; "KeyboardLayout Name" = "U.S."; }'
+      #     - '{ "Bundle ID" = "com.apple.inputmethod.Kotoeri"; "Input Mode" = "com.apple.inputmethod.Japanese"; InputSourceKind = "Input Mode"; }'
       ## siri
       - domain: com.apple.Siri
         key: StatusMenuVisible
@@ -196,9 +194,9 @@
           - '{ enabled = 0; name = IMAGES; }'
           - '{ enabled = 0; name = BOOKMARKS; }'
           - '{ enabled = 0; name = MUSIC; }'
-          - '{ enabled = 0; name = MOVIES; }' 
-          - '{ enabled = 0; name = FONTS; }' 
-          - '{ enabled = 0; name = "MENU_OTHER"; }' 
+          - '{ enabled = 0; name = MOVIES; }'
+          - '{ enabled = 0; name = FONTS; }'
+          - '{ enabled = 0; name = "MENU_OTHER"; }'
           - '{ enabled = 0; name = SOURCE; }'
       ## dock
       - domain: com.apple.dock
@@ -319,7 +317,7 @@
       - domain: com.apple.menuextra.clock
         key: DateFormat
         type: string
-        value: 'EEE MMM d  H:mm:ss' 
+        value: 'EEE MMM d  H:mm:ss'
       - domain: com.apple.menuextra.clock
         key: FlashDateSeparators
         type: bool
@@ -361,6 +359,8 @@
         dest: ~/.config/fish/config.fish
       - path: ~/dotfiles/fish/fishfile
         dest: ~/.config/fish/fishfile
+      - path: ~/dotfiles/nvim/init.vim
+        dest: ~/.config/nvim/init.vim
       - path: ~/dotfiles/hyper/.hyper.js
         dest: ~/.hyper.js
       - path: ~/dotfiles/vscode/settings.json
