@@ -353,16 +353,10 @@
         dest: ~/.zshenv
       - path: ~/dotfiles/zsh/.zshrc
         dest: ~/.config/zsh/.zshrc
-      - path: ~/dotfiles/zsh/zplug.zsh
-        dest: ~/.config/zsh/zplug.zsh
-      - path: ~/dotfiles/fish/config.fish
-        dest: ~/.config/fish/config.fish
-      - path: ~/dotfiles/fish/fishfile
-        dest: ~/.config/fish/fishfile
+      - path: ~/dotfiles/zsh/zinit.zsh
+        dest: ~/.config/zsh/zinit.zsh
       - path: ~/dotfiles/nvim/init.vim
         dest: ~/.config/nvim/init.vim
-      - path: ~/dotfiles/hyper/.hyper.js
-        dest: ~/.hyper.js
       - path: ~/dotfiles/vscode/settings.json
         dest: ~/Library/Application Support/Code/User/settings.json
       - path: ~/dotfiles/vscode/locale.json
