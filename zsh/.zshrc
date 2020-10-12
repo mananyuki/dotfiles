@@ -27,6 +27,11 @@ bindkey '^N' history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
+# lazygit
+if [[ $commands[lazygit] ]]; then
+  alias lg='lazygit'
+fi
+
 # asdf
 if [[ -f /usr/local/opt/asdf/asdf.sh ]]; then
   . /usr/local/opt/asdf/asdf.sh
@@ -34,36 +39,21 @@ if [[ -f /usr/local/opt/asdf/asdf.sh ]]; then
     /usr/local/etc/bash_completion.d/asdf.bash
     $fpath
   )
+  eval "$(asdf exec direnv hook bash)"
+  direnv() { asdf exec direnv "$@"; }
+  if [[ -f ~/.asdf/plugins/java/set-java-home.zsh ]]; then
+    . ~/.asdf/plugins/java/set-java-home.zsh
+  fi
 fi
 
 # kubernetes
 if [[ $commands[kubectl] ]]; then
   alias k='kubectl'
 fi
-if [[ -f /usr/local/opt/kube-ps1/share/kube-ps1.sh ]]; then
-  set_kubeconfig () {
-    export KUBECONFIG="$HOME/.kube/config"
-  }
-  kon () {
-    source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-    RPS1='$(kube_ps1)'
-    set_kubeconfig
-  }
-  koff () {
-    export KUBECONFIG="$HOME"
-    RPS1=
-  }
-  koff
-fi
 
 # starship
 if [[ $commands[starship] ]]; then
   eval "$(starship init zsh)"
-fi
-
-# gettext
-if [[ -d /usr/local/opt/gettext/bin ]]; then
-  export PATH="/usr/local/opt/gettext/bin:$PATH"
 fi
 
 # completion

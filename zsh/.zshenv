@@ -46,8 +46,13 @@ path=(
   $path
 )
 
+setopt auto_cd
+
 # history
 export HISTFILE="$ZDOTDIR/history"
 export HISTSIZE=1000000
 export SAVEHIST=1000000
-setopt hist_ignore_dups
+setopt append_history
+setopt hist_ignore_all_dups
+setopt hist_ignore_space
+setopt share_history

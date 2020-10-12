@@ -1,158 +1,101 @@
 "" General
-set number
+set autowrite
+set clipboard^=unnamedplus
+set expandtab shiftwidth=2
+set hidden
+set ignorecase
 set linebreak
+set nobackup
+set noshowmode
+set noswapfile
+set nowritebackup
+set number relativenumber
+set shortmess+=c
 set showbreak=+++
-set textwidth=120
 set showmatch
+set signcolumn=yes
+set smartcase
+set smartindent
+set softtabstop=2
+set textwidth=120
+set undolevels=1000
+set updatetime=300
 set visualbell
 
-set hlsearch
-set smartcase
-set ignorecase
-set incsearch
-
-set autoindent
-set expandtab
-set shiftwidth=2
-set smartindent
-set smarttab
-set softtabstop=2
-
-set ruler
-set relativenumber
-
-set undolevels=1000
-set backspace=indent,eol,start
-
-set clipboard+=unnamedplus
-
-let mapleader = "\<space>"
-nnoremap <silent> <leader>p :<C-u>CocList --normal files<CR>
-nnoremap <silent> <leader>w :w<CR>
-
-nmap s- :split<Return><C-w>w
-nmap s<Bar> :vsplit<Return><C-w>w
-
-nmap <space> <C-w>w
-map sh <C-w>h
-map sk <C-w>k
-map sj <C-w>j
-map sl <C-w>l
-nmap <C-w>H <C-w><
-nmap <C-w>L <C-w>>
-nmap <C-w>K <C-w>+
-nmap <C-w>J <C-w>-
+let mapleader=";"
+let g:mapleader=";"
+let g:python3_host_prog="~/.asdf/shims/python3"
 
 "" Plugins
 call plug#begin('~/.local/share/nvim/plugged')
 
   Plug 'arcticicestudio/nord-vim'
-  Plug 'itchyny/lightline.vim'
-
-  Plug 'sheerun/vim-polyglot'
+  Plug 'brglng/vim-im-select', { 'on': '<Plug>ImSelectEnable' }
   Plug 'editorconfig/editorconfig-vim'
+  Plug 'itchyny/lightline.vim'
   Plug 'jiangmiao/auto-pairs'
+  Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' }
+  Plug 'liuchengxu/vista.vim'
+  Plug 'neoclide/coc-git', { 'do': 'yarn install --frozen-lockfile' }
+  Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+  Plug 'sheerun/vim-polyglot'
+  Plug 'tmux-plugins/vim-tmux-focus-events'
   Plug 'tpope/vim-commentary'
-
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  Plug 'neoclide/coc-lists', {'do': 'yarn install --frozen-lockfile'}
-  Plug 'neoclide/coc-git', {'do': 'yarn install --frozen-lockfile'}
-
-  Plug 'hrsh7th/vim-vsnip'
-  Plug 'hrsh7th/vim-vsnip-integ'
-
-  if has('nvim')
-    Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-  else
-    Plug 'Shougo/defx.nvim'
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-  endif
-
-  Plug 'kristijanhusak/defx-icons'
-  Plug 'ryanoasis/vim-devicons'
-  Plug 'kristijanhusak/defx-git'
+  Plug 'tpope/vim-sensible'
+  Plug 'vn-ki/coc-clap'
+  Plug 'voldikss/vim-floaterm'
 
 call plug#end()
+
+"" keybindings
+nnoremap <silent> <leader>w :w<CR>
+
+nnoremap <space> <C-w>w
+nnoremap <M-h> <C-w>h
+nnoremap <M-j> <C-w>j
+nnoremap <M-k> <C-w>k
+nnoremap <M-l> <C-w>l
+inoremap <M-h> <Esc><C-w>h
+inoremap <M-j> <Esc><C-w>j
+inoremap <M-k> <Esc><C-w>k
+inoremap <M-l> <Esc><C-w>l
+tnoremap <M-h> <C-\><C-n><C-w>h
+tnoremap <M-j> <C-\><C-n><C-w>j
+tnoremap <M-k> <C-\><C-n><C-w>k
+tnoremap <M-l> <C-\><C-n><C-w>l
 
 "" nord-vim
 colorscheme nord
 
-"" Defx.nvim
-nnoremap <silent> sf :<C-u>Defx -listed -resume -buffer-name=tab`tabpagenr()`<CR>
+"" vim-im-select
+let g:im_select_default = 'com.apple.keylayout.US'
 
-call defx#custom#option('_', {
-  \ 'winwidth': 40,
-  \ 'split': 'vertical',
-  \ 'direction': 'topleft',
-  \ 'show_ignored_files': 1,
-  \ 'buffer_name': 'exproler',
-  \ 'toggle': 1,
-  \ 'resume': 1,
-  \ 'columns': 'indent:git:icons:filename:mark',
-  \ })
+"" vim-clap
+nmap <silent> <C-p> :Clap files ++finder=fd --type f --hidden --exclude '.git/'<CR>
+nmap <silent> <Leader>f :Clap grep2<CR>
+nmap <silent> <Leader>b :Clap buffers<CR>
+nmap <silent> <Leader>c :Clap command_history<CR>
+nmap <silent> <Leader>l :Clap lines<CR>
+nmap <silent> <Leader>T :Clap tags<CR>
+nmap <silent> sf :Clap filer<CR>
+let g:clap_theme = 'nord'
 
-function! s:defx_my_mappings()
-  " Define mappings
-  nnoremap <silent><buffer><expr> <CR> defx#async_action('drop')
-  nnoremap <silent><buffer><expr> c defx#do_action('copy')
-  nnoremap <silent><buffer><expr> ! defx#do_action('execute_command')
-  nnoremap <silent><buffer><expr> m defx#do_action('move')
-  nnoremap <silent><buffer><expr> p defx#do_action('paste')
-  nnoremap <silent><buffer><expr> l defx#async_action('open_tree')
-  nnoremap <silent><buffer><expr> E defx#do_action('drop', 'vsplit')
-  nnoremap <silent><buffer><expr> P defx#do_action('drop', 'pedit')
-  nnoremap <silent><buffer><expr> o defx#async_action('open_or_close_tree')
-  nnoremap <silent><buffer><expr> O defx#async_action('open_tree_recursive')
-  nnoremap <silent><buffer><expr> K defx#do_action('new_directory')
-  nnoremap <silent><buffer><expr> N defx#do_action('new_file')
-  nnoremap <silent><buffer><expr> M defx#do_action('new_multiple_files')
-  nnoremap <silent><buffer><expr> C defx#do_action('toggle_columns', 'mark:filename:type:size:time')
-  nnoremap <silent><buffer><expr> S defx#do_action('toggle_sort', 'Time')
-  nnoremap <silent><buffer><expr> se defx#do_action('add_session')
-  nnoremap <silent><buffer><expr> sl defx#do_action('load_session')
-  nnoremap <silent><buffer><expr> d defx#do_action('remove_trash')
-  nnoremap <silent><buffer><expr> r defx#do_action('rename')
-  nnoremap <silent><buffer><expr> x defx#do_action('execute_system')
-  nnoremap <silent><buffer><expr> > defx#do_action('toggle_ignored_files')
-  nnoremap <silent><buffer><expr> . defx#do_action('repeat')
-  nnoremap <silent><buffer><expr> .. defx#async_action('cd', ['..'])
-  nnoremap <silent><buffer><expr> yy defx#do_action('yank_path')
-  nnoremap <silent><buffer><expr> h defx#async_action('close_tree')
-  nnoremap <silent><buffer><expr> ~ defx#async_action('cd')
-  nnoremap <silent><buffer><expr> \ defx#do_action('cd', getcwd())
-  nnoremap <silent><buffer><expr> q defx#do_action('quit')
-  nnoremap <silent><buffer><expr> <Space> defx#do_action('toggle_select') . 'j'
-  nnoremap <silent><buffer><expr> * defx#do_action('toggle_select_all')
-  nnoremap <silent><buffer><expr> j line('.') == line('$') ? 'gg' : 'j'
-  nnoremap <silent><buffer><expr> k line('.') == 1 ? 'G' : 'k'
-  nnoremap <silent><buffer><expr> <C-l> defx#do_action('redraw')
-  xnoremap <silent><buffer><expr> <CR> defx#do_action('toggle_select_visual')
-  nnoremap <silent><buffer><expr> <C-g> defx#do_action('print')
-  nnoremap <silent><buffer><expr> <Tab> winnr('$') != 1 ? ':<C-u>wincmd w<CR>' : ':<C-u>Defx -buffer-name=temp -split=vertical<CR>'
-endfunction
+"" coc-clap
+nnoremap <silent> <space>a :Clap coc_diagnostics<CR>
+nnoremap <silent> <space>e :Clap coc_extensions<CR>
+nnoremap <silent> <space>c :Clap coc_commands<CR>
+nnoremap <silent> <space>o :Clap coc_outline<CR>
+nnoremap <silent> <space>s :Clap coc_symbols<CR>
 
-autocmd FileType defx call s:defx_my_mappings()
+"" Vista.vim
+let g:vista_default_executive = 'coc'
 
-augroup defx
-  au!
-  au VimEnter * sil! au! FileExplorer *
-  au BufEnter * if s:isdir(expand('%')) | bd | exe 'Defx' | endif
-augroup END
-
-function! s:isdir(dir) abort
-  return !empty(a:dir) && (isdirectory(a:dir) ||
-     \ (!empty($SYSTEMDRIVE) && isdirectory('/'.tolower($SYSTEMDRIVE[0]).a:dir)))
-endfunction
+"" vim-floaterm
+nnoremap <silent> <Leader>t :FloatermToggle<CR>
+tnoremap <silent> <Leader>t <C-\><C-n>:FloatermToggle<CR>
+nnoremap <silent> <Leader>g :FloatermNew --name=lg --autoclose=2 lazygit<CR>
 
 "" lightline.vim
-set laststatus=2
-set noshowmode
-
-function! CocCurrentFunction()
-  return get(b:, 'coc_current_function', '')
-endfunction
-
 function! CocGitStatus()
   return get(g:, 'coc_git_status', '')
 endfunction
@@ -161,37 +104,15 @@ let g:lightline = {
   \ 'colorscheme': 'nord',
   \ 'active': {
   \   'left': [ [ 'mode', 'paste' ],
-  \             [ 'gitstatus', 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ] ]
+  \             [ 'readonly', 'filename', 'modified', 'gitstatus', 'cocstatus', ] ]
   \ },
   \ 'component_function': {
   \   'cocstatus': 'coc#status',
-  \   'currentfunction': 'CocCurrentFunction',
-  \   'gitstatus': 'CocGitStatus'
+  \   'gitstatus': 'CocGitStatus',
   \ },
   \ }
 
 "" coc.nvim
-" TextEdit might fail if hidden is not set.
-set hidden
-
-" Some servers have issues with backup files, see #649.
-set nobackup
-set nowritebackup
-
-" Give more space for displaying messages.
-" set cmdheight=2
-
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-" delays and poor user experience.
-set updatetime=300
-
-" Don't pass messages to |ins-completion-menu|.
-set shortmess+=c
-
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-set signcolumn=yes
-
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
@@ -209,16 +130,13 @@ endfunction
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
@@ -235,7 +153,7 @@ function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
   else
-    call CocAction('doHover')
+    call CocActionAsync('doHover')
   endif
 endfunction
 
@@ -244,10 +162,9 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
-
 " Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+xmap <leader>F  <Plug>(coc-format-selected)
+nmap <leader>F  <Plug>(coc-format-selected)
 
 augroup mygroup
   autocmd!
@@ -262,7 +179,7 @@ augroup end
 xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
 
-" Remap keys for applying codeAction to the current line.
+" Remap keys for applying codeAction to the current buffer.
 nmap <leader>ac  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
@@ -279,7 +196,7 @@ xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
 " Use CTRL-S for selections ranges.
-" Requires 'textDocument/selectionRange' support of LS, ex: coc-tsserver
+" Requires 'textDocument/selectionRange' support of language server.
 nmap <silent> <C-s> <Plug>(coc-range-select)
 xmap <silent> <C-s> <Plug>(coc-range-select)
 
@@ -291,18 +208,3 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" Mappings using CoCList:
-" Show all diagnostics.
-nnoremap <silent> <leader>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions.
-nnoremap <silent> <leader>e  :<C-u>CocList extensions<cr>
-" Show commands.
-nnoremap <silent> <leader>c  :<C-u>CocList commands<cr>
-" Do default action for next item.
-nnoremap <silent> <leader>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <leader>k  :<C-u>CocPrev<CR>
-" Resume latest coc list.
-nnoremap <silent> <leader><leader>  :<C-u>CocListResume<CR>
-
