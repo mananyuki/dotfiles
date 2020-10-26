@@ -113,6 +113,21 @@ let g:lightline = {
   \ }
 
 "" coc.nvim
+let g:coc_global_extensions = [
+  \ 'coc-angular',
+  \ 'coc-eslint',
+  \ 'coc-go',
+  \ 'coc-java',
+  \ 'coc-json',
+  \ 'coc-metals',
+  \ 'coc-python',
+  \ 'coc-rls',
+  \ 'coc-rome',
+  \ 'coc-tsserver',
+  \ 'coc-vetur',
+  \ 'coc-vimlsp',
+  \ 'coc-yaml',
+  \ ]
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
