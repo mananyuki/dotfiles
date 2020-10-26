@@ -1,4 +1,4 @@
-{{ if (eq .chezmoi.os "darwin") -}}
+{{ if eq .chezmoi.os "darwin" -}}
 #!/bin/bash
 
 defaults write NSGlobalDomain AppleLanguages -array en-JP ja-JP
