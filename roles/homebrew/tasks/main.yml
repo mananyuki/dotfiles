@@ -1,6 +1,0 @@
----
-- name: Update Homebrew
-  homebrew: update_homebrew=yes
-
-- name: Install/Upgrade Homebrew packages
-  shell: brew bundle --file=~/dotfiles/homebrew/Brewfile

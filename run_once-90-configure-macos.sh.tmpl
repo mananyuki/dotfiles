@@ -1,0 +1,84 @@
+{{ if (eq .chezmoi.os "darwin") -}}
+#!/bin/bash
+
+defaults write NSGlobalDomain AppleLanguages -array en-JP ja-JP
+defaults write NSGlobalDomain AppleLocale en_JP
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool true
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+defaults write NSGlobalDomain InitialKeyRepeat -int 10
+defaults write NSGlobalDomain KeyRepeat -int 1
+defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticTextCompletionEnabled -bool false
+defaults write NSGlobalDomain NSLinguisticDataAssetsRequested -array en en_JP ja ja_JP
+defaults write NSGlobalDomain NSUserDictionaryReplacementItems -array
+defaults write NSGlobalDomain WebAutomaticSpellingCorrectionEnabled -bool false
+
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 0
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadFiveFingerPinchGesture -int 2
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadFourFingerHorizSwipeGesture -int 2
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadFourFingerPinchGesture -int 2
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadFourFingerVertSwipeGesture -int 2
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -int 1
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerHorizSwipeGesture -int 0
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerTapGesture -int 2
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerVertSwipeGesture -int 0
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadTwoFingerDoubleTapGesture -int 1
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadTwoFingerFromRightEdgeSwipeGesture -int 3
+
+defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPasswordDelay -int 5
+
+defaults write com.apple.finder AppleShowAllFiles -bool true
+defaults write com.apple.finder FXArrangeGroupViewBy -string Name
+defaults write com.apple.finder FXDefaultSearchScope -string SCcf
+defaults write com.apple.finder FXPreferredGroupBy -string Kind
+defaults write com.apple.finder FXPreferredViewStyle -string clmv
+defaults write com.apple.finder ShowPathbar -bool true
+defaults write com.apple.finder ShowStatusBar -bool true
+
+defaults write com.apple.dock autohide -bool true
+defaults write com.apple.dock persistent-apps -array
+defaults write com.apple.dock tilesize -int 36
+
+killall Dock
+
+defaults write com.apple.spotlight orderedItem -array \
+  '{ enabled = 1; name = APPLICATIONS; }' \
+  '{ enabled = 1; name = "MENU_CONVERSION"; }' \
+  '{ enabled = 1; name = "MENU_EXPRESSION"; }' \
+  '{ enabled = 1; name = "MENU_DEFINITION"; }' \
+  '{ enabled = 0; name = "MENU_SPOTLIGHT_SUGGESTIONS"; }' \
+  '{ enabled = 0; name = "SYSTEM_PREFS"; }' \
+  '{ enabled = 0; name = DOCUMENTS; }' \
+  '{ enabled = 0; name = DIRECTORIES; }' \
+  '{ enabled = 0; name = PRESENTATIONS; }' \
+  '{ enabled = 0; name = SPREADSHEETS; }' \
+  '{ enabled = 0; name = PDF; }' \
+  '{ enabled = 0; name = MESSAGES; }' \
+  '{ enabled = 0; name = CONTACT; }' \
+  '{ enabled = 0; name = "EVENT_TODO"; }' \
+  '{ enabled = 0; name = IMAGES; }' \
+  '{ enabled = 0; name = BOOKMARKS; }' \
+  '{ enabled = 0; name = MUSIC; }' \
+  '{ enabled = 0; name = MOVIES; }' \
+  '{ enabled = 0; name = FONTS; }' \
+  '{ enabled = 0; name = "MENU_OTHER"; }' \
+  '{ enabled = 0; name = SOURCE; }'
+
+defaults write com.apple.inputmethod.Kotoeri JIMPrefAutocorrectionKey -bool true
+defaults write com.apple.inputmethod.Kotoeri JIMPrefCandidateWindowFontKey -string 'TsukuARdGothic-Bold'
+defaults write com.apple.inputmethod.Kotoeri JIMPrefConvertWithPunctuationKey -int 0
+defaults write com.apple.inputmethod.Kotoeri JIMPrefFullWidthNumeralCharactersKey -bool false
+defaults write com.apple.inputmethod.Kotoeri JIMPrefLiveConversionKey -bool false
+
+defaults write com.apple.DictionaryServices DCSActiveDictionaries -array \
+  "com.apple.dictionary.ja-en.WISDOM" \
+  "com.apple.dictionary.NOAD" \
+  "com.apple.dictionary.OAWT" \
+  "com.apple.dictionary.ja.Daijirin"
+  {{ end -}}

@@ -1,0 +1,9 @@
+{
+  "coc.preferences.jumpCommand": "edit",
+  "coc.preferences.formatOnSaveFiletypes": ["go"],
+
+  "eslint.autoFixOnSave": true,
+  "go.disable": {
+    "workspaceFolders": false
+  }
+}

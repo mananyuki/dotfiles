@@ -6,5 +6,6 @@ My dotfiles repos.
 ## Installation
 
 ```shell
-bash -c "$(curl -L raw.githubusercontent.com/mananyuki/dotfiles/master/install.sh)"
+curl -sfL https://git.io/chezmoi | sh
+chezmoi init https://github.com/mananyuki/dotfiles
 ```
