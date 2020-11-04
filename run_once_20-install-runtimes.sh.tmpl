@@ -1,6 +1,6 @@
 #!/bin/bash
 
-plugins=(direnv eksctl golang helm java kubectl rust sbt scala terraform)
+plugins=(direnv eksctl golang helm java kubectl minikube rust sbt scala skaffold terraform)
 
 direnv=2.23.0
 eksctl=0.29.2
@@ -8,9 +8,11 @@ golang=1.15.2
 helm=3.3.4
 java=corretto-11.0.8.10.1
 kubectl=1.19.2
+minikube=1.14.2
 rust=1.47.0
 sbt=1.4.1
 scala=2.13.3
+skaffold=1.16.0
 terraform=0.12.23
 
 for e in ${plugins[@]}; do
