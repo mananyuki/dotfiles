@@ -5,5 +5,8 @@
   "eslint.autoFixOnSave": true,
   "go.disable": {
     "workspaceFolders": false
+  },
+  "yaml.schemas": {
+    "Kubernetes": ["*"]
   }
 }

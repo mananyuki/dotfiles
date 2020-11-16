@@ -14,6 +14,14 @@ autoload -Uz _zinit
 
 source "$ZDOTDIR/zinit.zsh"
 
+# coreutils
+if [[ -d $(brew --prefix)/opt/coreutils/libexec/gnubin ]]; then
+  path=(
+    $(brew --prefix)/opt/coreutils/libexec/gnubin
+    $path
+  )
+fi
+
 # anyframe
 zstyle ":anyframe:selector:" use fzf
 bindkey '^b' anyframe-widget-checkout-git-branch
