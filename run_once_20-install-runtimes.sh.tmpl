@@ -40,4 +40,7 @@ asdf global python $python3 $python2
 . $(brew --prefix asdf)/asdf.sh
 {{ end -}}
 
-pip install pynvim
+python3 -m pip install --user pynvim
+python3 -m pip install --user pipx
+python3 -m pipx ensurepath
+pipx install virtualenv
