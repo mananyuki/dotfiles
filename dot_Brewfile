@@ -49,7 +49,7 @@ cask "kindle-previewer"
 cask "sequel-pro"
 cask "spotify"
 cask "visual-studio-code"
-mas "Bitwarden", id: 1352778147
+mas "1Password 7", id: 1333542190
 mas "Display Menu", id: 549083868
 mas "Kindle", id: 405399194
 mas "Magnet", id: 441258766
