@@ -44,6 +44,7 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'tpope/vim-sensible'
   Plug 'vn-ki/coc-clap'
   Plug 'voldikss/vim-floaterm'
+  Plug 'yggdroot/indentline'
 
 call plug#end()
 
@@ -125,7 +126,7 @@ let g:coc_global_extensions = [
   \ 'coc-java',
   \ 'coc-json',
   \ 'coc-metals',
-  \ 'coc-python',
+  \ 'coc-pyright',
   \ 'coc-rls',
   \ 'coc-rome',
   \ 'coc-tsserver',

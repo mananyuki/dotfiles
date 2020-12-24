@@ -9,6 +9,7 @@
   "yaml.schemas": {
     "Kubernetes": ["*"]
   },
-  "python.linting.pylintEnabled": false,
+  "python.formatting.provider": "black",
+  "python.linting.enabled": true,
   "python.linting.flake8Enabled": true
 }
