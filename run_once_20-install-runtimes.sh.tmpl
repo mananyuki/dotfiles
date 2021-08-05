@@ -13,7 +13,7 @@ rust=1.51.0
 sbt=1.5.0
 scala=2.13.3
 skaffold=1.16.0
-terraform=0.12.26
+terraform=0.12.30
 
 for e in ${plugins[@]}; do
   asdf plugin-add $e
@@ -56,3 +56,5 @@ python3 -m pipx ensurepath
 pipx install virtualenv
 
 asdf reshim
+
+cs install metals
