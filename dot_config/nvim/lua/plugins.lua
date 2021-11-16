@@ -4,7 +4,7 @@ return require('packer').startup(function()
   use {'wbthomason/packer.nvim', opt = true}
 
   use 'norcalli/nvim-base16.lua'
-  use {'lukas-reineke/indent-blankline.nvim', branch = 'lua'}
+  use 'lukas-reineke/indent-blankline.nvim'
   use 'glepnir/galaxyline.nvim'
   use 'lewis6991/gitsigns.nvim'
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
@@ -17,7 +17,14 @@ return require('packer').startup(function()
   use 'neovim/nvim-lspconfig'
   use 'onsails/lspkind-nvim'
   use 'windwp/nvim-autopairs'
-  use 'hrsh7th/nvim-compe'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-cmdline'
+  use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/cmp-vsnip'
+  use 'hrsh7th/vim-vsnip'
+  use 'hrsh7th/vim-vsnip-integ'
   use 'scalameta/nvim-metals'
 
   use 'tmux-plugins/vim-tmux-focus-events'

@@ -22,6 +22,7 @@ vim.cmd 'set textwidth=120'
 vim.cmd 'set undolevels=1000'
 vim.cmd 'set updatetime=300'
 vim.cmd 'set visualbell'
+vim.cmd 'set spelllang=en,cjk'
 
 vim.g.mapleader = ';'
 vim.g.python3_host_prog = '~/.asdf/shims/python3'
@@ -50,7 +51,7 @@ local base16 = require"base16"
 base16(base16.themes.nord, true)
 
 require'nvim-web-devicons'.setup {
-    default = true
+  default = true
 }
 
 require'statusline'
@@ -63,6 +64,27 @@ require'finder'
 require'gitsigns'.setup()
 require'nvim-autopairs'.setup()
 require'lspkind'.init()
+
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = {
+    "bash",
+    "go",
+    "hcl",
+    "javascript",
+    "lua",
+    "python",
+    "rust",
+    "scala",
+    "tsx",
+    "typescript",
+    "yaml",
+  },
+  sync_install = true,
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
+}
 
 -- vim.g.indent_blankline_space_char = '·'
 vim.g.indent_blankline_use_treesitter = true
