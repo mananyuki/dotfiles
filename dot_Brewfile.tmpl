@@ -9,6 +9,7 @@ brew "asdf"
 brew "curl"
 brew "fd"
 brew "fzf"
+brew "gh"
 brew "ghq"
 brew "git"
 brew "git-delta"
@@ -33,8 +34,6 @@ cask "firefox-developer-edition"
 cask "font-noto-sans"
 cask "font-noto-sans-cjk-jp"
 cask "font-noto-serif"
-cask "font-source-han-code-jp"
-cask "font-source-han-sans"
 cask "font-ubuntu-mono-nerd-font"
 cask "google-chrome"
 cask "google-chrome-canary"
@@ -42,15 +41,19 @@ cask "iterm2"
 cask "karabiner-elements"
 cask "visual-studio-code"
 mas "1Password 7", id: 1333542190
-mas "Display Menu", id: 549083868
+mas "Grammary for Safari", id: 1462114288
 mas "Kindle", id: 405399194
 mas "Magnet", id: 441258766
 mas "Slack", id: 803453959
+mas "Vimari", id: 1480933944
 mas "Xcode", id: 497799835
 {{ if eq .profile "home" -}}
 brew "mosh"
+cask "adobe-creative-cloud"
 cask "discord"
 cask "kindle-previewer"
+mas "Affinity Publisher", id: 881418622
+mas "Prime Video", id: 545519333
 {{ end -}}
 {{ if eq .profile "work" -}}
 brew "awscli"

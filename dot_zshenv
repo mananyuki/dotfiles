@@ -38,6 +38,9 @@ export PATH="$COURSIER_BIN_DIR:$PATH"
 # Source management
 export GHQ_ROOT="$HOME/src"
 
+# homebrew
+eval $(/opt/homebrew/bin/brew shellenv)
+
 # zplug
 export ZPLUG_HOME=/usr/local/opt/zplug
 
@@ -45,6 +48,7 @@ export ZPLUG_HOME=/usr/local/opt/zplug
 typeset -gU cdpath fpath mailpath path
 
 path=(
+  /opt/homebrew/bin
   /usr/local/{bin,sbin}
   $HOME/.local/bin
   $ZPLUG_HOME/bin

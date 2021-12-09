@@ -28,5 +28,4 @@ return require('packer').startup(function()
   use 'scalameta/nvim-metals'
 
   use 'tmux-plugins/vim-tmux-focus-events'
-  use 'brglng/vim-im-select'
 end)
