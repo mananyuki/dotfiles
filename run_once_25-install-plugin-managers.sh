@@ -1,15 +1,12 @@
 #!/bin/bash
 
-# vim-plug
-curl -fLo \
-  "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
 # tpm
 if [ ! -d ~/.tmux/plugins/tpm ]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
 # packer.nvim
-git clone https://github.com/wbthomason/packer.nvim \
-  ~/.local/share/nvim/site/pack/packer/opt/packer.nvim
+if [ ! -d ~/.local/share/nvim/site/pack/packer/opt/packer.nvim ]; then
+  git clone https://github.com/wbthomason/packer.nvim \
+    ~/.local/share/nvim/site/pack/packer/opt/packer.nvim
+fi
