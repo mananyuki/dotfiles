@@ -1,0 +1,10 @@
+{{- $name := promptString "name" -}}
+{{- $email := promptString "email" -}}
+{{- $profile := "work" -}}
+{{- if eq $email "yuki@giamnote.net" -}}
+{{-   $profile = "home" -}}
+{{- end -}}
+[data]
+    name = {{ $name | quote }}
+    email = {{ $email | quote }}
+    profile = {{ $profile | quote }}

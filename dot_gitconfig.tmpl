@@ -1,0 +1,17 @@
+[core]
+    pager = delta
+
+[delta]
+    syntax-theme = Nord
+    navigate = true
+    side-by-side = true
+
+[interactive]
+    diffFilter = delta --color-only
+
+[user]
+    name = {{ .name }}
+    email = {{ .email }}
+
+[rebase]
+    autostash = true
