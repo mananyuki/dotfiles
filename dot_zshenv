@@ -38,9 +38,6 @@ export PATH="$COURSIER_BIN_DIR:$PATH"
 # Source management
 export GHQ_ROOT="$HOME/src"
 
-# homebrew
-eval $(/opt/homebrew/bin/brew shellenv)
-
 # zplug
 export ZPLUG_HOME=/usr/local/opt/zplug
 
