@@ -5,7 +5,7 @@ return require('packer').startup(function()
 
   use 'norcalli/nvim-base16.lua'
   use 'lukas-reineke/indent-blankline.nvim'
-  use 'glepnir/galaxyline.nvim'
+  use 'nvim-lualine/lualine.nvim'
   use 'lewis6991/gitsigns.nvim'
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
 
