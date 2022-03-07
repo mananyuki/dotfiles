@@ -1,6 +1,6 @@
 zinit wait lucid for \
-    softmoth/zsh-vim-mode \
     zsh-users/zsh-history-substring-search \
+    softmoth/zsh-vim-mode \
     zdharma-continuum/history-search-multi-word \
     mollifier/anyframe \
     OMZ::plugins/kubectl \
@@ -10,4 +10,3 @@ zinit wait lucid for \
     zsh-users/zsh-completions \
   atload"!_zsh_autosuggest_start" \
     zsh-users/zsh-autosuggestions
-
