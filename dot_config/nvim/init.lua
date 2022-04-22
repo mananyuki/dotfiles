@@ -24,12 +24,11 @@ vim.cmd 'set updatetime=300'
 vim.cmd 'set visualbell'
 vim.cmd 'set spelllang=en,cjk'
 
-vim.g.mapleader = ';'
+vim.g.mapleader = " "
 vim.g.python3_host_prog = '~/.asdf/shims/python3'
 
 local opt = {noremap = true, silent = true}
 vim.api.nvim_set_keymap("n", "<Leader>w", [[<Cmd>w<CR>]], opt)
-vim.api.nvim_set_keymap("n", "<Space>", "<C-w>w", opt)
 vim.api.nvim_set_keymap("n", "<M-h>", "<C-w>h", opt)
 vim.api.nvim_set_keymap("n", "<M-j>", "<C-w>j", opt)
 vim.api.nvim_set_keymap("n", "<M-k>", "<C-w>k", opt)

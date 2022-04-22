@@ -1,0 +1,23 @@
+theme = "nord"
+
+[editor]
+line-number = "relative"
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.file-picker]
+hidden = false
+
+[keys.normal]
+R = "replace_selections_with_clipboard"
+y = "yank_joined_to_clipboard"
+p = "paste_clipboard_after"
+P = "paste_clipboard_before"
+C-p = "file_picker"
+
+[keys.select]
+y = "yank_joined_to_clipboard"
+
