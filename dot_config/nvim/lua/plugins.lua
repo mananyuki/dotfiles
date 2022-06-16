@@ -13,6 +13,7 @@ return require('packer').startup(function()
   use 'nvim-lua/popup.nvim'
   use 'nvim-lua/plenary.nvim'
   use 'nvim-telescope/telescope.nvim'
+  use 'folke/which-key.nvim'
 
   use 'neovim/nvim-lspconfig'
   use 'onsails/lspkind-nvim'

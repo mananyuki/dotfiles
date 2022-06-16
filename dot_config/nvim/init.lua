@@ -62,6 +62,7 @@ require'finder'
 
 require'gitsigns'.setup()
 require'nvim-autopairs'.setup()
+require'which-key'.setup()
 require'lspkind'.init()
 
 require'nvim-treesitter.configs'.setup {
