@@ -28,5 +28,6 @@ return require('packer').startup(function()
   use 'hrsh7th/vim-vsnip-integ'
   use 'scalameta/nvim-metals'
 
+  use 'vimpostor/vim-tpipeline'
   use 'tmux-plugins/vim-tmux-focus-events'
 end)
