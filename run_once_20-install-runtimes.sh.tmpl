@@ -2,19 +2,19 @@
 
 plugins=(direnv golang java kubectl minikube rust sbt scala terraform)
 
-direnv=2.23.0
-golang=1.16.3
-java=corretto-11.0.8.10.1
-kubectl=1.20.15
-minikube=1.25.1
-rust=1.58.1
-sbt=1.6.1
+direnv=2.31.0
+golang=1.18.2
+java=corretto-11.0.15.9.1
+kubectl=1.23.7
+minikube=1.25.2
+rust=1.61.0
+sbt=1.6.2
 scala=2.13.8
-terraform=1.1.4
+terraform=1.2.2
 
 for e in ${plugins[@]}; do
   asdf plugin-add $e
-  addf plugin-update $e
+  asdf plugin-update $e
   asdf install $e ${!e}
   asdf global $e ${!e}
 done
@@ -22,10 +22,10 @@ done
 GO111MODULE=on go get golang.org/x/tools/gopls@latest
 rustup +nightly component add rust-analyzer-preview
 
-nodejs=16.13.2
+nodejs=18.2.0
 
 asdf plugin-add nodejs
-addf plugin-update nodejs
+asdf plugin-update nodejs
 # bash -c '${ASDF_DATA_DIR:=$HOME/.asdf}/plugins/nodejs/bin/import-release-team-keyring'
 asdf install nodejs $nodejs
 asdf global nodejs $nodejs
@@ -38,11 +38,11 @@ sudo npm install -g \
   rome typescript typescript-language-server \
   vscode-json-languageserver yaml-language-server
 
-python2=2.7.15
-python3=3.10.2
+python2=2.7.18
+python3=3.10.4
 
 asdf plugin-add python
-addf plugin-update python
+asdf plugin-update python
 asdf install python $python2
 asdf install python $python3
 asdf global python $python3 $python2
