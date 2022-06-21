@@ -24,7 +24,7 @@ vim.cmd 'set updatetime=300'
 vim.cmd 'set visualbell'
 vim.cmd 'set spelllang=en,cjk'
 
-vim.g.mapleader = " "
+vim.g.mapleader = ";"
 vim.g.python3_host_prog = '~/.asdf/shims/python3'
 
 local opt = {noremap = true, silent = true}
