@@ -62,9 +62,12 @@ if [[ -f /usr/local/opt/asdf/asdf.sh ]]; then
   fi
 fi
 
-# kubernetes
+# Kubernetes
 if [[ $commands[kubectl] ]]; then
   alias k='kubectl'
+  if [[ -d ${KREW_ROOT:-$HOME/.krew} ]]; then
+    export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+  fi
 fi
 
 # starship
