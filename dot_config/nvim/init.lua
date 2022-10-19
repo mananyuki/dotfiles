@@ -23,6 +23,7 @@ vim.cmd 'set undolevels=1000'
 vim.cmd 'set updatetime=300'
 vim.cmd 'set visualbell'
 vim.cmd 'set spelllang=en,cjk'
+vim.cmd 'set cmdheight=0'
 
 vim.g.mapleader = ";"
 vim.g.python3_host_prog = '~/.asdf/shims/python3'
@@ -71,7 +72,10 @@ require'nvim-treesitter.configs'.setup {
     "go",
     "hcl",
     "javascript",
+    "json",
+    "jsonc",
     "lua",
+    "markdown",
     "python",
     "rust",
     "scala",
