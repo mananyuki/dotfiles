@@ -49,16 +49,12 @@ if [[ $commands[lazygit] ]]; then
 fi
 
 # asdf
-if [[ -f /usr/local/opt/asdf/asdf.sh ]]; then
-  . /usr/local/opt/asdf/asdf.sh
-  fpath=(
-    /usr/local/etc/bash_completion.d/asdf.bash
-    $fpath
-  )
+if [[ -f $(brew --prefix asdf)/libexec/asdf.sh ]]; then
+  . $(brew --prefix asdf)/libexec/asdf.sh
   eval "$(asdf exec direnv hook zsh)"
   direnv() { asdf exec direnv "$@"; }
-  if [[ -f ~/.asdf/plugins/java/set-java-home.zsh ]]; then
-    . ~/.asdf/plugins/java/set-java-home.zsh
+  if [[ -f ${ASDF_DIR}/plugins/java/set-java-home.zsh ]]; then
+    . ${ASDF_DIR}/java/set-java-home.zsh
   fi
 fi
 
