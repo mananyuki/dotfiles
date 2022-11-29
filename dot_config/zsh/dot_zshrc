@@ -71,6 +71,9 @@ if [[ $commands[starship] ]]; then
   eval "$(starship init zsh)"
 fi
 
+# 1password
+export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+
 # completion
 COMPLETION_DIR=~/.config/zsh/completion
 if [[ ! -d $COMPLETION_DIR ]]; then
