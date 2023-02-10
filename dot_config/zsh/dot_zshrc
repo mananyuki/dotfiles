@@ -75,7 +75,7 @@ fi
 export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 
 # completion
-COMPLETION_DIR=~/.config/zsh/completion
+COMPLETION_DIR="$ZSH_CACHE_DIR/completions"
 if [[ ! -d $COMPLETION_DIR ]]; then
   mkdir -p $COMPLETION_DIR
 fi

@@ -5,6 +5,7 @@ fi
 
 if [[ -z "$XDG_CACHE_HOME" ]]; then
     export XDG_CACHE_HOME="$HOME/.cache"
+    export ZSH_CACHE_DIR="$XDG_CACHE_HOME"
 fi
 
 if [[ -z "$XDG_DATA_HOME" ]]; then
@@ -37,9 +38,6 @@ export PATH="$COURSIER_BIN_DIR:$PATH"
 
 # Source management
 export GHQ_ROOT="$HOME/src"
-
-# zplug
-export ZPLUG_HOME=/usr/local/opt/zplug
 
 # zsh
 typeset -gU cdpath fpath mailpath path
