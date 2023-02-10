@@ -19,8 +19,8 @@ for e in ${plugins[@]}; do
   asdf global $e ${!e}
 done
 
-GO111MODULE=on go get golang.org/x/tools/gopls@latest
-rustup +nightly component add rust-analyzer-preview
+go install golang.org/x/tools/gopls@latest
+rustup component add rust-analyzer
 
 nodejs=latest
 

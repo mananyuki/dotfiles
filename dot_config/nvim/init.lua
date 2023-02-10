@@ -47,6 +47,8 @@ vim.cmd 'syntax enable'
 vim.cmd 'syntax on'
 vim.cmd 'set termguicolors'
 
+vim.cmd 'au BufRead,BufNewFile go.sum,go.work.sum set filetype=gosum'
+
 local base16 = require"base16"
 base16(base16.themes.nord, true)
 
@@ -70,6 +72,8 @@ require'nvim-treesitter.configs'.setup {
   ensure_installed = {
     "bash",
     "go",
+    "gomod",
+    "gosum",
     "hcl",
     "javascript",
     "json",
@@ -81,6 +85,7 @@ require'nvim-treesitter.configs'.setup {
     "scala",
     "tsx",
     "typescript",
+    "vim",
     "yaml",
   },
   sync_install = true,
