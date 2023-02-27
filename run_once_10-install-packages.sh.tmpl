@@ -1,6 +1,11 @@
-{{ if eq .chezmoi.os "darwin" -}}
 #!/bin/bash
 
+{{ if eq .chezmoi.os "darwin" -}}
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 brew bundle --global
 {{ end -}}
+
+export AQUA_GLOBAL_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/aquaproj-aqua/aqua.yaml"
+aqua i -a
+
+krew install krew stern

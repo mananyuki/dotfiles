@@ -51,11 +51,15 @@ fi
 # asdf
 if [[ -f $(brew --prefix asdf)/libexec/asdf.sh ]]; then
   . $(brew --prefix asdf)/libexec/asdf.sh
-  eval "$(asdf exec direnv hook zsh)"
-  direnv() { asdf exec direnv "$@"; }
   if [[ -f ${ASDF_DIR}/plugins/java/set-java-home.zsh ]]; then
     . ${ASDF_DIR}/java/set-java-home.zsh
   fi
+fi
+
+# aqua
+if [[ $commands[aqua] ]]; then
+  export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
+  export AQUA_GLOBAL_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/aquaproj-aqua/aqua.yaml"
 fi
 
 # Kubernetes

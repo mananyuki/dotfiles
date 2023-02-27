@@ -25,23 +25,23 @@ vim.cmd 'set visualbell'
 vim.cmd 'set spelllang=en,cjk'
 vim.cmd 'set cmdheight=0'
 
-vim.g.mapleader = ";"
+vim.g.mapleader = ';'
 vim.g.python3_host_prog = '~/.asdf/shims/python3'
 
 local opt = {noremap = true, silent = true}
-vim.api.nvim_set_keymap("n", "<Leader>w", [[<Cmd>w<CR>]], opt)
-vim.api.nvim_set_keymap("n", "<M-h>", "<C-w>h", opt)
-vim.api.nvim_set_keymap("n", "<M-j>", "<C-w>j", opt)
-vim.api.nvim_set_keymap("n", "<M-k>", "<C-w>k", opt)
-vim.api.nvim_set_keymap("n", "<M-l>", "<C-w>l", opt)
-vim.api.nvim_set_keymap("i", "<M-h>", "<C-w>h", opt)
-vim.api.nvim_set_keymap("i", "<M-j>", "<C-w>j", opt)
-vim.api.nvim_set_keymap("i", "<M-k>", "<C-w>k", opt)
-vim.api.nvim_set_keymap("i", "<M-l>", "<C-w>l", opt)
-vim.api.nvim_set_keymap("t", "<M-h>", [[<C-\><C-n><C-w>h]], opt)
-vim.api.nvim_set_keymap("t", "<M-j>", [[<C-\><C-n><C-w>j]], opt)
-vim.api.nvim_set_keymap("t", "<M-k>", [[<C-\><C-n><C-w>k]], opt)
-vim.api.nvim_set_keymap("t", "<M-l>", [[<C-\><C-n><C-w>l]], opt)
+vim.api.nvim_set_keymap('n', '<Leader>w', [[<Cmd>w<CR>]], opt)
+vim.api.nvim_set_keymap('n', '<M-h>', '<C-w>h', opt)
+vim.api.nvim_set_keymap('n', '<M-j>', '<C-w>j', opt)
+vim.api.nvim_set_keymap('n', '<M-k>', '<C-w>k', opt)
+vim.api.nvim_set_keymap('n', '<M-l>', '<C-w>l', opt)
+vim.api.nvim_set_keymap('i', '<M-h>', '<C-w>h', opt)
+vim.api.nvim_set_keymap('i', '<M-j>', '<C-w>j', opt)
+vim.api.nvim_set_keymap('i', '<M-k>', '<C-w>k', opt)
+vim.api.nvim_set_keymap('i', '<M-l>', '<C-w>l', opt)
+vim.api.nvim_set_keymap('t', '<M-h>', [[<C-\><C-n><C-w>h]], opt)
+vim.api.nvim_set_keymap('t', '<M-j>', [[<C-\><C-n><C-w>j]], opt)
+vim.api.nvim_set_keymap('t', '<M-k>', [[<C-\><C-n><C-w>k]], opt)
+vim.api.nvim_set_keymap('t', '<M-l>', [[<C-\><C-n><C-w>l]], opt)
 
 vim.cmd 'syntax enable'
 vim.cmd 'syntax on'
@@ -49,7 +49,7 @@ vim.cmd 'set termguicolors'
 
 vim.cmd 'au BufRead,BufNewFile go.sum,go.work.sum set filetype=gosum'
 
-local base16 = require"base16"
+local base16 = require'base16'
 base16(base16.themes.nord, true)
 
 require'nvim-web-devicons'.setup {
@@ -70,23 +70,23 @@ require'lspkind'.init()
 
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
-    "bash",
-    "go",
-    "gomod",
-    "gosum",
-    "hcl",
-    "javascript",
-    "json",
-    "jsonc",
-    "lua",
-    "markdown",
-    "python",
-    "rust",
-    "scala",
-    "tsx",
-    "typescript",
-    "vim",
-    "yaml",
+    'bash',
+    'go',
+    'gomod',
+    'gosum',
+    'hcl',
+    'javascript',
+    'json',
+    'jsonc',
+    'lua',
+    'markdown',
+    'python',
+    'rust',
+    'scala',
+    'tsx',
+    'typescript',
+    'vim',
+    'yaml',
   },
   sync_install = true,
   highlight = {
@@ -96,9 +96,9 @@ require'nvim-treesitter.configs'.setup {
 }
 
 vim.opt.list = true
-vim.opt.listchars:append "space:⋅"
+vim.opt.listchars:append 'space:⋅'
 require'indent_blankline'.setup {
-  space_char_blankline = " ",
+  space_char_blankline = ' ',
   show_current_context = true,
   show_current_context_start = true,
 }

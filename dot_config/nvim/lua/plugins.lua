@@ -15,7 +15,11 @@ return require('packer').startup(function()
   use 'nvim-telescope/telescope.nvim'
   use 'folke/which-key.nvim'
 
+  use 'williamboman/mason.nvim'
+  use 'williamboman/mason-lspconfig.nvim'
   use 'neovim/nvim-lspconfig'
+  use 'jose-elias-alvarez/null-ls.nvim'
+  use 'jay-babu/mason-null-ls.nvim'
   use 'onsails/lspkind-nvim'
   use 'windwp/nvim-autopairs'
   use 'hrsh7th/cmp-nvim-lsp'

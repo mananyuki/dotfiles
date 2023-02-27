@@ -1,6 +1,6 @@
 -- from https://github.com/neovim/nvim-lspconfig
 -- Add additional capabilities supported by nvim-cmp
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local nvim_lsp = require('lspconfig')
 
@@ -49,10 +49,30 @@ local on_attach = function(client, bufnr)
 
 end
 
+require('mason').setup()
+require('mason-lspconfig').setup({
+  automatic_installation = true,
+})
+require("mason-null-ls").setup({
+  ensure_installed = { 'rustfmt' },
+  automatic_installation = true,
+  automatic_setup = true,
+})
+require('null-ls').setup({
+  sources = {
+    require('null-ls').builtins.formatting.gofmt,
+  },
+})
+require('mason-null-ls').setup_handlers()
+
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
 local servers = {
   "bashls",
+  "bufls",
+  "denols",
+  "dockerls",
+  "grammarly",
   "gopls",
   "jsonls",
   "metals",

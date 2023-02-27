@@ -1,16 +1,12 @@
 #!/bin/bash
 
-plugins=(direnv golang java kubectl minikube rust sbt scala terraform)
+plugins=(java rust sbt scala nodejs)
 
-direnv=latest
-golang=latest
 java=corretto-11.0.15.9.1
-kubectl=1.24.4
-minikube=latest
 rust=latest
 sbt=latest
 scala=latest
-terraform=latest
+nodejs=latest
 
 for e in ${plugins[@]}; do
   asdf plugin-add $e
@@ -19,24 +15,7 @@ for e in ${plugins[@]}; do
   asdf global $e ${!e}
 done
 
-go install golang.org/x/tools/gopls@latest
-rustup component add rust-analyzer
-
-nodejs=latest
-
-asdf plugin-add nodejs
-asdf plugin-update nodejs
-# bash -c '${ASDF_DATA_DIR:=$HOME/.asdf}/plugins/nodejs/bin/import-release-team-keyring'
-asdf install nodejs $nodejs
-asdf global nodejs $nodejs
-
-sudo npm install -g \
-  neovim \
-  bash-language-server \
-  graphql-language-service-cli \
-  pyright \
-  rome typescript typescript-language-server \
-  vscode-json-languageserver yaml-language-server
+npm install -g neovim
 
 python2=2.7.18
 python3=3.10.7
@@ -55,5 +34,3 @@ python2 -m pip install --user pynvim
 python3 -m pip install --user pynvim
 
 asdf reshim
-
-cs install metals
