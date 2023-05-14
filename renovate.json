@@ -9,6 +9,7 @@
       "extends": ["schedule:earlyMondays"]
     }
   ],
+  "automerge": true,
   "platformAutomerge": true,
   "timezone": "Japan"
 }
