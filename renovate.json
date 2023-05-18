@@ -10,6 +10,7 @@
     }
   ],
   "automerge": true,
+  "ignoreTests": true,
   "platformAutomerge": true,
   "timezone": "Japan"
 }
