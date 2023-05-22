@@ -21,7 +21,7 @@ return {
       { "gd", "<cmd>Telescope lsp_definitions<cr>", desc = "Goto Definition" },
       { "K", vim.lsp.buf.hover, desc = "Hover" },
       { "gi", "<cmd>Telescope lsp_implementations<cr>", desc = "Goto Implementation" },
-      { "<C-k>", vim.lsp.buf.signature_help, desc = "Signature Help" },
+      { "gK", vim.lsp.buf.signature_help, desc = "Signature Help" },
       { "<leader>wa", vim.lsp.buf.add_workspace_folder },
       { "<leader>wr", vim.lsp.buf.remove_workspace_folder },
       { "<leader>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end },

@@ -15,22 +15,23 @@ return {
       { "<leader>sg", "<cmd>Telescope live_grep<cr>" },
       { "<leader>sR", "<cmd>Telescope resume<cr>" },
     },
-    opts = {
-      defaults = {
-        vimgrep_arguments = function()
-          local vimgrep_arguments = { unpack(require("telescope.config").values.vimgrep_arguments) }
-          table.insert(vimgrep_arguments, "--hidden")
-          table.insert(vimgrep_arguments, "--glob")
-          table.insert(vimgrep_arguments, "!**/.git/*")
-          return vimgrep_arguments
-        end
-      },
-      pickers = {
-        find_files = {
-          find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+    opts = function()
+      local vimgrep_arguments = { unpack(require("telescope.config").values.vimgrep_arguments) }
+      table.insert(vimgrep_arguments, "--hidden")
+      table.insert(vimgrep_arguments, "--glob")
+      table.insert(vimgrep_arguments, "!**/.git/*")
+
+      return {
+        defaults = {
+          vimgrep_arguments = vimgrep_arguments
         },
-      },
-    }
+        pickers = {
+          find_files = {
+            find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+          },
+        },
+      }
+    end
   },
 
   {
