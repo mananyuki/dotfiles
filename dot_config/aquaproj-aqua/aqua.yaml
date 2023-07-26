@@ -20,5 +20,5 @@ packages:
 - name: kubernetes/kubectl@v1.27.4
 - name: kubernetes/minikube@v1.31.1
 - name: hashicorp/terraform@v1.5.3
-- name: denoland/deno@v1.35.2
+- name: denoland/deno@v1.35.3
 - name: kubernetes-sigs/krew@v0.4.4
