@@ -18,7 +18,7 @@ packages:
 - name: direnv/direnv@v2.32.3
 - name: golang/go@go1.21.0
 - name: kubernetes/kubectl@v1.28.0
-- name: kubernetes/minikube@v1.31.1
+- name: kubernetes/minikube@v1.31.2
 - name: hashicorp/terraform@v1.5.5
 - name: denoland/deno@v1.36.1
 - name: kubernetes-sigs/krew@v0.4.4
