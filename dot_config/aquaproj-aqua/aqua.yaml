@@ -19,6 +19,6 @@ packages:
 - name: golang/go@go1.21.1
 - name: kubernetes/kubectl@v1.28.2
 - name: kubernetes/minikube@v1.31.2
-- name: hashicorp/terraform@v1.5.7
+- name: hashicorp/terraform@v1.6.0
 - name: denoland/deno@v1.37.1
 - name: kubernetes-sigs/krew@v0.4.4
