@@ -10,7 +10,7 @@ packages:
 - name: dandavison/delta@0.16.5
 - name: stedolan/jq@jq-1.6
 - name: lima-vm/lima@v0.18.0
-- name: BurntSushi/ripgrep@13.0.0
+- name: BurntSushi/ripgrep@14.0.1
 - name: chmln/sd@v1.0.0
 - name: starship/starship@v1.16.0
 - name: jesseduffield/lazygit@v0.40.2
