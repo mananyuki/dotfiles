@@ -27,9 +27,8 @@ export EDITOR=nvim
 export GIT_EDITOR="${EDITOR}"
 
 # golang
-export GOPATH="$HOME"
+export GOPATH="$HOME/go"
 export GOBIN="$GOPATH/bin"
-export GO111MODULE=on
 export PATH="$GOBIN:$PATH"
 
 # coursier
