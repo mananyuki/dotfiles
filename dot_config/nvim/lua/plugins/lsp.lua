@@ -42,6 +42,7 @@ return {
       local servers = {
         "bashls",
         "bufls",
+        "biome",
         "denols",
         "dockerls",
         "gopls",
@@ -50,7 +51,6 @@ return {
         "lua_ls",
         "metals",
         "pyright",
-        "rome",
         "rust_analyzer",
         "terraformls",
         "yamlls",
@@ -94,7 +94,6 @@ return {
     opts = {
       ensure_installed = {
         "stylua",
-        "rustfmt",
       },
       automatic_installation = true,
       automatic_setup = true,
