@@ -14,7 +14,7 @@ packages:
 - name: chmln/sd@v1.0.0
 - name: starship/starship@v1.16.0
 - name: jesseduffield/lazygit@v0.40.2
-- name: git-lfs/git-lfs@v3.4.0
+- name: git-lfs/git-lfs@v3.4.1
 - name: direnv/direnv@v2.33.0
 - name: golang/go@go1.21.5
 - name: kubernetes/kubectl@v1.29.0
