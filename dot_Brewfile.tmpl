@@ -20,8 +20,6 @@ brew "unzip"
 brew "zsh"
 brew "aquaproj/aqua/aqua"
 brew "coursier/formulas/coursier"
-cask "1password"
-cask "1password-cli"
 cask "discord"
 cask "docker"
 cask "firefox"
@@ -39,7 +37,6 @@ cask "karabiner-elements"
 cask "obs"
 cask "visual-studio-code"
 cask "vivaldi"
-mas "1Password for Safari", id: 1569813296
 mas "Display Menu", id: 549083868
 mas "Ghostery – Privacy Ad Blocker", id: 1436953057
 mas "Grammarly for Safari", id: 1462114288
@@ -51,7 +48,10 @@ mas "Slack", id: 803453959
 mas "Vimari", id: 1480933944
 mas "Xcode", id: 497799835
 {{ if eq .profile "home" -}}
+cask "1password"
+cask "1password-cli"
 cask "balenaetcher"
+mas "1Password for Safari", id: 1569813296
 mas "Affinity Publisher", id: 881418622
 mas "Prime Video", id: 545519333
 {{ end -}}
