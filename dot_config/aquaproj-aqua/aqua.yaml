@@ -17,7 +17,7 @@ packages:
 - name: git-lfs/git-lfs@v3.5.1
 - name: direnv/direnv@v2.34.0
 - name: golang/go@go1.22.2
-- name: kubernetes/kubectl@v1.29.3
+- name: kubernetes/kubectl@v1.29.4
 - name: kubernetes/minikube@v1.32.0
 - name: hashicorp/terraform@v1.8.0
 - name: denoland/deno@v1.42.4
