@@ -9,7 +9,7 @@ packages:
 - name: x-motemen/ghq@v1.6.1
 - name: dandavison/delta@0.17.0
 - name: stedolan/jq@jq-1.6
-- name: lima-vm/lima@v0.21.0
+- name: lima-vm/lima@v0.22.0
 - name: BurntSushi/ripgrep@14.1.0
 - name: chmln/sd@v1.0.0
 - name: starship/starship@v1.18.2
