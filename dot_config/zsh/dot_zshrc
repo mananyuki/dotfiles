@@ -17,6 +17,7 @@ source "$ZDOTDIR/zinit.zsh"
 # homebrew
 if [[ -f /opt/homebrew/bin/brew ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
+  fpath=($(brew --prefix)/share/zsh/site-functions $fpath)
 fi
 
 # coreutils
@@ -27,21 +28,18 @@ if [[ -d $(brew --prefix)/opt/coreutils/libexec/gnubin ]]; then
   )
 fi
 
+# gnu-sed
+if [[ -d $(brew --prefix)/opt/gnu-sed/libexec/gnubin ]]; then
+  path=(
+    $(brew --prefix)/gnu-sed/libexec/gnubin
+    $path
+  )
+fi
+
 # anyframe
 zstyle ":anyframe:selector:" use fzf
 bindkey '^b' anyframe-widget-checkout-git-branch
 bindkey '^g' anyframe-widget-cd-ghq-repository
-
-# zsh-history-substring-search
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-bindkey '^P' history-substring-search-up
-bindkey '^N' history-substring-search-down
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down
-
-# zsh-history-search-multi-word
-bindkey "^R" history-search-multi-word
 
 # lazygit
 if [[ $commands[lazygit] ]]; then
@@ -70,30 +68,25 @@ if [[ $commands[kubectl] ]]; then
   fi
 fi
 
+# atuin
+if [[ $commands[atuin] ]]; then
+  eval "$(atuin init zsh)"
+fi
+
 # starship
 if [[ $commands[starship] ]]; then
   eval "$(starship init zsh)"
 fi
 
+# direnv
 if [[ $commands[direnv] ]]; then
   eval "$(direnv hook zsh)"
-fi
-
-# 1password
-if [[ -f ~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock ]]; then
-  export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 fi
 
 # completion
 COMPLETION_DIR="$ZSH_CACHE_DIR/completions"
 if [[ ! -d $COMPLETION_DIR ]]; then
   mkdir -p $COMPLETION_DIR
-fi
-if [[ $commands[eksctl] ]] && [[ ! -f $COMPLETION_DIR/_eksctl ]]; then
-  eksctl completion zsh > $COMPLETION_DIR/_eksctl
-fi
-if [[ $commands[helm] ]] && [[ ! -f $COMPLETION_DIR/_helm ]]; then
-  helm completion zsh > $COMPLETION_DIR/_helm
 fi
 fpath=($COMPLETION_DIR $fpath)
 
