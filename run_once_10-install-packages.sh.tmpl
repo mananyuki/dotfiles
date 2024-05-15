@@ -10,3 +10,8 @@ export AQUA_GLOBAL_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/aquaproj-aqua/aqua.
 aqua i -a
 
 krew install krew stern
+
+if [[ ! -d ~/.config/alacritty/themes ]]; then
+  mkdir -p ~/.config/alacritty/themes
+  git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
+fi
