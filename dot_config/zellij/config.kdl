@@ -1,0 +1,36 @@
+theme "tokyo-night"
+
+// If you'd like to override the default keybindings completely, be sure to change "keybinds" to "keybinds clear-defaults=true"
+keybinds {
+    normal clear-defaults=true {
+        bind "Ctrl t" { SwitchToMode "Tmux"; }
+        bind "Alt n" { NewPane; }
+        bind "Alt i" { MoveTab "Left"; }
+        bind "Alt o" { MoveTab "Right"; }
+        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
+        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
+        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
+        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
+        bind "Alt =" "Alt +" { Resize "Increase"; }
+        bind "Alt -" { Resize "Decrease"; }
+        bind "Alt [" { PreviousSwapLayout; }
+        bind "Alt ]" { NextSwapLayout; }
+    }
+    tmux {
+        unbind "Ctrl b"
+        unbind "\""
+        unbind "%"
+        bind "Ctrl t" { Write 2; SwitchToMode "Normal"; }
+        bind "Esc" { SwitchToMode "Normal"; }
+        bind "Ctrl g" { SwitchToMode "Locked"; }
+        bind "Ctrl p" { SwitchToMode "Pane"; }
+        bind "Ctrl t" { SwitchToMode "Tab"; }
+        bind "Ctrl n" { SwitchToMode "Resize"; }
+        bind "Ctrl h" { SwitchToMode "Move"; }
+        bind "Ctrl s" { SwitchToMode "Scroll"; }
+        bind "o" { SwitchToMode "Session"; }
+        bind "q" { Quit; }
+        bind "-" { NewPane "Down"; SwitchToMode "Normal"; }
+        bind "|" { NewPane "Right"; SwitchToMode "Normal"; }
+    }
+}
