@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 # Brewfile hash: {{ include "dot_Brewfile.tmpl" | sha256sum }}
 brew bundle --global

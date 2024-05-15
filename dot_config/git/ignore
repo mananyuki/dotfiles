@@ -4,7 +4,7 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
+# Icon
 
 # Thumbnails
 ._*
@@ -27,6 +27,3 @@ Temporary Items
 
 # asdf
 .tool-versions
-
-# aqua
-aqua.yaml
