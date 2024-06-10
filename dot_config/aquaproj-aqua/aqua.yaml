@@ -22,6 +22,6 @@ packages:
 - name: sharkdp/fd@v10.1.0
 - name: starship/starship@v1.19.0
 - name: stedolan/jq@jq-1.6
-- name: twpayne/chezmoi@v2.48.2
+- name: twpayne/chezmoi@v2.49.0
 - name: x-motemen/ghq@v1.6.1
 - name: zellij-org/zellij@v0.40.1
