@@ -1,7 +1,7 @@
 zinit light-mode depth=1 for \
   jeffreytse/zsh-vi-mode
 
-zinit wait lucid for \
+zinit wait lucid light-mode for \
   OMZP::kubectl \
   mollifier/anyframe \
   atuinsh/atuin
