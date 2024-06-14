@@ -40,6 +40,7 @@ return {
       -- Use a loop to conveniently call 'setup' on multiple servers and
       -- map buffer local keybindings when the language server attaches
       local servers = {
+        "typos_lsp",
         "bashls",
         "bufls",
         "biome",
@@ -70,15 +71,31 @@ return {
   },
 
   {
-    "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim",
     event = { "BufReadPre", "BufNewFile" },
-    dependencies = { "williamboman/mason.nvim" },
+    dependencies = {
+      "williamboman/mason.nvim",
+      "nvimtools/none-ls-extras.nvim",
+    },
     opts = function()
       local nls = require("null-ls")
       return {
         sources = {
-          nls.builtins.formatting.stylua,
+          nls.builtins.diagnostics.commitlint,
+          nls.builtins.diagnostics.editorconfig_checker,
+          nls.builtins.diagnostics.hadolint,
+          nls.builtins.diagnostics.textlint,
+          nls.builtins.formatting.biome,
+          nls.builtins.formatting.black,
+          nls.builtins.formatting.buf,
           nls.builtins.formatting.gofmt,
+          nls.builtins.formatting.goimports,
+          nls.builtins.formatting.shfmt,
+          nls.builtins.formatting.stylua,
+          require("none-ls.diagnostics.flake8"),
+          require("none-ls.formatting.rustfmt"),
+          require("none-ls.formatting.trim_newlines"),
+          require("none-ls.formatting.trim_whitespace"),
         },
       }
     end,
@@ -89,14 +106,10 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       "williamboman/mason.nvim",
-      "jose-elias-alvarez/null-ls.nvim",
+      "nvimtools/none-ls.nvim",
     },
     opts = {
-      ensure_installed = {
-        "stylua",
-      },
       automatic_installation = true,
-      automatic_setup = true,
     },
   },
 }
