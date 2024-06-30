@@ -41,6 +41,11 @@ zstyle ":anyframe:selector:" use fzf
 bindkey '^b' anyframe-widget-checkout-git-branch
 bindkey '^g' anyframe-widget-cd-ghq-repository
 
+# lazydocker
+if [[ $commands[lazydocker] ]]; then
+  alias lzd='lazydocker'
+fi
+
 # lazygit
 if [[ $commands[lazygit] ]]; then
   alias lg='lazygit'
