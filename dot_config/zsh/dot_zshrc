@@ -51,11 +51,6 @@ if [[ $commands[lazygit] ]]; then
   alias lg='lazygit'
 fi
 
-# mise
-if [[ $commands[mise] ]]; then
-  eval "$(~/.local/bin/mise activate zsh)
-fi
-
 # aqua
 if [[ $commands[aqua] ]]; then
   export PATH="${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
