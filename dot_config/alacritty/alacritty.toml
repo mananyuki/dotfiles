@@ -1,6 +1,4 @@
-import = [
-  "~/.config/alacritty/themes/themes/nord.toml"
-]
+import = ["~/.config/alacritty/themes/themes/nord.toml"]
 
 [font]
 size = 16.0
@@ -9,14 +7,7 @@ bold_italic = { family = "UbuntuMono Nerd Font", style = "Bold Italic" }
 italic = { family = "UbuntuMono Nerd Font", style = "Italic" }
 normal = { family = "UbuntuMono Nerd Font", style = "Regular" }
 
-[keyboard]
-bindings = [
-  { chars = "\u001Bj", key = "J", mods = "Alt" },
-  { chars = "\u001Bk", key = "K", mods = "Alt" },
-  { chars = "\u001Bh", key = "H", mods = "Alt" },
-  { chars = "\u001Bl", key = "L", mods = "Alt" }
-]
-
 [window]
 decorations = "Buttonless"
 padding = { x = 10, y = 10 }
+option_as_alt = "Both"
