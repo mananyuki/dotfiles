@@ -46,12 +46,9 @@ if [[ $commands[lazygit] ]]; then
   alias lg='lazygit'
 fi
 
-# asdf
-if [[ -f $(brew --prefix asdf)/libexec/asdf.sh ]]; then
-  . $(brew --prefix asdf)/libexec/asdf.sh
-  if [[ -f ${ASDF_DIR}/plugins/java/set-java-home.zsh ]]; then
-    . ${ASDF_DIR}/java/set-java-home.zsh
-  fi
+# mise
+if [[ $commands[mise] ]]; then
+  eval "$(~/.local/bin/mise activate zsh)
 fi
 
 # aqua

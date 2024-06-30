@@ -1,0 +1,20 @@
+[tools]
+deno = "latest"
+go = "latest"
+java = "corretto-11"
+node = "latest"
+python = "latest"
+"npm:neovim" = "latest"
+
+[settings]
+legacy_version_file = true
+experimental = true
+
+[tasks.setup]
+run = [
+  "mise use -g python",
+  "pip install --user pipx neovim",
+  "mise use -g node",
+  "mise use -g npm:neovim",
+  "mise install",
+]

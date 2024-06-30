@@ -1,36 +1,8 @@
 #!/bin/bash
 
-plugins=(java rust sbt scala nodejs)
+if [[ ! -d ~/.cargo ]]; then
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+fi
 
-java=corretto-11.0.15.9.1
-rust=latest
-sbt=latest
-scala=latest
-nodejs=latest
-
-for e in ${plugins[@]}; do
-  asdf plugin-add $e
-  asdf plugin-update $e
-  asdf install $e ${!e}
-  asdf global $e ${!e}
-done
-
-npm install -g neovim
-
-python2=2.7.18
-python3=3.10.7
-
-asdf plugin-add python
-asdf plugin-update python
-asdf install python $python2
-asdf install python $python3
-asdf global python $python3 $python2
-
-{{ if eq .chezmoi.os "darwin" -}}
-. $(brew --prefix asdf)/asdf.sh
-{{ end -}}
-
-python2 -m pip install --user pynvim
-python3 -m pip install --user pynvim
-
-asdf reshim
+eval "$(mise activate bash)"
+mise run setup
