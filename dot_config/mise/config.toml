@@ -1,10 +1,12 @@
 [tools]
+"npm:@biomejs/biome" = "latest"
+"npm:@commitlint/cli" = "latest"
+"npm:textlint" = "latest"
 deno = "latest"
 go = "latest"
 java = "corretto-11"
 node = "latest"
 python = "latest"
-"npm:neovim" = "latest"
 
 [settings]
 legacy_version_file = true
@@ -15,6 +17,17 @@ run = [
   "mise use -g python",
   "pip install --user pipx neovim",
   "mise use -g node",
-  "mise use -g npm:neovim",
+  "mise use -g npm:@biomejs/biome",
+  "mise use -g npm:@commitlint/cli",
+  "mise use -g npm:textlint",
+  "npm install -g neovim",
   "mise install",
+]
+
+[tasks.update]
+run = [
+  "mise upgrade",
+  "pip install --user --upgrade pipx neovim",
+  "npm install -g neovim",
+  "mise prune -y",
 ]

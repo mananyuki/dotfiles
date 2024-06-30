@@ -41,6 +41,11 @@ zstyle ":anyframe:selector:" use fzf
 bindkey '^b' anyframe-widget-checkout-git-branch
 bindkey '^g' anyframe-widget-cd-ghq-repository
 
+# mise
+if [[ $commands[mise] ]]; then
+  eval "$(mise activate zsh)"
+fi
+
 # lazydocker
 if [[ $commands[lazydocker] ]]; then
   alias lzd='lazydocker'
@@ -94,4 +99,3 @@ compinit
 if [[ -f $ZDOTDIR/.zshrc.local ]]; then
   source $ZDOTDIR/.zshrc.local
 fi
-
