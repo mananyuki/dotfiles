@@ -1,7 +1,4 @@
 [tools]
-"npm:@biomejs/biome" = "latest"
-"npm:@commitlint/cli" = "latest"
-"npm:textlint" = "latest"
 deno = "latest"
 go = "latest"
 java = "corretto-11"
@@ -15,19 +12,15 @@ experimental = true
 [tasks.setup]
 run = [
   "mise use -g python",
-  "pip install --user pipx neovim",
   "mise use -g node",
-  "mise use -g npm:@biomejs/biome",
-  "mise use -g npm:@commitlint/cli",
-  "mise use -g npm:textlint",
-  "npm install -g neovim",
   "mise install",
+  "mise run update"
 ]
 
 [tasks.update]
 run = [
   "mise upgrade",
   "pip install --user --upgrade pipx neovim",
-  "npm install -g neovim",
+  "npm install -g neovim @biomejs/biome @commitlint/cli @commitlint/config-conventional commitlint-format-json textlint textlint-rule-preset-ja-technical-writing",
   "mise prune -y",
 ]
