@@ -62,6 +62,11 @@ if [[ $commands[aqua] ]]; then
   export AQUA_GLOBAL_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/aquaproj-aqua/aqua.yaml"
 fi
 
+if [[ $commands[pnpm] ]]; then
+  export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
+  export PATH="${PNPM_HOME}:$PATH"
+fi
+
 # Kubernetes
 if [[ $commands[kubectl] ]]; then
   alias k='kubectl'

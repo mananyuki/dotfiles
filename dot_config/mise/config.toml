@@ -20,7 +20,26 @@ run = [
 [tasks.update]
 run = [
   "mise upgrade",
-  "pip install --user --upgrade pipx neovim",
-  "npm install -g neovim @biomejs/biome @commitlint/cli @commitlint/config-conventional commitlint-format-json textlint textlint-rule-preset-ja-technical-writing",
+  "mise run install-pip",
+  "mise run install-npm",
+  "mise run install-cargo",
   "mise prune -y",
+]
+
+[tasks.install-pip]
+run = "pip install --user --upgrade pipx neovim"
+
+[tasks.install-npm]
+run = [
+  "npm install -g pnpm",
+  "pnpm add -g neovim",
+  "pnpm add -g @biomejs/biome",
+  "pnpm add -g @commitlint/cli @commitlint/config-conventional commitlint-format-json",
+  "pnpm add -g textlint textlint-rule-preset-ja-technical-writing textlint-rule-preset-jtf-style",
+]
+
+[tasks.install-cargo]
+run = [
+  "rustup update",
+  "rustup component add rust-analyzer",
 ]
