@@ -36,9 +36,6 @@ if [[ -f "$HOME/.cargo/env" ]]; then
   . "$HOME/.cargo/env"
 fi
 
-# Source management
-export GHQ_ROOT="$HOME/src"
-
 # zsh
 typeset -gU cdpath fpath mailpath path
 
