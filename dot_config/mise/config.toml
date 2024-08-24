@@ -1,7 +1,7 @@
 [tools]
 deno = "latest"
 go = "latest"
-java = "corretto-22.0.2+9"
+java = "corretto-11"
 node = "latest"
 python = "latest"
 
@@ -14,7 +14,7 @@ run = [
   "mise use -g python",
   "mise use -g node",
   "mise install",
-  "mise run update"
+  "mise run update",
 ]
 
 [tasks.update]
@@ -39,7 +39,4 @@ run = [
 ]
 
 [tasks.install-cargo]
-run = [
-  "rustup update",
-  "rustup component add rust-analyzer",
-]
+run = ["rustup update", "rustup component add rust-analyzer"]
