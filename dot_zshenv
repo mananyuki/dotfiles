@@ -41,6 +41,7 @@ typeset -gU cdpath fpath mailpath path
 
 path=(
   /opt/homebrew/bin
+  $HOME/Library/Application\ Support/Coursier/bin
   /usr/local/{bin,sbin}
   $HOME/.local/bin
   $ZPLUG_HOME/bin

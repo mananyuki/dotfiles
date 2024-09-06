@@ -15,6 +15,7 @@ run = [
   "mise use -g node",
   "mise install",
   "mise run update",
+  "mise run setup-scala",
 ]
 
 [tasks.update]
@@ -40,3 +41,10 @@ run = [
 
 [tasks.install-cargo]
 run = ["rustup update", "rustup component add rust-analyzer"]
+
+[tasks.setup-scala]
+run = [
+  "curl -fL https://github.com/VirtusLab/coursier-m1/releases/latest/download/cs-aarch64-apple-darwin.gz | gzip -d > cs",
+  "chmod +x cs",
+  "./cs setup",
+]
