@@ -19,7 +19,7 @@ packages:
   - name: junegunn/fzf@v0.55.0
   - name: kubernetes-sigs/krew@v0.4.4
   - name: kubernetes/kubectl@v1.31.0
-  - name: kubernetes/minikube@v1.33.1
+  - name: kubernetes/minikube@v1.34.0
   - name: lima-vm/lima@v0.23.2
   - name: sharkdp/fd@v10.2.0
   - name: starship/starship@v1.20.1
