@@ -25,6 +25,6 @@ packages:
   - name: starship/starship@v1.20.1
   - name: stedolan/jq@jq-1.6
   - name: terraform-linters/tflint@v0.53.0
-  - name: twpayne/chezmoi@v2.52.1
+  - name: twpayne/chezmoi@v2.52.2
   - name: x-motemen/ghq@v1.6.2
   - name: zellij-org/zellij@v0.40.1
