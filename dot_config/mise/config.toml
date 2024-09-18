@@ -1,7 +1,7 @@
 [tools]
 deno = "latest"
 go = "latest"
-java = "corretto-11"
+java = "corretto-23.0.0+37"
 node = "latest"
 python = "latest"
 
