@@ -31,30 +31,29 @@ export GOPATH="$HOME/go"
 export GOBIN="$GOPATH/bin"
 export PATH="$GOBIN:$PATH"
 
-# rust
-if [[ -f "$HOME/.cargo/env" ]]; then
-  . "$HOME/.cargo/env"
+# aqua
+if [[ $commands[aqua] ]]; then
+  export AQUA_GLOBAL_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/aquaproj-aqua/aqua.yaml"
+fi
+
+# pnpm
+if [[ $commands[pnpm] ]]; then
+  export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
 fi
 
 # zsh
 typeset -gU cdpath fpath mailpath path
 
 path=(
-  /opt/homebrew/bin
-  $HOME/Library/Application\ Support/Coursier/bin
   /usr/local/{bin,sbin}
   $HOME/.local/bin
-  $ZPLUG_HOME/bin
   $path
 )
 
-setopt auto_cd
+COMPLETION_DIR="$ZSH_CACHE_DIR/completions"
+if [[ ! -d $COMPLETION_DIR ]]; then
+  mkdir -p $COMPLETION_DIR
+fi
+fpath=($COMPLETION_DIR $fpath)
 
-# history
-export HISTFILE="$ZDOTDIR/history"
-export HISTSIZE=1000000
-export SAVEHIST=1000000
-setopt append_history
-setopt hist_ignore_all_dups
-setopt hist_ignore_space
-setopt share_history
+setopt auto_cd
