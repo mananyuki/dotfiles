@@ -1,7 +1,6 @@
 [tools]
 deno = "latest"
 go = "latest"
-java = "corretto-23.0.0+37"
 node = "latest"
 python = "latest"
 
@@ -14,8 +13,8 @@ run = [
   "mise use -g python",
   "mise use -g node",
   "mise install",
+  "mise run setup-sdkman",
   "mise run update",
-  "mise run setup-scala",
 ]
 
 [tasks.update]
@@ -28,7 +27,10 @@ run = [
 ]
 
 [tasks.install-pip]
-run = "pip install --user --upgrade pipx neovim"
+run = [
+  "uv tool install --upgrade pipx",
+  "uv pip install --system --upgrade neovim",
+]
 
 [tasks.install-npm]
 run = [
@@ -42,9 +44,15 @@ run = [
 [tasks.install-cargo]
 run = ["rustup update", "rustup component add rust-analyzer"]
 
-[tasks.setup-scala]
-run = [
-  "curl -fL https://github.com/VirtusLab/coursier-m1/releases/latest/download/cs-aarch64-apple-darwin.gz | gzip -d > cs",
-  "chmod +x cs",
-  "./cs setup",
-]
+[tasks.setup-sdkman]
+run = ["curl -s https://get.sdkman.io | bash"]
+
+# [tasks.install-sdkman]
+# run = [
+#   "sdk install java 11.0.24-amzn",
+#   "sdk install scala",
+#   "sdk install sbt",
+#   "sdk install gradle",
+#   "sdk install kotlin",
+#   "sdk install groovy",
+# ]
