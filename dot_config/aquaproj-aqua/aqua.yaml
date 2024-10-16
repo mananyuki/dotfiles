@@ -13,7 +13,7 @@ packages:
   - name: dandavison/delta@0.18.2
   - name: direnv/direnv@v2.35.0
   - name: git-lfs/git-lfs@v3.5.1
-  - name: hashicorp/terraform@v1.9.7
+  - name: hashicorp/terraform@v1.9.8
   - name: jesseduffield/lazydocker@v0.23.3
   - name: jesseduffield/lazygit@v0.44.1
   - name: junegunn/fzf@v0.55.0
