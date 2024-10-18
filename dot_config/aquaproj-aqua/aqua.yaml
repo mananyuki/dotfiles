@@ -22,7 +22,7 @@ packages:
   - name: kubernetes/minikube@v1.34.0
   - name: lima-vm/lima@v0.23.2
   - name: sharkdp/fd@v10.2.0
-  - name: starship/starship@v1.21.0
+  - name: starship/starship@v1.21.1
   - name: stedolan/jq@jq-1.6
   - name: terraform-linters/tflint@v0.53.0
   - name: twpayne/chezmoi@v2.52.4
