@@ -42,6 +42,9 @@ apply = ["path"]
 local = "~/.local/share/pnpm"
 apply = ["path"]
 
+[plugins.atuin]
+inline = "[[ $commands[atuin] ]] && eval \"$(atuin init zsh)\""
+
 [plugins.direnv]
 inline = "[[ $commands[direnv] ]] && eval \"$(direnv hook zsh)\""
 
@@ -58,20 +61,6 @@ inline = "[[ -f $HOME/.sdkman/bin/sdkman-init.sh ]] && zsh-defer source $HOME/.s
 inline = "[[ $commands[starship] ]] && eval \"$(starship init zsh)\""
 
 # Plugins
-[plugins.abbr]
-github = "olets/zsh-abbr"
-use = ["zsh-abbr.plugin.zsh", "zsh-abbr.zsh"]
-
-[plugins.anyframe]
-github = "mollifier/anyframe"
-apply = ["defer"]
-hooks.post = "zsh-defer source $HOME/.config/zsh/hooks/anyframe.post.zsh"
-
-[plugins.atuin]
-github = "atuinsh/atuin"
-apply = ["defer"]
-hooks.post = "zsh-defer source $HOME/.config/zsh/hooks/atuin.post.zsh"
-
 [plugins.fast-syntax-highlighting]
 github = "zdharma-continuum/fast-syntax-highlighting"
 apply = ["defer"]
@@ -83,6 +72,15 @@ apply = ["defer"]
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
 apply = ["defer"]
+
+[plugins.abbr]
+github = "olets/zsh-abbr"
+use = ["zsh-abbr.plugin.zsh", "zsh-abbr.zsh"]
+
+[plugins.anyframe]
+github = "mollifier/anyframe"
+apply = ["defer"]
+hooks.post = "zsh-defer source $HOME/.config/zsh/hooks/anyframe.post.zsh"
 
 # Configurations
 [plugins.alias]

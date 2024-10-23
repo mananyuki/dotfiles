@@ -1,1 +1,1 @@
-eval "$(sheldon source)"
+eval "$(/opt/homebrew/bin/sheldon source)"

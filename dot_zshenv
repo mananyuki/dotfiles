@@ -32,19 +32,16 @@ export GOBIN="$GOPATH/bin"
 export PATH="$GOBIN:$PATH"
 
 # aqua
-if [[ $commands[aqua] ]]; then
-  export AQUA_GLOBAL_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/aquaproj-aqua/aqua.yaml"
-fi
+export AQUA_GLOBAL_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/aquaproj-aqua/aqua.yaml"
 
 # pnpm
-if [[ $commands[pnpm] ]]; then
-  export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
-fi
+export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
 
 # zsh
 typeset -gU cdpath fpath mailpath path
 
 path=(
+  /opt/homebrew/bin
   /usr/local/{bin,sbin}
   $HOME/.local/bin
   $path
