@@ -16,7 +16,7 @@ packages:
   - name: hashicorp/terraform@v1.9.8
   - name: jesseduffield/lazydocker@v0.23.3
   - name: jesseduffield/lazygit@v0.44.1
-  - name: junegunn/fzf@v0.55.0
+  - name: junegunn/fzf@v0.56.0
   - name: kubernetes-sigs/krew@v0.4.4
   - name: kubernetes/kubectl@v1.31.2
   - name: kubernetes/minikube@v1.34.0
