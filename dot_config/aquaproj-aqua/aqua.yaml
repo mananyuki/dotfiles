@@ -5,7 +5,7 @@ registries:
 packages:
   - name: BurntSushi/ripgrep@14.1.1
   - name: atuinsh/atuin@v18.3.0
-  - name: aws/aws-cli@2.19.2
+  - name: aws/aws-cli@2.19.3
   - name: aws/session-manager-plugin@1.2.633.0
   - name: bufbuild/buf@v1.46.0
   - name: chmln/sd@v1.0.0
