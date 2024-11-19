@@ -27,4 +27,4 @@ packages:
   - name: terraform-linters/tflint@v0.54.0
   - name: twpayne/chezmoi@v2.54.0
   - name: x-motemen/ghq@v1.7.1
-  - name: zellij-org/zellij@v0.41.1
+  - name: zellij-org/zellij@v0.41.2
