@@ -7,4 +7,11 @@ return {
       },
     },
   },
+
+  {
+    "neovim/nvim-lspconfig",
+    opts = function(_, opts)
+      opts.servers.yamlls.settings.yaml.format.enable = false
+    end,
+  },
 }
