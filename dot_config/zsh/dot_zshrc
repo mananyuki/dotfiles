@@ -1,1 +1,20 @@
 eval "$(/opt/homebrew/bin/sheldon source)"
+
+# zsh
+typeset -gU cdpath fpath mailpath path
+bindkey -e
+
+path=(
+  /opt/homebrew/bin
+  /usr/local/{bin,sbin}
+  $HOME/.local/bin
+  $path
+)
+
+COMPLETION_DIR="$ZSH_CACHE_DIR/completions"
+if [[ ! -d $COMPLETION_DIR ]]; then
+  mkdir -p $COMPLETION_DIR
+fi
+fpath=($COMPLETION_DIR $fpath)
+
+setopt auto_cd

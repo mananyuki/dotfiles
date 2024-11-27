@@ -1,56 +1,16 @@
-# Environment
 if [[ -z "$XDG_CONFIG_HOME" ]]; then
-    export XDG_CONFIG_HOME="$HOME/.config"
+  export XDG_CONFIG_HOME="$HOME/.config"
 fi
 
 if [[ -z "$XDG_CACHE_HOME" ]]; then
-    export XDG_CACHE_HOME="$HOME/.cache"
-    export ZSH_CACHE_DIR="$XDG_CACHE_HOME"
+  export XDG_CACHE_HOME="$HOME/.cache"
+  export ZSH_CACHE_DIR="$XDG_CACHE_HOME"
 fi
 
 if [[ -z "$XDG_DATA_HOME" ]]; then
-    export XDG_DATA_HOME="$HOME/.local/share"
+  export XDG_DATA_HOME="$HOME/.local/share"
 fi
 
 if [[ -d "$XDG_CONFIG_HOME/zsh" ]]; then
-    export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+  export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 fi
-
-# Language
-export LANGUAGE="en_US.UTF-8"
-export LANG="${LANGUAGE}"
-export LC_ALL="${LANGUAGE}"
-export LC_CTYPE="${LANGUAGE}"
-
-# Editor
-export EDITOR=nvim
-export GIT_EDITOR="${EDITOR}"
-
-# golang
-export GOPATH="$HOME/go"
-export GOBIN="$GOPATH/bin"
-export PATH="$GOBIN:$PATH"
-
-# aqua
-export AQUA_GLOBAL_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/aquaproj-aqua/aqua.yaml"
-
-# pnpm
-export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
-
-# zsh
-typeset -gU cdpath fpath mailpath path
-
-path=(
-  /opt/homebrew/bin
-  /usr/local/{bin,sbin}
-  $HOME/.local/bin
-  $path
-)
-
-COMPLETION_DIR="$ZSH_CACHE_DIR/completions"
-if [[ ! -d $COMPLETION_DIR ]]; then
-  mkdir -p $COMPLETION_DIR
-fi
-fpath=($COMPLETION_DIR $fpath)
-
-setopt auto_cd
