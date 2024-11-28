@@ -3,28 +3,8 @@ registries:
   - type: standard
     ref: v4.258.1 # renovate: depName=aquaproj/aqua-registry
 packages:
-  - name: BurntSushi/ripgrep@14.1.1
   - name: atuinsh/atuin@v18.3.0
   - name: aws/aws-cli@2.22.7
   - name: aws/session-manager-plugin@1.2.633.0
-  - name: bufbuild/buf@v1.47.2
-  - name: chmln/sd@v1.0.0
-  - name: cli/cli@v2.63.0
-  - name: dandavison/delta@0.18.2
-  - name: direnv/direnv@v2.35.0
-  - name: git-lfs/git-lfs@v3.6.0
-  - name: hashicorp/terraform@v1.10.0
-  - name: jesseduffield/lazydocker@v0.24.1
-  - name: jesseduffield/lazygit@v0.44.1
-  - name: junegunn/fzf@v0.56.3
-  - name: kubernetes-sigs/krew@v0.4.4
-  - name: kubernetes/kubectl@v1.31.3
-  - name: kubernetes/minikube@v1.34.0
-  - name: lima-vm/lima@v1.0.1
-  - name: sharkdp/fd@v10.2.0
   - name: starship/starship@v1.21.1
-  - name: stedolan/jq@jq-1.6
-  - name: terraform-linters/tflint@v0.54.0
-  - name: twpayne/chezmoi@v2.54.0
-  - name: x-motemen/ghq@v1.7.1
   - name: zellij-org/zellij@v0.41.2

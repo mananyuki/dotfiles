@@ -53,7 +53,7 @@ inline = "[[ $commands[atuin] ]] && eval \"$(atuin init zsh)\""
 inline = "[[ $commands[direnv] ]] && eval \"$(direnv hook zsh)\""
 
 [plugins.mise]
-inline = "[[ $commands[starship] ]] && eval \"$(mise activate zsh)\""
+inline = "[[ $commands[mise] ]] && eval \"$(mise activate zsh)\""
 
 [plugins.rust]
 inline = "[[ -f $HOME/.cargo/env ]] && zsh-defer source $HOME/.cargo/env"
