@@ -23,7 +23,7 @@
 "aqua:x-motemen/ghq" = "latest"
 deno = "latest"
 go = "latest"
-lua = "5.1"
+lua = "5.4.7"
 node = "latest"
 python = "latest"
 
