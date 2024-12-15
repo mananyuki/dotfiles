@@ -1,8 +1,4 @@
 #!/bin/bash
 
-if [[ ! -d ~/.cargo ]]; then
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-fi
-
 eval "$(mise activate bash)"
 mise run setup

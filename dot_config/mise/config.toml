@@ -16,66 +16,57 @@
 "aqua:kubernetes/kubectl" = "latest"
 "aqua:kubernetes/minikube" = "latest"
 "aqua:lima-vm/lima" = "latest"
-"aqua:neovim/neovim" = "0.10"
 "aqua:sharkdp/fd" = "latest"
 "aqua:terraform-linters/tflint" = "latest"
 "aqua:twpayne/chezmoi" = "latest"
 "aqua:x-motemen/ghq" = "latest"
+"npm:@biomejs/biome" = "latest"
+"npm:@commitlint/cli" = "latest"
+"npm:neovim" = "latest"
+"npm:textlint" = "latest"
+"npm:textlint-rule-preset-ja-technical-writing" = "latest"
+"npm:textlint-rule-preset-jtf-style" = "latest"
 deno = "latest"
 go = "latest"
-lua = "5.4.7"
+java = "corretto-23"
 node = "latest"
 python = "latest"
+rust = "latest"
 
 [settings]
-legacy_version_file = true
 experimental = true
+legacy_version_file = true
+pipx.uvx = true
 
 [tasks.setup]
+run = ["mise install", "mise run setup-coursier", "mise run update"]
+
+[tasks.setup-coursier]
 run = [
-  "mise use -g python",
-  "mise use -g node",
-  "mise install",
-  "mise run setup-sdkman",
-  "mise run update",
+  "if [[ ! -d ~/.local/share/coursier/bin ]]; then mkdir -p ~/.local/share/coursier/bin; fi",
+  "curl -fL https://github.com/VirtusLab/coursier-m1/releases/latest/download/cs-aarch64-apple-darwin.gz | gzip -d > /tmp/cs",
+  "chmod +x /tmp/cs",
+  "/tmp/cs setup --install-dir ~/.local/share/coursier/bin",
 ]
 
 [tasks.update]
 run = [
   "mise upgrade",
-  "mise run install-pip",
   "mise run install-npm",
+  "mise run install-pip",
   "mise run install-cargo",
+  "mise run install-coursier",
   "mise prune -y",
 ]
 
-[tasks.install-pip]
-run = [
-  "uv tool install --upgrade pipx",
-  "uv pip install --system --upgrade neovim",
-]
-
 [tasks.install-npm]
-run = [
-  "npm install -g pnpm",
-  "pnpm add -g neovim",
-  "pnpm add -g @biomejs/biome",
-  "pnpm add -g @commitlint/cli @commitlint/config-conventional commitlint-format-json",
-  "pnpm add -g textlint textlint-rule-preset-ja-technical-writing textlint-rule-preset-jtf-style",
-]
+run = ["npm install -g @commitlint/config-conventional commitlint-format-json"]
+
+[tasks.install-pip]
+run = ["uv pip install --system --upgrade neovim"]
 
 [tasks.install-cargo]
-run = ["rustup update", "rustup component add rust-analyzer"]
+run = ["rustup component add rust-analyzer"]
 
-[tasks.setup-sdkman]
-run = ["curl -s https://get.sdkman.io | bash"]
-
-# [tasks.install-sdkman]
-# run = [
-#   "sdk install java 11.0.24-amzn",
-#   "sdk install scala",
-#   "sdk install sbt",
-#   "sdk install gradle",
-#   "sdk install kotlin",
-#   "sdk install groovy",
-# ]
+[tasks.install-coursier]
+run = ["cs install metals", "cs update"]

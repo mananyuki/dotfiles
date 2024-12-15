@@ -42,8 +42,8 @@ apply = ["path"]
 local = "~/.krew/bin"
 apply = ["path"]
 
-[plugins.pnpm]
-local = "~/.local/share/pnpm"
+[plugins.coursier]
+local = "~/.local/share/coursier/bin"
 apply = ["path"]
 
 [plugins.atuin]
