@@ -3,7 +3,7 @@ registries:
   - type: standard
     ref: v4.283.0 # renovate: depName=aquaproj/aqua-registry
 packages:
-  - name: atuinsh/atuin@v18.3.0
+  - name: atuinsh/atuin@v18.4.0
   - name: aws/aws-cli@2.22.24
   - name: aws/session-manager-plugin@1.2.633.0
   - name: starship/starship@v1.21.1
