@@ -1,0 +1,15 @@
+font-family = "UbuntuMono Nerd Font"
+font-size = 16
+
+theme = catppuccin-frappe
+
+cursor-style = block
+cursor-style-blink = false
+shell-integration-features = no-cursor
+
+clipboard-trim-trailing-spaces = true
+clipboard-paste-protection = true
+copy-on-select = true
+
+macos-titlebar-style = hidden
+# macos-option-as-alt = true

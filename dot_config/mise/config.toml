@@ -51,6 +51,7 @@ run = [
 
 [tasks.update]
 run = [
+  "brew upgrade",
   "mise upgrade",
   "mise run install-npm",
   "mise run install-pip",
