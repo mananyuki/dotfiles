@@ -28,7 +28,7 @@
 "npm:textlint-rule-preset-jtf-style" = "latest"
 deno = "latest"
 go = "latest"
-java = "corretto-23"
+java = "corretto-24.0.0+36"
 node = "latest"
 python = "latest"
 rust = "latest"
