@@ -4,7 +4,7 @@ registries:
     ref: v4.359.0 # renovate: depName=aquaproj/aqua-registry
 packages:
   - name: atuinsh/atuin@18.6.0
-  - name: aws/aws-cli@2.27.10
+  - name: aws/aws-cli@2.27.11
   - name: aws/session-manager-plugin@1.2.633.0
   - name: starship/starship@v1.23.0
   - name: zellij-org/zellij@v0.42.2
