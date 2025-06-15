@@ -1,7 +1,7 @@
 ---
 registries:
   - type: standard
-    ref: v4.376.0 # renovate: depName=aquaproj/aqua-registry
+    ref: v4.379.0 # renovate: depName=aquaproj/aqua-registry
 packages:
   - name: atuinsh/atuin@v18.6.1
   - name: aws/aws-cli@2.27.35
