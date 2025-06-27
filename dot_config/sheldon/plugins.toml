@@ -15,10 +15,6 @@ apply = ["source"]
 inline = "autoload -Uz compinit && zsh-defer compinit"
 
 # Tools
-[plugins.aqua]
-local = "~/.local/share/aquaproj-aqua/bin"
-apply = ["path"]
-
 [plugins.homebrew]
 inline = "eval \"$(/opt/homebrew/bin/brew shellenv)\""
 
