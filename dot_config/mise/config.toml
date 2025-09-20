@@ -13,7 +13,7 @@
 "aqua:jqlang/jq" = "latest"
 "aqua:junegunn/fzf" = "latest"
 "aqua:kubernetes-sigs/krew" = "latest"
-"aqua:kubernetes/kubectl" = "latest"
+"aqua:kubernetes/kubernetes/kubectl" = "latest"
 "aqua:kubernetes/minikube" = "latest"
 "aqua:lima-vm/lima" = "latest"
 "aqua:sharkdp/fd" = "latest"
@@ -22,13 +22,14 @@
 "aqua:x-motemen/ghq" = "latest"
 "npm:@biomejs/biome" = "latest"
 "npm:@commitlint/cli" = "latest"
+"npm:@google/gemini-cli" = "latest"
 "npm:neovim" = "latest"
 "npm:textlint" = "latest"
 "npm:textlint-rule-preset-ja-technical-writing" = "latest"
 "npm:textlint-rule-preset-jtf-style" = "latest"
 deno = "latest"
 go = "latest"
-java = "corretto-24.0.1+9"
+java = "corretto-11"
 node = "latest"
 python = "latest"
 rust = "latest"
@@ -36,6 +37,7 @@ rust = "latest"
 [settings]
 experimental = true
 legacy_version_file = true
+idiomatic_version_file_enable_tools = ["terraform"]
 pipx.uvx = true
 
 [tasks.setup]
@@ -52,6 +54,7 @@ run = [
 [tasks.update]
 run = [
   "brew upgrade",
+  "fish -c 'fisher update'",
   "mise upgrade",
   "mise run install-npm",
   "mise run install-pip",

@@ -1,11 +1,18 @@
-font-family = "UbuntuMono Nerd Font"
-font-size = 16
+font-family = "JetBrainsMono Nerd Font Mono"
+font-family = "BIZ UDGothic"
+font-family = "SF Pro"
+font-feature = -dlig
+font-size = 13
 
-theme = catppuccin-frappe
+theme = Catppuccin Frappe
+
 
 cursor-style = block
 cursor-style-blink = false
+
+shell-integration = fish
 shell-integration-features = no-cursor
+command = /opt/homebrew/bin/fish --login --interactive
 
 clipboard-trim-trailing-spaces = true
 clipboard-paste-protection = true
@@ -13,3 +20,9 @@ copy-on-select = true
 
 macos-titlebar-style = hidden
 # macos-option-as-alt = true
+
+keybind = cmd+t=unbind
+keybind = cmd+c=unbind
+keybind = cmd+w=unbind
+keybind = cmd+opt+left=unbind
+keybind = cmd+opt+right=unbind

@@ -14,7 +14,6 @@ apply = ["source"]
 [plugins.compinit]
 inline = "autoload -Uz compinit && zsh-defer compinit"
 
-# Tools
 [plugins.homebrew]
 inline = "eval \"$(/opt/homebrew/bin/brew shellenv)\""
 
@@ -53,9 +52,6 @@ inline = "[[ $commands[mise] ]] && eval \"$(mise activate zsh)\""
 
 [plugins.rust]
 inline = "[[ -f $HOME/.cargo/env ]] && zsh-defer source $HOME/.cargo/env"
-
-[plugins.sdkman]
-inline = "[[ -f $HOME/.sdkman/bin/sdkman-init.sh ]] && zsh-defer source $HOME/.sdkman/bin/sdkman-init.sh"
 
 [plugins.starship]
 inline = "[[ $commands[starship] ]] && eval \"$(starship init zsh)\""

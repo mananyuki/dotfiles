@@ -3,18 +3,21 @@ theme "catppuccin-frappe"
 // If you'd like to override the default keybindings completely, be sure to change "keybinds" to "keybinds clear-defaults=true"
 keybinds {
     normal clear-defaults=true {
-        bind "Ctrl t" { SwitchToMode "Tmux"; }
-        bind "Alt n" { NewPane; }
-        bind "Alt i" { MoveTab "Left"; }
-        bind "Alt o" { MoveTab "Right"; }
-        bind "Alt Left" { MoveFocusOrTab "Left"; }
-        bind "Alt Right" { MoveFocusOrTab "Right"; }
-        bind "Alt Down" { MoveFocus "Down"; }
-        bind "Alt Up" { MoveFocus "Up"; }
-        bind "Alt =" "Alt +" { Resize "Increase"; }
-        bind "Alt -" { Resize "Decrease"; }
-        bind "Alt [" { PreviousSwapLayout; }
-        bind "Alt ]" { NextSwapLayout; }
+        bind "Ctrl ;" { SwitchToMode "Tmux"; }
+        // bind "Alt n" { NewPane; }
+        // bind "Alt i" { MoveTab "Left"; }
+        // bind "Alt o" { MoveTab "Right"; }
+        // bind "Alt Left" { MoveFocusOrTab "Left"; }
+        // bind "Alt Right" { MoveFocusOrTab "Right"; }
+        // bind "Alt Down" { MoveFocus "Down"; }
+        // bind "Alt Up" { MoveFocus "Up"; }
+        // bind "Alt =" "Alt +" { Resize "Increase"; }
+        // bind "Alt -" { Resize "Decrease"; }
+        // bind "Alt [" { PreviousSwapLayout; }
+        // bind "Alt ]" { NextSwapLayout; }
+        bind "Super c" { Copy; }
+        bind "Super w" { CloseTab; }
+        bind "Super t" { NewTab; }
     }
     tmux {
         unbind "Ctrl b"
@@ -34,3 +37,10 @@ keybinds {
         bind "|" { NewPane "Right"; SwitchToMode "Normal"; }
     }
 }
+
+default_shell "fish"
+
+// macOS specific
+copy_command "pbcopy"
+copy_on_select false
+

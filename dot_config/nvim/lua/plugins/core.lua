@@ -2,7 +2,7 @@ return {
   "folke/lazy.nvim",
 
   {
-    "echasnovski/mini.basics",
+    "nvim-mini/mini.basics",
     opts = {
       options = {
         extra_ui = true,
