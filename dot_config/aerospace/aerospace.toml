@@ -61,16 +61,16 @@ alt-1 = 'workspace 1'
 alt-2 = 'workspace 2'
 alt-3 = 'workspace 3'
 alt-4 = 'workspace 4'
-alt-5 = 'workspace 5'
-alt-6 = 'workspace 6'
+alt-9 = 'workspace 9'
+alt-0 = 'workspace 0'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = 'move-node-to-workspace 1'
 alt-shift-2 = 'move-node-to-workspace 2'
 alt-shift-3 = 'move-node-to-workspace 3'
 alt-shift-4 = 'move-node-to-workspace 4'
-alt-shift-5 = 'move-node-to-workspace 5'
-alt-shift-6 = 'move-node-to-workspace 6'
+alt-shift-9 = 'move-node-to-workspace 9'
+alt-shift-0 = 'move-node-to-workspace 0'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 alt-tab = 'workspace-back-and-forth'
@@ -104,7 +104,7 @@ up = 'volume up'
 shift-down = ['volume set 0', 'mode main']
 
 [[on-window-detected]]
-if.app-id = 'org.mozilla.firefox'
+if.app-id = 'com.microsoft.edgemac'
 run = ['move-node-to-workspace 1']
 
 [[on-window-detected]]
@@ -116,9 +116,21 @@ if.app-id = 'com.microsoft.VSCode'
 run = ['move-node-to-workspace 3']
 
 [[on-window-detected]]
+if.app-id = 'com.google.antigravity'
+run = ['move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-id = 'dev.kiro.desktop'
+run = ['move-node-to-workspace 3']
+
+[[on-window-detected]]
 if.app-id = 'com.tinyspeck.slackmacgap'
 run = ['move-node-to-workspace 4']
 
 [[on-window-detected]]
-if.app-id = 'com.microsoft.edgemac'
-run = ['move-node-to-workspace 5']
+if.app-id = 'com.vivaldi.Vivaldi'
+run = ['move-node-to-workspace 9']
+
+[[on-window-detected]]
+if.app-id = 'ai.perplexity.comet'
+run = ['move-node-to-workspace 0']
