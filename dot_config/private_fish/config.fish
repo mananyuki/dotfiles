@@ -36,6 +36,9 @@ fish_add_path $GOBIN
 set -gx COURSIER_BIN_DIR "$XDG_DATA_HOME/coursier/bin"
 fish_add_path $COURSIER_BIN_DIR
 
+# droid
+fish_add_path $HOME/.local/bin
+
 # rust
 fish_add_path $HOME/.cargo/bin
 
@@ -54,6 +57,11 @@ abbr -a -- lg lazygit
 # load local config
 if test -e "$XDG_CONFIG_HOME/fish/config.local.fish"
     source $XDG_CONFIG_HOME/fish/config.local.fish
+end
+
+# load kiro shell integration
+if command -sq kiro
+    string match -q "$TERM_PROGRAM" kiro and . (kiro --locate-shell-integration-path fish)
 end
 
 if status is-interactive
