@@ -1,5 +1,5 @@
 #!/bin/bash
 
-mkdir ~/bin
-mkdir ~/.cache
-mkdir -p ~/.local/share
+set -euo pipefail
+
+mkdir -p "$HOME/bin" "$HOME/.cache" "$HOME/.local/share"
