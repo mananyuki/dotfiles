@@ -1,43 +1,47 @@
 # Repository Guidelines
 
-## Project Structure & Module Organization
+## Purpose
 
-- This repository stores chezmoi source files; `chezmoi apply` materializes them under `$HOME`.
-- Configuration lives in `dot_config/**`: notable subfolders include `dot_config/nvim` for LazyVim, `dot_config/zsh` for shell customizations, and `dot_config/ghostty` or `dot_config/zellij` for terminal tooling.
-- Provisioning scripts sit in `run_once_*` and `run_onchange_*`. The numeric prefixes define execution order during bootstrap and updates.
-- Template files such as `dot_Brewfile.tmpl` or `run_once_20-install-runtimes.sh.tmpl` use Go template directives to switch packages and tasks per profile (`home`, `work`, etc.).
+- This repository is the source of truth for my dotfiles managed with `chezmoi`.
+- `chezmoi apply` materializes these source files into `$HOME`.
 
-## Build, Test & Development Commands
+## Where things live
 
-- `chezmoi diff` — inspect pending changes versus the live home directory to avoid unintended churn.
-- `chezmoi apply --dry-run` — simulate writes before applying to guard against destructive edits.
-- `chezmoi apply` — apply changes once the diff is approved.
-- `chezmoi doctor` — verify chezmoi prerequisites on the current host.
-- `mise run setup` / `mise run update` — install or refresh toolchains defined in `dot_config/mise/config.toml`.
-- `brew bundle --file ~/.Brewfile` — reconcile Homebrew packages after templates are rendered.
+- `dot_config/**`: XDG config directory content (e.g. `dot_config/nvim`, `dot_config/zsh`, `dot_config/ghostty`, `dot_config/zellij`).
+- `dot_*`: files that map to dotfiles under `$HOME` (chezmoi naming convention).
+- `run_once_*`: bootstrap/provisioning scripts (executed in numeric prefix order).
+- `run_onchange_*`: update hooks (re-run when the script/template changes).
+- `*.tmpl`: Go templates rendered by chezmoi (example: `dot_Brewfile.tmpl`).
+- `.chezmoi.toml.tmpl`: generates `.chezmoi.toml` and defines `[data]` values used by templates (notably `profile`).
 
-## Coding Style & Naming Conventions
+## Safe workflow
 
-- Shell scripts use `#!/bin/bash`, two-space indentation, explicit `mkdir -p`, and must stay idempotent.
-- Lua modules follow LazyVim defaults: two-space indentation, trailing commas in tables, and modularized configs under `dot_config/nvim/lua/**`.
-- Go templates keep conditional blocks tight (e.g., `{{ if eq .profile "work" }}`) and lists sorted alphabetically to minimize churn.
-- Script names follow `run_once_XX-description.sh` or `run_onchange_task.sh` to signal intent and execution order.
+- Prefer this sequence whenever changing anything:
+  - `chezmoi diff`
+  - `chezmoi apply --dry-run`
+  - `chezmoi apply`
+- If something looks off, start with `chezmoi doctor`.
 
-## Testing Guidelines
+## Profiles & templates
 
-- Always run `chezmoi diff` and `chezmoi apply --dry-run` before committing to validate the rendered output.
-- For shell updates, run `shellcheck run_once_*.sh` (or relevant paths) and use `$SHELL -n` for zsh/fish syntax checks.
-- For Neovim changes, execute `nvim --headless "+Lazy sync" +qa` to confirm plugin sync and formatting.
-- For documentation edits, run `npx textlint -c dot_textlintrc.json README.md AGENTS.md` to enforce wording consistency.
+- Templates may branch on `.profile` (e.g. `{{ if eq .profile "work" }}`).
+- Keep template conditionals tight and lists sorted to minimize churn and diffs.
 
-## Commit & Pull Request Guidelines
+## Conventions (when editing)
 
-- Follow Conventional Commits (`feat(nvim): enable relative numbers`, `chore(deps): update awscli`). Use directory-based scopes and keep one logical change per commit.
-- Pull requests must summarize intent, specify affected profiles, list validation commands (e.g., `chezmoi diff` output), and include screenshots when UI-facing assets change.
-- Document additions to `dot_config/mise/config.toml` or new scripts so reviewers understand environment prerequisites.
-- Use the PR body to reference issues, note secrets handling, and mention any follow-up tasks.
+- Shell (`run_once_*`, `run_onchange_*`):
+  - Use `#!/bin/bash`, 2-space indentation, and idempotent operations.
+  - Always `mkdir -p` before writing; avoid destructive changes without guards.
+- Neovim Lua (`dot_config/nvim/lua/**`):
+  - Follow LazyVim conventions (2-space indentation; keep configs modular).
 
-## Security & Secrets Management
+## Tooling (optional)
 
-- Never commit secrets. Inject tokens and private keys via `chezmoi secrets` or local data templates that remain untracked.
-- When introducing profile-specific corporate settings, minimize the scope of `{{ if eq .profile "work" }}` blocks and ensure private files are excluded through `.chezmoiignore`.
+- Homebrew packages: `dot_Brewfile.tmpl` renders `~/.Brewfile` (then use `brew bundle --global`).
+- Runtimes: `dot_config/mise/config.toml` (use `mise run setup` / `mise run update`).
+
+## Secrets
+
+- Never commit secrets.
+- Prefer `chezmoi secrets` and/or local, untracked data/templates for sensitive values.
+- Use `.chezmoiignore` to exclude files that should never be applied to `$HOME`.
