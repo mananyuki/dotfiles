@@ -1,6 +1,7 @@
 { pkgs, configDir, ... }:
 {
   imports = [
+    ./dotfiles.nix
     ./fish.nix
     ./git.nix
   ];

@@ -43,4 +43,3 @@ default_shell "fish"
 // macOS specific
 copy_command "pbcopy"
 copy_on_select false
-
