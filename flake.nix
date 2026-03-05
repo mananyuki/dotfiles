@@ -25,12 +25,13 @@
     let
       system = "aarch64-darwin";
       username = "yuki";
+      configDir = ./config;
 
       mkDarwinConfiguration =
         { hostname, profile }:
         nix-darwin.lib.darwinSystem {
           inherit system;
-          specialArgs = { inherit username profile; };
+          specialArgs = { inherit username profile configDir; };
           modules = [
             ./nix/modules/darwin
 
@@ -39,7 +40,8 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                extraSpecialArgs = { inherit profile; };
+                backupFileExtension = "backup";
+                extraSpecialArgs = { inherit profile configDir; };
                 users.${username} = import ./nix/modules/home;
               };
             }
