@@ -22,7 +22,7 @@ config/git/ignore ─────────────→ builtins.readFile �
 (N/A) ─────────────────────────→ Nix attrset ────────→ programs.git.{delta,extraConfig} ──→ ~/.config/git/config
 ```
 
-### Linked pipeline (Block 3)
+### Linked pipeline
 
 ```
 config/                          Nix modules                       System
@@ -32,6 +32,7 @@ config/zellij/config.kdl ──────→ xdg.configFile ────→ ~/
 config/aerospace/*.toml,*.sh ──→ xdg.configFile ────→ ~/.config/aerospace/* (symlinks)
 config/helix/config.toml ──────→ xdg.configFile ────→ ~/.config/helix/config.toml (symlink)
 config/karabiner/karabiner.json→ xdg.configFile ────→ ~/.config/karabiner/karabiner.json (symlink)
+config/nvim/**/* ──────────────→ xdg.configFile ────→ ~/.config/nvim/* (symlinks, recursive)
 config/codex/AGENTS.md ────────→ home.file ──────────→ ~/.codex/AGENTS.md (symlink)
 config/claude/* ───────────────→ home.file ──────────→ ~/.claude/* (symlinks)
 ```
@@ -77,6 +78,11 @@ config/
     CLAUDE.md                     # Claude Code global instructions
     settings.json                 # Claude Code settings and hooks
     statusline-command.sh         # Claude Code status line script
+  nvim/
+    init.lua                      # Neovim entry point (LazyVim)
+    lazyvim.json                  # LazyVim extras configuration
+    lua/config/*.lua              # Neovim config (autocmds, keymaps, lazy, options)
+    lua/plugins/*.lua             # Neovim plugin specs (colorscheme, core, lang, lsp)
 ```
 
 All files under `config/` are in their native format. No Nix syntax, no templating.
@@ -95,7 +101,7 @@ All files under `config/` are in their native format. No Nix syntax, no templati
 | `config/starship.toml` | `home/default.nix` | `builtins.fromTOML` | `programs.starship.settings` |
 | `config/git/ignore` | `home/git.nix` | `builtins.readFile` | `programs.git.ignores` (parsed) |
 | (no config file) | `home/default.nix` | Nix attrset | `programs.atuin.{enable,enableFishIntegration}` |
-| `config/{ghostty,zellij,aerospace,helix,karabiner}/*` | `home/dotfiles.nix` | `xdg.configFile.*.source` | Symlink to `~/.config/` |
+| `config/{ghostty,zellij,aerospace,helix,karabiner,nvim}/*` | `home/dotfiles.nix` | `xdg.configFile.*.source` | Symlink to `~/.config/` |
 | `config/{codex,claude}/*` | `home/dotfiles.nix` | `home.file.*.source` | Symlink to `~/` |
 
 ### FR-4: Fish Plugin Management
@@ -109,10 +115,9 @@ Fish plugins are managed declaratively via `programs.fish.plugins`, replacing th
 
 Current plugins:
 
-| Plugin | Purpose | Transitional? |
-|---|---|---|
-| `fish-ghq` | ghq repository navigation | No |
-| `fish-evalcache` | Cache slow shell init commands | Yes (remove in Block 4 when brew/mise are eliminated) |
+| Plugin | Purpose |
+|---|---|
+| `fish-ghq` | ghq repository navigation |
 
 ### FR-5: Git Identity Delegation
 
@@ -145,12 +150,10 @@ During migration from chezmoi/Homebrew/mise to Nix, some config files contain tr
 
 | Element | Location | Remove when |
 |---|---|---|
-| `brew shellenv \| source` | `config/fish/interactiveShellInit.fish` | When all Homebrew brews are eliminated (casks don't need PATH) |
-| `_evalcache mise activate fish` | `config/fish/interactiveShellInit.fish` | Block 4 (mise retired) |
-| `fish-evalcache` plugin | `nix/modules/home/fish.nix` | Block 4 (no more commands to cache) |
-| Nix PATH `set --prepend` | `config/fish/interactiveShellInit.fish` | When login shell switches from Homebrew fish to Nix fish |
+| `brew shellenv \| source` | `config/fish/interactiveShellInit.fish` | Block 5: when all Homebrew brews are eliminated (casks don't need PATH) |
+| Nix PATH `set --prepend` | `config/fish/interactiveShellInit.fish` | Block 5: when login shell switches from Homebrew fish to Nix fish |
 
-**Critical ordering constraint**: `mise activate fish` overwrites `$PATH` entirely (`set -gx PATH ...`). The Nix PATH prepend (`set --prepend -gx PATH`) MUST come AFTER `mise activate` in `interactiveShellInit.fish`. After changing PATH-related config, run `_evalcache_clear mise` to invalidate the cached mise activation output.
+Previously removed (Block 4): `_evalcache mise activate fish`, `fish-evalcache` plugin (mise retired).
 
 ## Non-Functional Requirements
 

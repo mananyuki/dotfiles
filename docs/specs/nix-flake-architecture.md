@@ -12,15 +12,16 @@ This dotfiles system uses Nix as a **declarative orchestration layer** for macOS
 
 ### FR-1: Flake Inputs
 
-The flake pins three inputs, all on the 24.11 release track:
+The flake pins four inputs:
 
 | Input | Source | Purpose |
 |---|---|---|
 | `nixpkgs` | `github:NixOS/nixpkgs/nixpkgs-24.11-darwin` | Package repository |
 | `nix-darwin` | `github:nix-darwin/nix-darwin/nix-darwin-24.11` | macOS system configuration |
 | `home-manager` | `github:nix-community/home-manager/release-24.11` | User-scoped configuration |
+| `llm-agents` | `github:numtide/llm-agents.nix` | Fast-moving AI CLI tools (claude-code, codex, etc.) |
 
-All inputs follow `nixpkgs` to ensure a single package set (`inputs.nixpkgs.follows = "nixpkgs"`).
+nixpkgs, nix-darwin, and home-manager are on the 24.11 release track. nix-darwin and home-manager follow `nixpkgs` to ensure a single package set. `llm-agents` uses its own nixpkgs pin for latest tool versions.
 
 ### FR-2: Flake Outputs
 
@@ -81,7 +82,7 @@ darwinSystem
 | User-level settings | `nix/modules/home/` | Shell config, git, starship, XDG files, user packages, dotfile links |
 
 Darwin modules receive `specialArgs`: `{ username, profile, configDir }`.
-Home Manager modules receive `extraSpecialArgs`: `{ profile, configDir }`.
+Home Manager modules receive `extraSpecialArgs`: `{ profile, configDir, llmAgentsPkgs }`.
 
 ### FR-5: `configDir` Injection
 
@@ -109,6 +110,21 @@ nix.channel.enable = false;  # flakes do not use channels
 ```
 
 This is required for compatibility with NixOS/nix-installer, which stores channel profiles at `~/.local/state/nix/profiles/` rather than `/nix/var/nix/profiles/per-user/$USER/` where nix-darwin's activation script expects them. Since this is a flake-based setup, channels are not needed.
+
+### FR-9: Binary Cache for llm-agents
+
+The numtide binary cache is configured to avoid building AI CLI tools from source:
+
+```nix
+nix.settings = {
+  extra-substituters = [ "https://cache.numtide.com" ];
+  extra-trusted-public-keys = [
+    "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+  ];
+};
+```
+
+`llmAgentsPkgs` is derived from `llm-agents.packages.${system}` in flake.nix and passed to home-manager modules via `extraSpecialArgs`. Packages are consumed in `home/default.nix` with `(with llmAgentsPkgs; [ ... ])`.
 
 ### FR-8: Fish Shell Registration
 
