@@ -1,0 +1,44 @@
+version: '3'
+
+vars:
+  PROFILE: work
+
+tasks:
+  build:
+    desc: Validate configuration without applying
+    cmds:
+      - darwin-rebuild build --flake .#{{.PROFILE}}
+
+  switch:
+    desc: Build and apply configuration
+    cmds:
+      - darwin-rebuild switch --flake .#{{.PROFILE}}
+
+  diff:
+    desc: Compare current system with latest build
+    deps: [build]
+    cmds:
+      - nix store diff-closures /run/current-system ./result
+
+  update:
+    desc: Update all flake inputs and rebuild
+    cmds:
+      - nix flake update
+      - darwin-rebuild switch --flake .#{{.PROFILE}}
+
+  rollback:
+    desc: Return to previous generation
+    prompt: Rollback to the previous generation?
+    cmds:
+      - darwin-rebuild switch --rollback
+
+  fmt:
+    desc: Format all Nix files
+    cmds:
+      - nix fmt
+
+  gc:
+    desc: Garbage-collect old Nix generations
+    prompt: This will delete old generations. Continue?
+    cmds:
+      - nix-collect-garbage -d
