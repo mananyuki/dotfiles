@@ -16,7 +16,7 @@ stdenv.mkDerivation rec {
   '';
 
   meta = {
-    description = "GOG.com CLI for downloading and managing games";
+    description = "Fast, script-friendly CLI for Gmail, Calendar, Drive, and other Google services";
     homepage = "https://github.com/steipete/gogcli";
     license = lib.licenses.mit;
     platforms = [ "aarch64-darwin" ];
