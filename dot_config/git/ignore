@@ -27,3 +27,6 @@ Temporary Items
 
 # asdf
 .tool-versions
+
+# Claude Code
+**/.claude/settings.local.json

@@ -13,15 +13,6 @@
           hash = "sha256-6b1zmjtemNLNPx4qsXtm27AbtjwIZWkzJAo21/aVZzM=";
         };
       }
-      {
-        name = "fish-evalcache";
-        src = pkgs.fetchFromGitHub {
-          owner = "kyohsuke";
-          repo = "fish-evalcache";
-          rev = "d71c0f365eddfa79f2080695fd58a2e3cb298b3a";
-          hash = "sha256-kQPbW+zFqqILDCeYitPv8sTNq17hS+fRRLtapi9Rp3Q=";
-        };
-      }
     ];
 
     shellAbbrs = {

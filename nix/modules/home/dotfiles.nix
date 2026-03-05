@@ -10,6 +10,10 @@
     };
     "helix/config.toml".source = configDir + "/helix/config.toml";
     "karabiner/karabiner.json".source = configDir + "/karabiner/karabiner.json";
+    "nvim" = {
+      source = configDir + "/nvim";
+      recursive = true;
+    };
   };
 
   home.file = {

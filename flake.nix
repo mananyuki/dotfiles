@@ -13,6 +13,10 @@
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+    };
   };
 
   outputs =
@@ -20,12 +24,14 @@
       nixpkgs,
       nix-darwin,
       home-manager,
+      llm-agents,
       ...
     }:
     let
       system = "aarch64-darwin";
       username = "yuki";
       configDir = ./config;
+      llmAgentsPkgs = llm-agents.packages.${system};
 
       mkDarwinConfiguration =
         { profile }:
@@ -41,7 +47,7 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 backupFileExtension = "backup";
-                extraSpecialArgs = { inherit profile configDir; };
+                extraSpecialArgs = { inherit profile configDir llmAgentsPkgs; };
                 users.${username} = import ./nix/modules/home;
               };
             }

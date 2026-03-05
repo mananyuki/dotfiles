@@ -61,7 +61,6 @@ nix/modules/
 .chezmoiignore                     # → Block 5
 dot_config/alacritty/              # → Block 5 (drop, using ghostty)
 dot_config/git/ignore              # → Block 5 (already in config/git/ignore)
-dot_config/mise/config.toml        # → Block 4
 dot_config/nvim/                   # → Block 5 (drop, not actively used)
 dot_config/private_fish/           # → Block 5 (already in config/fish/)
 dot_config/sheldon/                # → Block 5 (drop, fish is primary)
@@ -69,7 +68,6 @@ dot_config/starship.toml           # → Block 5 (already in config/starship.tom
 dot_config/zsh/                    # → Block 5 (drop or minimal)
 dot_gitconfig.tmpl                 # → Block 5 (already in programs.git)
 dot_zshenv                         # → Block 5
-run_once_20-install-runtimes.sh.tmpl  # → Block 4
 run_update-completions.sh          # → Block 5
 ```
 
@@ -117,13 +115,30 @@ run_update-completions.sh          # → Block 5
 - All 10 managed files verified as symlinks to Nix store
 - cmux skipped (defaults-based config, not file-based)
 
+**Block 4** — retire mise, all runtimes via Nix
+- Added `numtide/llm-agents.nix` flake input for fast-moving AI CLI tools
+- Numtide binary cache (`cache.numtide.com`) for pre-built packages
+- `home.packages` expanded with all runtimes: go, nodejs, bun, deno, rustup, uv, jdk11
+- Dev tools added: biome, buf, coursier, metals, ruff, vale, terraform, tflint, kubectl, krew, minikube, lima, lazydocker, go-task, devcontainer, duckdb
+- LLM agents via `llmAgentsPkgs`: claude-code, codex, gemini-cli, agent-browser, copilot-cli
+- `programs.fzf` and `programs.direnv` (with nix-direnv) added as HM modules
+- Removed standalone `rust-analyzer` (collision with `rustup` proxy)
+- Removed `fish-evalcache` plugin (no longer needed without mise)
+- Removed `_evalcache mise activate fish` from interactiveShellInit
+- Removed `mise` from Homebrew brews
+- Removed chezmoi artifacts: `dot_config/mise/config.toml`, `run_once_20-install-runtimes.sh.tmpl`
+- Python managed by `uv` only (no system python3 needed); pynvim dropped (nvim not used)
+- npm global packages (commitlint, textlint) dropped; per-project or unnecessary
+- All tools verified resolving from Nix store (`/etc/profiles/per-user/yuki/bin/`)
+
 ### Known issues and learnings
 
 | Issue | Resolution |
 |---|---|
 | NixOS/nix-installer stores channels at `~/.local/state/nix/profiles/` but nix-darwin expects them under `/nix/var/nix/profiles/per-user/` | `nix.channel.enable = false` (flakes don't need channels) |
 | Homebrew fish (`/opt/homebrew/bin/fish`) does not source `/etc/fish/` where nix-darwin writes PATH setup | Nix paths added manually in `config/fish/interactiveShellInit.fish` |
-| `mise activate fish` overwrites `$PATH` entirely, removing Nix paths | Nix PATH `set --prepend` must come AFTER `mise activate` in `interactiveShellInit.fish`. Also `_evalcache_clear mise` needed after PATH changes |
+| `mise activate fish` overwrites `$PATH` entirely, removing Nix paths | Resolved in Block 4: mise removed. Nix PATH `set --prepend` still needed (Homebrew fish) |
+| `rust-analyzer` collides with `rustup` proxy binary | Do not include standalone `rust-analyzer` in `home.packages` when `rustup` is present |
 | `darwin-rebuild switch` with sudo causes Homebrew errors (Homebrew refuses root) | Run `darwin-rebuild switch` without sudo; it prompts for password only when needed |
 | `home-manager.backupFileExtension` needed for first switch when chezmoi files exist | Set to `"backup"` in flake.nix; delete stale `.backup` files before switch if they already exist |
 | `home.homeDirectory` was null when `useUserPackages = true` | Set `users.users.${username}.home` in darwin module |
@@ -134,38 +149,9 @@ run_update-completions.sh          # → Block 5
 
 ## Remaining blocks
 
-### Block 4: Runtimes + tool management (retire mise)
+### Block 4: Runtimes + tool management (retire mise) ✅
 
-**Goal**: Language runtimes and dev tools are managed by Nix. mise is no longer needed.
-
-**Scope**:
-- Runtimes via `home.packages` or dedicated modules:
-  - Python (+ uv for project-level venv management)
-  - Go
-  - Rust (rustup via Nix, or `pkgs.rustup`)
-  - Node.js + Bun
-  - Deno
-  - Java (corretto-11)
-- Dev tools currently in mise config: biome, buf, terraform, tflint, kubectl, krew, minikube, lima, vale, ruff, etc.
-- npm global packages: commitlint (evaluate if still needed or move to per-project)
-- `uv pip install --system neovim` for pynvim: becomes `home.packages = [ pkgs.python3Packages.pynvim ]`
-- Update workflow: `nix flake update && darwin-rebuild switch` replaces `mise run update`
-- Remove `dot_config/mise/config.toml` and `run_once_20-install-runtimes.sh.tmpl` from chezmoi
-- Remove transitional elements from fish config:
-  - `_evalcache mise activate fish` from `config/fish/interactiveShellInit.fish`
-  - `fish-evalcache` plugin from `nix/modules/home/fish.nix` (if no other commands to cache)
-- Uninstall mise from Homebrew brews
-
-**Key consideration**: Some tools (codex, gemini-cli, agent-browser) may not be in nixpkgs. Options:
-- Keep as npm global installs managed by a small script
-- Use `home.packages` with `pkgs.nodePackages` if available
-- Or accept these as manual installs documented in README
-
-**Verification**:
-- `which python3` → Nix store path
-- `which go`, `which deno`, etc. → Nix store paths
-- `mise` is not installed
-- Existing projects build and test successfully
+Completed. See "Block 4" in Completed section above.
 
 ### Block 5: Cleanup + retire chezmoi
 

@@ -1,5 +1,8 @@
 set -g fish_greeting
 
+# Disable terminal capability queries (DA1) to avoid timeout warnings
+set -Ua fish_features no-query-term
+
 # XDG base directory
 if test -z "$XDG_CONFIG_HOME"
     set -gx XDG_CONFIG_HOME "$HOME/.config"
@@ -7,7 +10,6 @@ end
 
 if test -z "$XDG_CACHE_HOME"
     set -gx XDG_CACHE_HOME "$HOME/.cache"
-    set -gx ZSH_CACHE_DIR "$XDG_CACHE_HOME"
 end
 
 if test -z "$XDG_DATA_HOME"
@@ -59,18 +61,13 @@ if test -e "$XDG_CONFIG_HOME/fish/config.local.fish"
     source $XDG_CONFIG_HOME/fish/config.local.fish
 end
 
-# load kiro shell integration
-if command -sq kiro
-    string match -q "$TERM_PROGRAM" kiro and . (kiro --locate-shell-integration-path fish)
-end
-
 if status is-interactive
     /opt/homebrew/bin/brew shellenv | source
-    atuin init fish | source
-    starship init fish | source
-    mise activate fish | source
+    _evalcache atuin init fish
+    _evalcache starship init fish
+    _evalcache mise activate fish
 
-    if [ "$TERM" = xterm-ghostty ]
-        eval (zellij setup --generate-auto-start fish | string collect)
-    end
+    # if [ "$TERM" = xterm-ghostty ]
+    #     eval (zellij setup --generate-auto-start fish | string collect)
+    # end
 end

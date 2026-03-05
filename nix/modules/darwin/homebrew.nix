@@ -18,7 +18,6 @@
       "deck"
       "fish" # login shell (transitional: until Nix fish is registered)
       "mas"
-      "mise" # transitional: removed in Block 4
       "subversion" # required by some font casks
       "zsh"
       "worktrunk"
