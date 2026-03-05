@@ -11,10 +11,12 @@
       NSAutomaticPeriodSubstitutionEnabled = false;
       NSAutomaticQuoteSubstitutionEnabled = false;
       NSAutomaticSpellingCorrectionEnabled = false;
+      AppleInterfaceStyleSwitchesAutomatically = true;
     };
 
     dock = {
       autohide = true;
+      orientation = "right";
       persistent-apps = [ ];
       tilesize = 36;
       expose-group-apps = true;
@@ -105,7 +107,7 @@
         JIMPrefCandidateWindowFontKey = "TsukuARdGothic-Bold";
         JIMPrefConvertWithPunctuationKey = 0;
         JIMPrefFullWidthNumeralCharactersKey = false;
-        JIMPrefLiveConversionKey = false;
+        JIMPrefLiveConversionKey = true;
       };
 
       "com.apple.DictionaryServices" = {
