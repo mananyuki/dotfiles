@@ -18,6 +18,24 @@ Nix is installed via [NixOS/nix-installer](https://github.com/NixOS/nix-installe
 curl -sSfL https://artifacts.nixos.org/nix-installer | sh -s -- install
 ```
 
+### Repository Location
+
+The repository lives at `~/go/src/github.com/mananyuki/dotfiles` (managed by `ghq`). All `darwin-rebuild` and `task` commands are run from this directory.
+
+### Task Runner
+
+Common operations are defined in `Taskfile.yml` ([go-task](https://taskfile.dev/)). Default profile is `work`; override with `PROFILE=home`.
+
+| Command | Description |
+|---|---|
+| `task build` | Validate configuration without applying |
+| `task switch` | Build and apply configuration |
+| `task diff` | Compare current system with latest build |
+| `task update` | Update all flake inputs and rebuild |
+| `task rollback` | Return to previous generation |
+| `task fmt` | Format all Nix files |
+| `task gc` | Garbage-collect old Nix generations |
+
 ## Functional Requirements
 
 ### FR-1: Flake Inputs

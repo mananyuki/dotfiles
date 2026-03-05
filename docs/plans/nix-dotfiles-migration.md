@@ -31,6 +31,7 @@ Replace chezmoi + Homebrew + mise with nix-darwin + Home Manager as the single d
 ```
 flake.nix                          # entry point
 flake.lock                         # pinned inputs
+Taskfile.yml                       # task runner (build, switch, update, etc.)
 config/                            # native config files (source of truth)
   fish/{shellInit,interactiveShellInit}.fish
   starship.toml
@@ -159,10 +160,12 @@ nix/packages/                      # custom packages from GitHub releases
 
 ### Post-migration
 
-- Remove `chezmoi` from `home.packages` (kept transitionally for verification)
+- [x] Remove `chezmoi` from `home.packages`
+- [x] Update README and AGENTS.md with Nix-based workflow
+- [x] Add Taskfile for common commands
+- Move repo from `~/.local/share/chezmoi` to `~/go/src/github.com/mananyuki/dotfiles`
 - `brew shellenv | source` in fish config remains needed (Homebrew casks + subversion)
 - Nix PATH `set --prepend` in fish config remains needed (brew shellenv must come first)
-- Update README with new workflow
 - Add CI (GitHub Actions) for flake evaluation checks
 
 ---
