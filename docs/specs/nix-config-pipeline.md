@@ -97,9 +97,12 @@ During migration from chezmoi/Homebrew/mise to Nix, some config files contain tr
 
 | Element | Location | Remove when |
 |---|---|---|
-| `brew shellenv \| source` | `config/fish/interactiveShellInit.fish` | Block 2 (Homebrew managed by nix-darwin) |
+| `brew shellenv \| source` | `config/fish/interactiveShellInit.fish` | When all Homebrew brews are eliminated (casks don't need PATH) |
 | `_evalcache mise activate fish` | `config/fish/interactiveShellInit.fish` | Block 4 (mise retired) |
 | `fish-evalcache` plugin | `nix/modules/home/fish.nix` | Block 4 (no more commands to cache) |
+| Nix PATH `set --prepend` | `config/fish/interactiveShellInit.fish` | When login shell switches from Homebrew fish to Nix fish |
+
+**Critical ordering constraint**: `mise activate fish` overwrites `$PATH` entirely (`set -gx PATH ...`). The Nix PATH prepend (`set --prepend -gx PATH`) MUST come AFTER `mise activate` in `interactiveShellInit.fish`. After changing PATH-related config, run `_evalcache_clear mise` to invalidate the cached mise activation output.
 
 ## Non-Functional Requirements
 

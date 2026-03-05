@@ -56,49 +56,94 @@ Replace chezmoi + Homebrew + mise with nix-darwin + Home Manager as the single d
 
 ---
 
+## Progress
+
+### Completed
+
+**Block 0** — `feat/nix-migration` branch, commit `760efb8`
+- Nix installed via NixOS/nix-installer (pure Nix, not Determinate Nix)
+- Flake skeleton: nixpkgs/nix-darwin/home-manager 24.11
+- Profile-only output keys: `darwinConfigurations."home"` / `"work"` (hostname excluded from key)
+- `darwin-rebuild build` exits 0 for both profiles
+
+**Block 1** — commit `8e48826`
+- `programs.fish` with plugins (fish-ghq, fish-evalcache via `fetchFromGitHub`)
+- `programs.starship` with `builtins.fromTOML` reading `config/starship.toml`
+- `programs.git` with delta, ghq, includes for local identity
+- `programs.atuin` with fish integration
+- `config/` directory pattern: native files consumed by Nix modules via `configDir`
+- fisher replaced by Home Manager plugin management
+- `~/.gitconfig` (chezmoi) deleted; git config now at `~/.config/git/config` (HM) + `~/.config/git/local` (manual)
+
+**Block 2** — in progress
+- `homebrew.enable = true` with `cleanup = "zap"`, profile-conditional packages
+- CLI tools moved to `home.packages`: coreutils, curl, gnupg, gnused, helix, lua, luarocks, neovim, pandoc, tree, unzip, zellij
+- macOS `system.defaults.*` + `CustomUserPreferences` from run_once_90
+- `darwin-rebuild switch` succeeded on work PC
+- Homebrew zap removed: old brews (atuin, starship, git, fisher, borders, etc.), casks (chrome@beta, chrome@canary, vivaldi), mas (Keynote)
+- Xcode removed from masApps (Command Line Tools is sufficient)
+
+**Remaining for Block 2**:
+- Verify macOS defaults are correctly applied (key repeat, dock, finder, trackpad)
+- Verify all Nix-first CLI tools work (`which coreutils`, `which neovim`, etc.)
+- Commit Block 2
+
+### Known issues and learnings
+
+| Issue | Resolution |
+|---|---|
+| NixOS/nix-installer stores channels at `~/.local/state/nix/profiles/` but nix-darwin expects them under `/nix/var/nix/profiles/per-user/` | `nix.channel.enable = false` (flakes don't need channels) |
+| Homebrew fish (`/opt/homebrew/bin/fish`) does not source `/etc/fish/` where nix-darwin writes PATH setup | Nix paths added manually in `config/fish/interactiveShellInit.fish` |
+| `mise activate fish` overwrites `$PATH` entirely, removing Nix paths | Nix PATH `set --prepend` must come AFTER `mise activate` in `interactiveShellInit.fish`. Also `_evalcache_clear mise` needed after PATH changes |
+| `darwin-rebuild switch` with sudo causes Homebrew errors (Homebrew refuses root) | Run `darwin-rebuild switch` without sudo; it prompts for password only when needed |
+| `home-manager.backupFileExtension` needed for first switch when chezmoi files exist | Set to `"backup"` in flake.nix; delete stale `.backup` files before switch if they already exist |
+| `home.homeDirectory` was null when `useUserPackages = true` | Set `users.users.${username}.home` in darwin module |
+
+---
+
 ## Blocks
 
-### Block 0: Nix bootstrap + flake skeleton
+### Block 0: Nix bootstrap + flake skeleton ✓
 
 **Goal**: Nix is installed, flake evaluates, `darwin-rebuild build` succeeds with a no-op config.
 
 **Scope**:
 - Install Nix (NixOS/nix-installer — the official modern installer, fork of Determinate installer for pure Nix)
 - Create minimal `flake.nix` with nix-darwin + Home Manager wired up
-- `<host>-home` and `<host>-work` outputs defined
+- `"home"` and `"work"` outputs defined (profile-only, no hostname)
 - Profile passed as `specialArgs` to modules
-- `darwin-rebuild build --flake .#<host>-home` succeeds
-- Commit on a fresh branch in the dotfiles repo
+- `darwin-rebuild build --flake .#work` succeeds
+- Commit on `feat/nix-migration` branch
 
 **Not in scope**: Any actual config management. This is pure scaffolding.
 
 **Verification**: `darwin-rebuild build` exits 0.
 
-### Block 1: Shell + Git (first `programs.*` migration)
+### Block 1: Shell + Git (first `programs.*` migration) ✓
 
 **Goal**: fish, starship, and git are managed by Home Manager. chezmoi no longer owns these files.
 
 **Scope**:
-- `programs.fish` with existing config.fish content translated to Nix
+- `programs.fish` with config content in native `.fish` files under `config/`
   - Shell variables, abbreviations, PATH additions
   - Fish plugins via Home Manager (replace fisher: fish-ghq, fish-evalcache)
   - `config.local.fish` sourcing preserved as local override escape hatch
-  - Remove Homebrew shellenv dependency (Nix provides tools directly)
-- `programs.starship` with existing starship.toml as `settings`
+  - `brew shellenv` and `mise activate` kept as transitional (not removed yet)
+- `programs.starship` with `builtins.fromTOML` reading `config/starship.toml`
 - `programs.git` with delta, ghq, rebase settings
   - Identity (name/email) via `include.path` to a local-only file (not in repo)
   - Profile differences handled by local override, not Nix conditionals
-- `programs.atuin` (currently initialized in fish config, promote to module)
-- Remove corresponding chezmoi source files after verification
+- `programs.atuin` (promoted to Home Manager module with fish integration)
+- `config/` directory pattern established: native files + `configDir` injection
 
-**Key decision**: fish config currently does `brew shellenv | source` and `mise activate fish`. After Nix migration, these become unnecessary because Nix puts tools directly in PATH. This is the critical break point where fish stops depending on Homebrew/mise for PATH setup.
+**Key decision**: `brew shellenv` and `mise activate fish` are kept during transition. Nix PATH must be set AFTER `mise activate` because mise overwrites PATH entirely.
 
 **Verification**:
-- New terminal opens fish with correct prompt, abbreviations, PATH
-- `git config user.name` returns expected value
-- `chezmoi diff` shows no changes for fish/starship/git files
+- New terminal opens fish with correct prompt, abbreviations, PATH ✓
+- `git config user.name` returns expected value ✓
+- Config files are symlinks to Nix store ✓
 
-### Block 2: Packages + macOS defaults
+### Block 2: Packages + macOS defaults (in progress)
 
 **Goal**: Homebrew is managed declaratively by nix-darwin. macOS system preferences are declared in Nix. CLI tools are Nix-first.
 
@@ -109,15 +154,16 @@ Replace chezmoi + Homebrew + mise with nix-darwin + Home Manager as the single d
   - Taps, brews, casks, masApps from current Brewfile.tmpl
   - Profile-conditional packages via Nix `lib.optionals (profile == "work") [...]`
 - CLI tools classification:
-  - **Nix-first** (via `home.packages`): coreutils, curl, jq, ripgrep, fd, fzf, delta, ghq, lazygit, lazydocker, duckdb, tree, pandoc, etc.
-  - **Homebrew fallback** (GUI / no nixpkg): aerospace, ghostty, orbstack, slack, chrome, discord, fonts, mas apps, etc.
-  - **Nix-managed Homebrew brews** (tap-only): worktrunk, pup, gogcli
+  - **Nix-first** (via `home.packages`): coreutils, curl, gnupg, gnused, helix, lua, luarocks, neovim, pandoc, tree, unzip, zellij
+  - **Homebrew brews** (login shell, tap-only, transitional): fish, mas, mise, subversion, zsh, deck, worktrunk, pup, gogcli, awscli (work)
+  - **Homebrew casks** (GUI): aerospace, ghostty, orbstack, slack, chrome, discord, fonts, etc.
+  - **masApps**: Kindle, LINE + profile-conditional (Affinity/Prime for home)
 - `system.defaults.*` for macOS settings (from run_once_90):
   - NSGlobalDomain (key repeat, autocorrection, locale)
   - Dock (autohide, tile size, persistent-apps)
   - Finder (show all files, path bar, column view)
   - Trackpad settings
-  - Input method (Kotoeri) settings
+  - Input method (Kotoeri), Dictionary, Spotlight via `CustomUserPreferences`
 - Remove Brewfile.tmpl and run_once_90 from chezmoi after verification
 
 **Verification**:
@@ -181,7 +227,7 @@ Replace chezmoi + Homebrew + mise with nix-darwin + Home Manager as the single d
 - Handle zsh config: keep minimal `.zshenv` if needed (nix-darwin sets up zsh for Nix), drop sheldon/zsh config
 - Remove chezmoi from system
 - Update README with new workflow:
-  - Bootstrap: install Nix → clone repo → `darwin-rebuild switch --flake .#<host>-<profile>`
+  - Bootstrap: install Nix → clone repo → `darwin-rebuild switch --flake .#<profile>`
   - Daily: `nix flake update && darwin-rebuild switch`
   - Review: `darwin-rebuild build` + `nix store diff-closures`
   - Rollback: `darwin-rebuild switch --rollback`

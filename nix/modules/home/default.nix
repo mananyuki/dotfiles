@@ -1,4 +1,4 @@
-{ configDir, ... }:
+{ pkgs, configDir, ... }:
 {
   imports = [
     ./fish.nix
@@ -8,6 +8,22 @@
   home.stateVersion = "24.11";
   programs.home-manager.enable = true;
   xdg.enable = true;
+
+  # Nix-first CLI tools (moved from Homebrew)
+  home.packages = with pkgs; [
+    coreutils
+    curl
+    gnupg
+    gnused
+    helix
+    lua
+    luarocks
+    neovim
+    pandoc
+    tree
+    unzip
+    zellij
+  ];
 
   programs.starship = {
     enable = true;

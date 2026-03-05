@@ -28,7 +28,7 @@ The flake exposes:
 
 | Output | Description |
 |---|---|
-| `darwinConfigurations."<host>-<profile>"` | Complete macOS system configurations |
+| `darwinConfigurations."<profile>"` | Complete macOS system configurations (`"home"` or `"work"`) |
 | `formatter.<system>` | `nixfmt-rfc-style` for consistent formatting |
 
 ### FR-3: Profile System
@@ -94,6 +94,22 @@ home-manager.darwinModules.home-manager
   };
 }
 ```
+
+### FR-7: Nix Daemon and Channel Configuration
+
+```nix
+nix.channel.enable = false;  # flakes do not use channels
+```
+
+This is required for compatibility with NixOS/nix-installer, which stores channel profiles at `~/.local/state/nix/profiles/` rather than `/nix/var/nix/profiles/per-user/$USER/` where nix-darwin's activation script expects them. Since this is a flake-based setup, channels are not needed.
+
+### FR-8: Fish Shell Registration
+
+```nix
+programs.fish.enable = true;  # in darwin module
+```
+
+nix-darwin must register fish as a known shell by setting `programs.fish.enable = true`. This generates `/etc/fish/config.fish` and `/etc/fish/nixos-env-preinit.fish` with Nix PATH setup. Note: Homebrew's fish does not source `/etc/fish/`, so Nix paths are also added manually in the user's fish config (see nix-config-pipeline spec FR-7).
 
 ## Non-Functional Requirements
 
