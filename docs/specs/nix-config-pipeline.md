@@ -8,6 +8,10 @@ This separation enforces a clear contract: **config files define _what_; Nix mod
 
 ## Data Flow
 
+There are two pipelines: **parsed** (Nix reads and interprets file content) and **linked** (Nix deploys files as-is via symlinks).
+
+### Parsed pipeline
+
 ```
 config/                          Nix modules                       System
 ──────────────────────────────── ─────────────────────────────────── ──────────────────────────
@@ -18,6 +22,20 @@ config/git/ignore ─────────────→ builtins.readFile �
 (N/A) ─────────────────────────→ Nix attrset ────────→ programs.git.{delta,extraConfig} ──→ ~/.config/git/config
 ```
 
+### Linked pipeline (Block 3)
+
+```
+config/                          Nix modules                       System
+──────────────────────────────── ─────────────────────────────────── ──────────────────────────
+config/ghostty/config ─────────→ xdg.configFile ────→ ~/.config/ghostty/config (symlink)
+config/zellij/config.kdl ──────→ xdg.configFile ────→ ~/.config/zellij/config.kdl (symlink)
+config/aerospace/*.toml,*.sh ──→ xdg.configFile ────→ ~/.config/aerospace/* (symlinks)
+config/helix/config.toml ──────→ xdg.configFile ────→ ~/.config/helix/config.toml (symlink)
+config/karabiner/karabiner.json→ xdg.configFile ────→ ~/.config/karabiner/karabiner.json (symlink)
+config/codex/AGENTS.md ────────→ home.file ──────────→ ~/.codex/AGENTS.md (symlink)
+config/claude/* ───────────────→ home.file ──────────→ ~/.claude/* (symlinks)
+```
+
 ### Reading Strategies
 
 | Strategy | When to use | Example |
@@ -25,8 +43,10 @@ config/git/ignore ─────────────→ builtins.readFile �
 | `builtins.readFile` | Content is opaque to Nix (shell scripts, ignore patterns) | `programs.fish.shellInit` |
 | `builtins.fromTOML` + `readFile` | Content is structured and Nix needs the parsed value | `programs.starship.settings` |
 | Nix attrset (direct) | Nix adds value (path resolution, type checking, program-specific options) | `programs.git.delta`, `programs.git.extraConfig` |
+| `xdg.configFile.*.source` | File deployed as-is to `~/.config/` (no parsing needed) | ghostty, zellij, aerospace, helix, karabiner |
+| `home.file.*.source` | File deployed as-is to `~/` (non-XDG locations) | .claude/*, .codex/* |
 
-**Decision rule**: Use native files by default. Only use Nix attrsets when the Home Manager module provides meaningful benefits (e.g., `programs.git.delta.enable` resolves the delta binary path from the Nix store).
+**Decision rule**: Use `programs.*` modules when Home Manager provides meaningful benefits (e.g., `programs.git.delta.enable` resolves the delta binary path). Use link-based deployment (`xdg.configFile`/`home.file`) for everything else.
 
 ## Functional Requirements
 
@@ -35,11 +55,28 @@ config/git/ignore ─────────────→ builtins.readFile �
 ```
 config/
   fish/
-    shellInit.fish           # Non-interactive shell initialization
-    interactiveShellInit.fish # Interactive shell initialization
-  starship.toml              # Starship prompt configuration
+    shellInit.fish                # Non-interactive shell initialization
+    interactiveShellInit.fish     # Interactive shell initialization
+  starship.toml                   # Starship prompt configuration
   git/
-    ignore                   # Global git ignore patterns
+    ignore                        # Global git ignore patterns
+  ghostty/
+    config                        # Ghostty terminal configuration
+  zellij/
+    config.kdl                    # Zellij multiplexer configuration
+  aerospace/
+    aerospace.toml                # AeroSpace window manager configuration
+    pip-move.sh                   # PiP window workspace-follow script
+  helix/
+    config.toml                   # Helix editor configuration
+  karabiner/
+    karabiner.json                # Karabiner-Elements key remapping
+  codex/
+    AGENTS.md                     # Codex CLI agent guidelines
+  claude/
+    CLAUDE.md                     # Claude Code global instructions
+    settings.json                 # Claude Code settings and hooks
+    statusline-command.sh         # Claude Code status line script
 ```
 
 All files under `config/` are in their native format. No Nix syntax, no templating.
@@ -50,14 +87,16 @@ All files under `config/` are in their native format. No Nix syntax, no templati
 - Modules reference files as `configDir + "/relative/path"`.
 - Adding a new config file requires: (1) create the file in `config/`, (2) reference it from the appropriate Nix module.
 
-### FR-3: Program Module Mapping
+### FR-3: Module Mapping
 
-| Config source | Home Manager module | Key options |
-|---|---|---|
-| `config/fish/shellInit.fish` | `programs.fish` | `shellInit`, `interactiveShellInit`, `plugins`, `shellAbbrs` |
-| `config/starship.toml` | `programs.starship` | `settings` (via `fromTOML`) |
-| `config/git/ignore` | `programs.git` | `ignores` (parsed from file), `delta`, `extraConfig`, `includes` |
-| (no config file) | `programs.atuin` | `enable`, `enableFishIntegration` |
+| Config source | Nix module | Mechanism | Key options |
+|---|---|---|---|
+| `config/fish/*.fish` | `home/fish.nix` | `builtins.readFile` | `shellInit`, `interactiveShellInit`, `plugins`, `shellAbbrs` |
+| `config/starship.toml` | `home/default.nix` | `builtins.fromTOML` | `programs.starship.settings` |
+| `config/git/ignore` | `home/git.nix` | `builtins.readFile` | `programs.git.ignores` (parsed) |
+| (no config file) | `home/default.nix` | Nix attrset | `programs.atuin.{enable,enableFishIntegration}` |
+| `config/{ghostty,zellij,aerospace,helix,karabiner}/*` | `home/dotfiles.nix` | `xdg.configFile.*.source` | Symlink to `~/.config/` |
+| `config/{codex,claude}/*` | `home/dotfiles.nix` | `home.file.*.source` | Symlink to `~/` |
 
 ### FR-4: Fish Plugin Management
 
@@ -73,7 +112,7 @@ Current plugins:
 | Plugin | Purpose | Transitional? |
 |---|---|---|
 | `fish-ghq` | ghq repository navigation | No |
-| `fish-evalcache` | Cache slow shell init commands | Yes (remove when brew/mise are eliminated) |
+| `fish-evalcache` | Cache slow shell init commands | Yes (remove in Block 4 when brew/mise are eliminated) |
 
 ### FR-5: Git Identity Delegation
 
@@ -91,7 +130,16 @@ Fish abbreviations are declared as a Nix attrset in `programs.fish.shellAbbrs`, 
 - Abbreviations are key-value pairs that map naturally to Nix attrsets.
 - Home Manager generates the `abbr --add` calls in the correct location within `config.fish`.
 
-### FR-7: Transitional Elements
+### FR-7: Linked Dotfiles
+
+Files that don't benefit from `programs.*` modules are deployed as symlinks via `xdg.configFile` (for `~/.config/` paths) or `home.file` (for `~/` paths). The Nix module `home/dotfiles.nix` owns all link-based deployments.
+
+**Contract**:
+- Files are read-only symlinks to the Nix store.
+- Applications that need to write to their config files (e.g., Karabiner-Elements) must have config changes committed to the repo instead of using the GUI.
+- Executable scripts (e.g., `pip-move.sh`, `statusline-command.sh`) set `executable = true` in the Nix module.
+
+### FR-8: Transitional Elements
 
 During migration from chezmoi/Homebrew/mise to Nix, some config files contain transitional code:
 
@@ -118,14 +166,15 @@ Each piece of configuration exists in exactly one place. The `config/` file is t
 
 Adding a new configuration file to the pipeline requires exactly two touches:
 1. Create the native file in `config/`.
-2. Reference it from the Nix module with `builtins.readFile` or `builtins.fromTOML`.
+2. Reference it from the Nix module (`dotfiles.nix` for links, or the relevant `programs.*` module for parsed content).
 
 No changes to `flake.nix` or other modules should be needed.
 
 ## Definition of Done
 
-- [ ] All configuration content in `config/` is in native format with no Nix syntax
-- [ ] Every file in `config/` is referenced by exactly one Nix module
-- [ ] `darwin-rebuild build` succeeds and generated config files match the content of `config/` sources
-- [ ] Editing a `config/` file and running `darwin-rebuild switch` updates the deployed file
-- [ ] `~/.config/git/local` exists on each machine with the correct identity (manual, not Nix-managed)
+- [x] All configuration content in `config/` is in native format with no Nix syntax
+- [x] Every file in `config/` is referenced by exactly one Nix module
+- [x] `darwin-rebuild build` succeeds and generated config files match the content of `config/` sources
+- [x] Editing a `config/` file and running `darwin-rebuild switch` updates the deployed file
+- [x] `~/.config/git/local` exists on each machine with the correct identity (manual, not Nix-managed)
+- [x] All link-based dotfiles are verified as symlinks to Nix store

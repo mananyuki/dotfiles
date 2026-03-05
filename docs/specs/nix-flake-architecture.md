@@ -61,9 +61,16 @@ The `mkDarwinConfiguration` helper wires two module layers:
 
 ```
 darwinSystem
-  ├─ nix/modules/darwin/     (system scope: nix settings, macOS defaults, Homebrew)
+  ├─ nix/modules/darwin/           (system scope)
+  │    ├─ default.nix              nix settings, fish shell registration
+  │    ├─ defaults.nix             macOS system.defaults.*
+  │    └─ homebrew.nix             declarative Homebrew
   └─ home-manager integration
-       └─ nix/modules/home/  (user scope: dotfiles, user packages, programs.*)
+       └─ nix/modules/home/        (user scope)
+            ├─ default.nix         home.packages, starship, atuin
+            ├─ dotfiles.nix        xdg.configFile + home.file links
+            ├─ fish.nix            programs.fish
+            └─ git.nix             programs.git
 ```
 
 **Boundary contract**:
@@ -71,7 +78,7 @@ darwinSystem
 | Concern | Owner | Examples |
 |---|---|---|
 | System-level settings | `nix/modules/darwin/` | Nix daemon, macOS defaults, system packages, Homebrew declaration |
-| User-level settings | `nix/modules/home/` | Shell config, git, starship, XDG files, user packages |
+| User-level settings | `nix/modules/home/` | Shell config, git, starship, XDG files, user packages, dotfile links |
 
 Darwin modules receive `specialArgs`: `{ username, profile, configDir }`.
 Home Manager modules receive `extraSpecialArgs`: `{ profile, configDir }`.
@@ -109,7 +116,7 @@ This is required for compatibility with NixOS/nix-installer, which stores channe
 programs.fish.enable = true;  # in darwin module
 ```
 
-nix-darwin must register fish as a known shell by setting `programs.fish.enable = true`. This generates `/etc/fish/config.fish` and `/etc/fish/nixos-env-preinit.fish` with Nix PATH setup. Note: Homebrew's fish does not source `/etc/fish/`, so Nix paths are also added manually in the user's fish config (see nix-config-pipeline spec FR-7).
+nix-darwin must register fish as a known shell by setting `programs.fish.enable = true`. This generates `/etc/fish/config.fish` and `/etc/fish/nixos-env-preinit.fish` with Nix PATH setup. Note: Homebrew's fish does not source `/etc/fish/`, so Nix paths are also added manually in the user's fish config (see nix-config-pipeline spec FR-8).
 
 ## Non-Functional Requirements
 
@@ -131,8 +138,8 @@ The system targets `aarch64-darwin` (Apple Silicon) exclusively. No multi-arch a
 
 ## Definition of Done
 
-- [ ] `darwin-rebuild build --flake .#home` exits 0
-- [ ] `darwin-rebuild build --flake .#work` exits 0
-- [ ] All module arguments (`profile`, `configDir`, `username`) are threaded correctly with no unused parameters
-- [ ] `flake.lock` is committed and pins all inputs
-- [ ] No configuration content is embedded as Nix string literals (delegated to `config/` files per nix-config-pipeline spec)
+- [x] `darwin-rebuild build --flake .#home` exits 0
+- [x] `darwin-rebuild build --flake .#work` exits 0
+- [x] All module arguments (`profile`, `configDir`, `username`) are threaded correctly with no unused parameters
+- [x] `flake.lock` is committed and pins all inputs
+- [x] No configuration content is embedded as Nix string literals (delegated to `config/` files per nix-config-pipeline spec)
