@@ -1,0 +1,31 @@
+font-family = "JetBrainsMono Nerd Font Mono"
+font-family = "LINE Seed JP"
+font-family = "SF Pro"
+font-feature = -dlig
+font-size = 13
+
+theme = Catppuccin Frappe
+
+unfocused-split-opacity = 0.7
+unfocused-split-fill = #1e1e2e
+split-divider-color = #45475a
+
+cursor-style = block
+cursor-style-blink = false
+
+shell-integration = fish
+shell-integration-features = no-cursor
+# command = /opt/homebrew/bin/fish --login --interactive
+
+clipboard-trim-trailing-spaces = true
+clipboard-paste-protection = true
+copy-on-select = true
+
+macos-titlebar-style = hidden
+# macos-option-as-alt = true
+
+keybind = cmd+t=unbind
+keybind = cmd+c=unbind
+keybind = cmd+w=unbind
+keybind = cmd+opt+left=unbind
+keybind = cmd+opt+right=unbind

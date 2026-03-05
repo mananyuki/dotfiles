@@ -14,3 +14,7 @@ atom/packages
 atom/blob-store
 atom/recovery
 playbook*.retry
+
+# Nix build artifacts
+result
+result-*
