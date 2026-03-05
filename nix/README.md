@@ -12,10 +12,19 @@ Declarative macOS configuration using nix-darwin and Home Manager.
 ```
 nix/
 ├── modules/
-│   ├── darwin/          # System-scoped configuration (nix-darwin)
-│   │   └── default.nix  # Base system settings
-│   └── home/            # User-scoped configuration (Home Manager)
-│       └── default.nix  # Base user settings
+│   ├── darwin/              # System-scoped configuration (nix-darwin)
+│   │   ├── default.nix      # Nix settings, shell registration, login shell
+│   │   ├── defaults.nix     # macOS system.defaults.*
+│   │   └── homebrew.nix     # Declarative Homebrew (casks, masApps, subversion)
+│   └── home/                # User-scoped configuration (Home Manager)
+│       ├── default.nix      # home.packages, starship, atuin, fzf, direnv
+│       ├── dotfiles.nix     # xdg.configFile + home.file links
+│       ├── fish.nix         # programs.fish (plugins, abbrs, config)
+│       └── git.nix          # programs.git (delta, ghq, includes)
+├── packages/                # Custom packages from GitHub releases
+│   ├── worktrunk.nix        # Git worktree manager (wt, git-wt)
+│   ├── pup.nix              # Datadog Pipelines Utility Pack
+│   └── gogcli.nix           # Google services CLI (Gmail, Calendar, Drive, etc.)
 └── README.md
 ```
 
@@ -38,6 +47,13 @@ nix store diff-closures /run/current-system ./result
 darwin-rebuild switch --flake .#work
 ```
 
+### Update packages
+
+```bash
+# Update all flake inputs and rebuild
+nix flake update && darwin-rebuild switch --flake .#work
+```
+
 ### Rollback
 
 ```bash
@@ -45,22 +61,23 @@ darwin-rebuild switch --flake .#work
 darwin-rebuild switch --rollback
 ```
 
-## Host/Profile Naming Convention
+## Profile System
 
-Configurations follow the pattern: `<profile>`
+Configurations use `<profile>` as the key:
 
-- `profile`: Either `home` or `work`
+| Profile | Output | Use case |
+|---------|--------|----------|
+| `home` | `darwinConfigurations."home"` | Personal machine |
+| `work` | `darwinConfigurations."work"` | Work machine |
 
-Example outputs:
-- `darwinConfigurations."home"`
-- `darwinConfigurations."work"`
+Profile-conditional packages use `lib.optionals (profile == "work") [ ... ]`.
 
 ## Architecture Boundaries
 
 | Layer | Owner | Scope |
 |-------|-------|-------|
-| System | nix-darwin | macOS settings, system packages, services |
-| User | Home Manager | dotfiles, XDG configs, user packages |
+| System | nix-darwin | Nix daemon, macOS defaults, Homebrew, shell registration |
+| User | Home Manager | Dotfiles, shell config, git, user packages, XDG links |
 
 ## Flake Inputs
 
@@ -69,6 +86,14 @@ Example outputs:
 | nixpkgs | Package repository | nixpkgs-24.11-darwin |
 | nix-darwin | macOS system configuration | nix-darwin-24.11 |
 | home-manager | User configuration | release-24.11 |
+| llm-agents | AI CLI tools (claude-code, codex, etc.) | latest |
 
+## Custom Packages
 
+Tools not in nixpkgs are packaged via `fetchurl` from GitHub releases.
 
+To update a custom package:
+1. Bump `version` in the `.nix` file
+2. Set `hash = ""`
+3. Run `darwin-rebuild build` — the error message shows the correct hash
+4. Set the hash and rebuild

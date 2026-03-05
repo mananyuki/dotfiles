@@ -56,7 +56,7 @@ nix/modules/
 nix/packages/                      # custom packages from GitHub releases
   worktrunk.nix                    # git worktree manager
   pup.nix                          # Datadog pipelines tool
-  gogcli.nix                       # GOG.com CLI
+  gogcli.nix                       # Google services CLI (Gmail, Calendar, Drive, etc.)
 ```
 
 ---
