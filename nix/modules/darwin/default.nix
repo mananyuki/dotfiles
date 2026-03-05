@@ -30,6 +30,9 @@
   programs.zsh.enable = true;
   programs.fish.enable = true;
 
+  # Register Nix fish as a valid login shell
+  environment.shells = [ "/etc/profiles/per-user/${username}/bin/fish" ];
+
   nixpkgs = {
     hostPlatform = "aarch64-darwin";
     config.allowUnfree = true;

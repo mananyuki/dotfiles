@@ -63,15 +63,19 @@ The `mkDarwinConfiguration` helper wires two module layers:
 ```
 darwinSystem
   ├─ nix/modules/darwin/           (system scope)
-  │    ├─ default.nix              nix settings, fish shell registration
+  │    ├─ default.nix              nix settings, shell registration, login shell
   │    ├─ defaults.nix             macOS system.defaults.*
-  │    └─ homebrew.nix             declarative Homebrew
+  │    └─ homebrew.nix             declarative Homebrew (casks, masApps, subversion)
   └─ home-manager integration
        └─ nix/modules/home/        (user scope)
-            ├─ default.nix         home.packages, starship, atuin
+            ├─ default.nix         home.packages, starship, atuin, fzf, direnv
             ├─ dotfiles.nix        xdg.configFile + home.file links
             ├─ fish.nix            programs.fish
             └─ git.nix             programs.git
+nix/packages/                      (custom packages from GitHub releases)
+  ├─ worktrunk.nix
+  ├─ pup.nix
+  └─ gogcli.nix
 ```
 
 **Boundary contract**:
@@ -126,13 +130,26 @@ nix.settings = {
 
 `llmAgentsPkgs` is derived from `llm-agents.packages.${system}` in flake.nix and passed to home-manager modules via `extraSpecialArgs`. Packages are consumed in `home/default.nix` with `(with llmAgentsPkgs; [ ... ])`.
 
-### FR-8: Fish Shell Registration
+### FR-8: Fish Shell Registration and Login Shell
 
 ```nix
-programs.fish.enable = true;  # in darwin module
+programs.fish.enable = true;
+environment.shells = [ "/etc/profiles/per-user/${username}/bin/fish" ];
 ```
 
-nix-darwin must register fish as a known shell by setting `programs.fish.enable = true`. This generates `/etc/fish/config.fish` and `/etc/fish/nixos-env-preinit.fish` with Nix PATH setup. Note: Homebrew's fish does not source `/etc/fish/`, so Nix paths are also added manually in the user's fish config (see nix-config-pipeline spec FR-8).
+nix-darwin registers fish as a known shell and manages `/etc/shells`. The Nix fish binary at `/etc/profiles/per-user/<username>/bin/fish` is the login shell (set via `chsh`). Nix paths are added in `config/fish/interactiveShellInit.fish` after `brew shellenv` to ensure Nix binaries take precedence over Homebrew.
+
+### FR-10: Custom Packages from GitHub Releases
+
+Tools not available in nixpkgs are packaged as `stdenv.mkDerivation` with `fetchurl` from GitHub releases. These live in `nix/packages/` and are consumed via `pkgs.callPackage` in `home/default.nix`.
+
+| Package | Binary | Source |
+|---|---|---|
+| `worktrunk` | `wt`, `git-wt` | `max-sixty/worktrunk` |
+| `pup` | `pup` | `datadog-labs/pup` |
+| `gogcli` | `gog` | `steipete/gogcli` |
+
+To update: bump `version`, update the `url`, set `hash = ""`, build to get the correct hash from the error message, then set it.
 
 ## Non-Functional Requirements
 

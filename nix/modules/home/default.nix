@@ -1,4 +1,9 @@
-{ pkgs, configDir, llmAgentsPkgs, ... }:
+{ pkgs, lib, profile, configDir, llmAgentsPkgs, ... }:
+let
+  worktrunk = pkgs.callPackage ../../packages/worktrunk.nix { };
+  pup = pkgs.callPackage ../../packages/pup.nix { };
+  gogcli = pkgs.callPackage ../../packages/gogcli.nix { };
+in
 {
   imports = [
     ./dotfiles.nix
@@ -56,10 +61,12 @@
 
       # Infrastructure & containers
       buf
+      deck
       kubectl
       krew
       lazydocker
       lima
+      mas
       minikube
       terraform
       tflint
@@ -68,7 +75,7 @@
       go-task
 
       # Dev tools
-      chezmoi # transitional: removed in Block 5
+      chezmoi # transitional: remove after migration is fully verified
       devcontainer
       duckdb
     ])
@@ -78,7 +85,15 @@
       codex
       copilot-cli
       gemini-cli
-    ]);
+    ])
+    ++ [
+      gogcli
+      pup
+      worktrunk
+    ]
+    ++ lib.optionals (profile == "work") [
+      pkgs.awscli2
+    ];
 
   programs.starship = {
     enable = true;

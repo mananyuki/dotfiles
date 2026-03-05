@@ -144,16 +144,18 @@ Files that don't benefit from `programs.*` modules are deployed as symlinks via 
 - Applications that need to write to their config files (e.g., Karabiner-Elements) must have config changes committed to the repo instead of using the GUI.
 - Executable scripts (e.g., `pip-move.sh`, `statusline-command.sh`) set `executable = true` in the Nix module.
 
-### FR-8: Transitional Elements
+### FR-8: Homebrew and Nix PATH Integration
 
-During migration from chezmoi/Homebrew/mise to Nix, some config files contain transitional code:
+The fish config contains two PATH-related lines that remain necessary:
 
-| Element | Location | Remove when |
+| Element | Location | Purpose |
 |---|---|---|
-| `brew shellenv \| source` | `config/fish/interactiveShellInit.fish` | Block 5: when all Homebrew brews are eliminated (casks don't need PATH) |
-| Nix PATH `set --prepend` | `config/fish/interactiveShellInit.fish` | Block 5: when login shell switches from Homebrew fish to Nix fish |
+| `brew shellenv \| source` | `config/fish/interactiveShellInit.fish` | Homebrew PATH for casks and subversion |
+| Nix PATH `set --prepend` | `config/fish/interactiveShellInit.fish` | Ensure Nix binaries take precedence over Homebrew |
 
-Previously removed (Block 4): `_evalcache mise activate fish`, `fish-evalcache` plugin (mise retired).
+**Ordering constraint**: `brew shellenv` must come first, then Nix PATH prepend overrides it. This ensures Nix-managed tools shadow any Homebrew-installed equivalents.
+
+Previously removed: `_evalcache mise activate fish`, `fish-evalcache` plugin (Block 4), Homebrew fish login shell (Block 5).
 
 ## Non-Functional Requirements
 

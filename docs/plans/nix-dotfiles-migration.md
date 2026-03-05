@@ -26,7 +26,7 @@ Replace chezmoi + Homebrew + mise with nix-darwin + Home Manager as the single d
 
 ## Current state
 
-### Repository structure (as of Block 3 completion)
+### Repository structure (final)
 
 ```
 flake.nix                          # entry point
@@ -40,35 +40,23 @@ config/                            # native config files (source of truth)
   aerospace/{aerospace.toml,pip-move.sh}
   helix/config.toml
   karabiner/karabiner.json
+  nvim/{init.lua,lazyvim.json,lua/**/*.lua}
   codex/AGENTS.md
   claude/{CLAUDE.md,settings.json,statusline-command.sh}
 nix/modules/
   darwin/
-    default.nix                    # system-level: nix settings, fish shell registration
+    default.nix                    # system-level: nix settings, fish/zsh registration, login shell
     defaults.nix                   # macOS system.defaults.*
-    homebrew.nix                   # declarative Homebrew (brews, casks, masApps)
+    homebrew.nix                   # declarative Homebrew (casks, masApps, subversion)
   home/
-    default.nix                    # user-level: home.packages, starship, atuin
+    default.nix                    # user-level: home.packages, starship, atuin, fzf, direnv
     dotfiles.nix                   # xdg.configFile + home.file links
     fish.nix                       # programs.fish (plugins, abbrs, config via readFile)
     git.nix                        # programs.git (delta, ghq, includes)
-```
-
-### Remaining chezmoi artifacts
-
-```
-.chezmoi.toml.tmpl                 # profile selection → Block 5
-.chezmoiignore                     # → Block 5
-dot_config/alacritty/              # → Block 5 (drop, using ghostty)
-dot_config/git/ignore              # → Block 5 (already in config/git/ignore)
-dot_config/nvim/                   # → Block 5 (drop, not actively used)
-dot_config/private_fish/           # → Block 5 (already in config/fish/)
-dot_config/sheldon/                # → Block 5 (drop, fish is primary)
-dot_config/starship.toml           # → Block 5 (already in config/starship.toml)
-dot_config/zsh/                    # → Block 5 (drop or minimal)
-dot_gitconfig.tmpl                 # → Block 5 (already in programs.git)
-dot_zshenv                         # → Block 5
-run_update-completions.sh          # → Block 5
+nix/packages/                      # custom packages from GitHub releases
+  worktrunk.nix                    # git worktree manager
+  pup.nix                          # Datadog pipelines tool
+  gogcli.nix                       # GOG.com CLI
 ```
 
 ---
@@ -131,51 +119,51 @@ run_update-completions.sh          # → Block 5
 - npm global packages (commitlint, textlint) dropped; per-project or unnecessary
 - All tools verified resolving from Nix store (`/etc/profiles/per-user/yuki/bin/`)
 
+**Block 5** — retire chezmoi, migrate remaining brews, Nix fish as login shell
+- Custom Nix packages from GitHub releases: worktrunk, pup (Datadog), gogcli
+- Migrated brews to nixpkgs: deck, mas, awscli2 (work only)
+- Homebrew brews reduced to `subversion` only (font cask dependency)
+- Removed Homebrew taps: `steipete/tap`, `datadog-labs/pack`
+- Login shell switched from Homebrew fish to Nix fish (`/etc/profiles/per-user/yuki/bin/fish`)
+- `environment.shells` in darwin module manages `/etc/shells`
+- Removed Homebrew `fish` and `zsh` brews
+- Deleted all remaining chezmoi artifacts:
+  - `.chezmoi.toml.tmpl`, `.chezmoiignore`
+  - `dot_config/` (alacritty, git/ignore, private_fish, sheldon, starship.toml, zsh)
+  - `dot_gitconfig.tmpl`, `dot_zshenv`, `run_update-completions.sh`
+- Dropped unused configs: alacritty (ghostty), sheldon (fish), zsh (fish primary)
+- nvim config migrated to `config/nvim/` and added to `xdg.configFile` (Block 4)
+- neovim added to `home.packages`
+- No `dot_*` or `run_*` files remain in repo
+
 ### Known issues and learnings
 
 | Issue | Resolution |
 |---|---|
 | NixOS/nix-installer stores channels at `~/.local/state/nix/profiles/` but nix-darwin expects them under `/nix/var/nix/profiles/per-user/` | `nix.channel.enable = false` (flakes don't need channels) |
 | Homebrew fish (`/opt/homebrew/bin/fish`) does not source `/etc/fish/` where nix-darwin writes PATH setup | Nix paths added manually in `config/fish/interactiveShellInit.fish` |
-| `mise activate fish` overwrites `$PATH` entirely, removing Nix paths | Resolved in Block 4: mise removed. Nix PATH `set --prepend` still needed (Homebrew fish) |
+| `mise activate fish` overwrites `$PATH` entirely, removing Nix paths | Resolved in Block 4: mise removed |
 | `rust-analyzer` collides with `rustup` proxy binary | Do not include standalone `rust-analyzer` in `home.packages` when `rustup` is present |
 | `darwin-rebuild switch` with sudo causes Homebrew errors (Homebrew refuses root) | Run `darwin-rebuild switch` without sudo; it prompts for password only when needed |
 | `home-manager.backupFileExtension` needed for first switch when chezmoi files exist | Set to `"backup"` in flake.nix; delete stale `.backup` files before switch if they already exist |
 | `home.homeDirectory` was null when `useUserPackages = true` | Set `users.users.${username}.home` in darwin module |
 | New files must be `git add`-ed before `darwin-rebuild build` (flake only sees tracked/staged files) | Always `git add` new config files before building |
 | Karabiner-Elements cannot write to read-only Nix store symlinks | Acceptable: config changes go through repo, not GUI |
+| `nix-prefetch-url --unpack` returns unpacked hash but `fetchurl` needs archive hash | Use hash from Nix build error message (`got: sha256-...`) for `fetchurl` |
+| `fetchurl` tar.xz with subdirectory needs correct `sourceRoot` | Set `sourceRoot` to the subdirectory name inside the tarball |
+| `/etc/shells` conflict on `darwin-rebuild switch` after manual edit | Rename to `/etc/shells.before-nix-darwin` and let nix-darwin regenerate |
 
 ---
 
-## Remaining blocks
+## Remaining work
 
-### Block 4: Runtimes + tool management (retire mise) ✅
+### Post-migration
 
-Completed. See "Block 4" in Completed section above.
-
-### Block 5: Cleanup + retire chezmoi
-
-**Goal**: chezmoi is fully removed. The dotfiles repo is a pure Nix flake.
-
-**Scope**:
-- Remove all remaining chezmoi artifacts (see "Remaining chezmoi artifacts" above)
-- Drop unused configs: alacritty, nvim, sheldon
-- Handle zsh config: keep minimal `.zshenv` if needed (nix-darwin sets up zsh for Nix), drop sheldon/zsh config
-- Remove transitional elements from fish config:
-  - `brew shellenv | source` (if all Homebrew brews are eliminated; casks don't need PATH)
-  - Nix PATH `set --prepend` (when login shell switches from Homebrew fish to Nix fish)
-- Remove chezmoi from system
-- Update README with new workflow:
-  - Bootstrap: install Nix → clone repo → `darwin-rebuild switch --flake .#<profile>`
-  - Daily: `nix flake update && darwin-rebuild switch`
-  - Review: `darwin-rebuild build` + `nix store diff-closures`
-  - Rollback: `darwin-rebuild switch --rollback`
+- Remove `chezmoi` from `home.packages` (kept transitionally for verification)
+- `brew shellenv | source` in fish config remains needed (Homebrew casks + subversion)
+- Nix PATH `set --prepend` in fish config remains needed (brew shellenv must come first)
+- Update README with new workflow
 - Add CI (GitHub Actions) for flake evaluation checks
-
-**Verification**:
-- `chezmoi` command not found
-- `darwin-rebuild switch` from clean clone reproduces full environment
-- No `dot_*` or `run_*` files remain in repo
 
 ---
 

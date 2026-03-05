@@ -6,8 +6,8 @@ if test -e $XDG_CONFIG_HOME/fish/config.local.fish
     source $XDG_CONFIG_HOME/fish/config.local.fish
 end
 
-# Transitional: Homebrew (remove in Block 5 when all brews are eliminated)
+# Homebrew (still needed for casks and subversion)
 /opt/homebrew/bin/brew shellenv | source
 
-# Nix paths (must be AFTER mise activate, which overwrites PATH)
+# Nix paths (must come after brew shellenv to take precedence)
 set --prepend -gx PATH /nix/var/nix/profiles/default/bin /run/current-system/sw/bin /etc/profiles/per-user/$USER/bin

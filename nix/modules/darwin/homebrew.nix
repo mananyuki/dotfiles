@@ -9,22 +9,10 @@
 
     taps = [
       "nikitabobko/tap"
-      "steipete/tap"
-      "datadog-labs/pack"
     ];
 
-    # CLI tools not available in nixpkgs or needed by Homebrew itself
     brews = [
-      "deck"
-      "fish" # login shell (transitional: until Nix fish is registered)
-      "mas"
       "subversion" # required by some font casks
-      "zsh"
-      "worktrunk"
-      "datadog-labs/pack/pup"
-      "steipete/tap/gogcli"
-    ] ++ lib.optionals (profile == "work") [
-      "awscli"
     ];
 
     casks = [
