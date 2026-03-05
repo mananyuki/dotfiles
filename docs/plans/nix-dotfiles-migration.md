@@ -75,18 +75,18 @@ Replace chezmoi + Homebrew + mise with nix-darwin + Home Manager as the single d
 - fisher replaced by Home Manager plugin management
 - `~/.gitconfig` (chezmoi) deleted; git config now at `~/.config/git/config` (HM) + `~/.config/git/local` (manual)
 
-**Block 2** — in progress
+**Block 2** — commits `4906ed0`..`3ca5ce4`
 - `homebrew.enable = true` with `cleanup = "zap"`, profile-conditional packages
 - CLI tools moved to `home.packages`: coreutils, curl, gnupg, gnused, helix, lua, luarocks, neovim, pandoc, tree, unzip, zellij
 - macOS `system.defaults.*` + `CustomUserPreferences` from run_once_90
+- Added: `dock.orientation = "right"`, `AppleInterfaceStyleSwitchesAutomatically = true`, `JIMPrefLiveConversionKey = true`
 - `darwin-rebuild switch` succeeded on work PC
 - Homebrew zap removed: old brews (atuin, starship, git, fisher, borders, etc.), casks (chrome@beta, chrome@canary, vivaldi), mas (Keynote)
 - Xcode removed from masApps (Command Line Tools is sufficient)
-
-**Remaining for Block 2**:
-- Verify macOS defaults are correctly applied (key repeat, dock, finder, trackpad)
-- Verify all Nix-first CLI tools work (`which coreutils`, `which neovim`, etc.)
-- Commit Block 2
+- All macOS defaults verified against live system
+- All Nix-first CLI tools verified (12/12 resolve from Nix store)
+- Removed chezmoi scripts: run_once_00, run_once_10, run_once_90, run_onchange_update-brew-packages, run_onchange_update-aqua-packages
+- Removed `dot_Brewfile.tmpl` (replaced by `homebrew.nix`)
 
 ### Known issues and learnings
 
