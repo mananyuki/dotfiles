@@ -2,46 +2,36 @@
 
 ## Purpose
 
-- This repository is the source of truth for my dotfiles managed with `chezmoi`.
-- `chezmoi apply` materializes these source files into `$HOME`.
+- Declarative macOS environment using nix-darwin and Home Manager.
+- `darwin-rebuild switch --flake .#<profile>` reproduces the full environment.
 
 ## Where things live
 
-- `dot_config/**`: XDG config directory content (e.g. `dot_config/nvim`, `dot_config/zsh`, `dot_config/ghostty`, `dot_config/zellij`).
-- `dot_*`: files that map to dotfiles under `$HOME` (chezmoi naming convention).
-- `run_once_*`: bootstrap/provisioning scripts (executed in numeric prefix order).
-- `run_onchange_*`: update hooks (re-run when the script/template changes).
-- `*.tmpl`: Go templates rendered by chezmoi (example: `dot_Brewfile.tmpl`).
-- `.chezmoi.toml.tmpl`: generates `.chezmoi.toml` and defines `[data]` values used by templates (notably `profile`).
+- `flake.nix`: entry point. Defines `darwinConfigurations` for `home` and `work` profiles.
+- `config/`: native-format configuration files (fish, starship, git, ghostty, nvim, etc.). Nix reads these; they contain no Nix syntax.
+- `nix/modules/darwin/`: system-scoped nix-darwin modules (Nix settings, macOS defaults, Homebrew).
+- `nix/modules/home/`: user-scoped Home Manager modules (packages, shell, git, dotfile links).
+- `nix/packages/`: custom Nix packages built from GitHub releases.
+- `docs/specs/`: architecture and pipeline specs.
+- `docs/plans/`: migration plans and progress tracking.
 
 ## Safe workflow
 
-- Prefer this sequence whenever changing anything:
-  - `chezmoi diff`
-  - `chezmoi apply --dry-run`
-  - `chezmoi apply`
-- If something looks off, start with `chezmoi doctor`.
+1. Edit config files in `config/` or Nix modules in `nix/`.
+2. `git add` new files (flakes only see tracked files).
+3. `darwin-rebuild build --flake .#work` (validate).
+4. `darwin-rebuild switch --flake .#work` (apply).
+5. `darwin-rebuild switch --rollback` (if something breaks).
 
-## Profiles & templates
+## Profiles
 
-- Templates may branch on `.profile` (e.g. `{{ if eq .profile "work" }}`).
-- Keep template conditionals tight and lists sorted to minimize churn and diffs.
+- `home`: personal machine.
+- `work`: work machine. Adds `awscli2` and work-specific Homebrew casks.
+- Profile-conditional logic uses `lib.optionals (profile == "work") [ ... ]`.
 
-## Conventions (when editing)
+## Conventions
 
-- Shell (`run_once_*`, `run_onchange_*`):
-  - Use `#!/bin/bash`, 2-space indentation, and idempotent operations.
-  - Always `mkdir -p` before writing; avoid destructive changes without guards.
-- Neovim Lua (`dot_config/nvim/lua/**`):
-  - Follow LazyVim conventions (2-space indentation; keep configs modular).
-
-## Tooling (optional)
-
-- Homebrew packages: `dot_Brewfile.tmpl` renders `~/.Brewfile` (then use `brew bundle --global`).
-- Runtimes: `dot_config/mise/config.toml` (use `mise run setup` / `mise run update`).
-
-## Secrets
-
+- Config content lives in native files under `config/`. Nix modules wire them in via `builtins.readFile`, `builtins.fromTOML`, or `xdg.configFile.*.source`.
+- Shell abbreviations are declared as Nix attrsets in `programs.fish.shellAbbrs` (exception to the native-file rule).
+- Git identity is delegated to `~/.config/git/local` (not committed).
 - Never commit secrets.
-- Prefer `chezmoi secrets` and/or local, untracked data/templates for sensitive values.
-- Use `.chezmoiignore` to exclude files that should never be applied to `$HOME`.

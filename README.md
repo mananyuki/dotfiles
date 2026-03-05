@@ -1,11 +1,21 @@
-dotfiles
-========
+# dotfiles
 
-My dotfiles repos.
+Declarative macOS environment using nix-darwin and Home Manager.
 
-## Installation
+## Setup
 
 ```shell
-curl -sfL https://git.io/chezmoi | sh
-./bin/chezmoi init https://github.com/mananyuki/dotfiles
+# Install Nix
+curl -sSfL https://artifacts.nixos.org/nix-installer | sh -s -- install
+
+# Clone
+ghq get mananyuki/dotfiles
+
+# Build (validate without applying)
+darwin-rebuild build --flake .#work
+
+# Apply
+darwin-rebuild switch --flake .#work
 ```
+
+See [nix/README.md](nix/README.md) for details.

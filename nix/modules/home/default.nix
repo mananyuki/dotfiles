@@ -75,7 +75,6 @@ in
       go-task
 
       # Dev tools
-      chezmoi # transitional: remove after migration is fully verified
       devcontainer
       duckdb
     ])

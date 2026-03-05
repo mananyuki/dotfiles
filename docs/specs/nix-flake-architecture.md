@@ -8,6 +8,16 @@ This dotfiles system uses Nix as a **declarative orchestration layer** for macOS
 - **Single `darwin-rebuild switch` reproduces everything**: The flake is the sole entry point. No manual steps, no imperative scripts.
 - **Profile-based variation with minimal delta**: Differences between environments (home/work) are handled through Nix conditionals or local override files, not by duplicating configurations.
 
+## Prerequisites
+
+### Nix Installation
+
+Nix is installed via [NixOS/nix-installer](https://github.com/NixOS/nix-installer) (the community installer, not Determinate Nix and not the `nixos.org/nix/install` shell script):
+
+```shell
+curl -sSfL https://artifacts.nixos.org/nix-installer | sh -s -- install
+```
+
 ## Functional Requirements
 
 ### FR-1: Flake Inputs
