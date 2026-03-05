@@ -9,7 +9,8 @@ Declarative macOS environment using nix-darwin and Home Manager.
 curl -sSfL https://artifacts.nixos.org/nix-installer | sh -s -- install
 
 # Clone
-ghq get mananyuki/dotfiles
+git clone https://github.com/mananyuki/dotfiles.git ~/go/src/github.com/mananyuki/dotfiles
+cd ~/go/src/github.com/mananyuki/dotfiles
 
 # Build (validate without applying)
 darwin-rebuild build --flake .#work

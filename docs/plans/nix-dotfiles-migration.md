@@ -163,7 +163,7 @@ nix/packages/                      # custom packages from GitHub releases
 - [x] Remove `chezmoi` from `home.packages`
 - [x] Update README and AGENTS.md with Nix-based workflow
 - [x] Add Taskfile for common commands
-- Move repo from `~/.local/share/chezmoi` to `~/go/src/github.com/mananyuki/dotfiles`
+- [x] Move repo from `~/.local/share/chezmoi` to `~/go/src/github.com/mananyuki/dotfiles`
 - `brew shellenv | source` in fish config remains needed (Homebrew casks + subversion)
 - Nix PATH `set --prepend` in fish config remains needed (brew shellenv must come first)
 - Add CI (GitHub Actions) for flake evaluation checks
