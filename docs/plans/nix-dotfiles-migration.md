@@ -88,6 +88,16 @@ Replace chezmoi + Homebrew + mise with nix-darwin + Home Manager as the single d
 - Removed chezmoi scripts: run_once_00, run_once_10, run_once_90, run_onchange_update-brew-packages, run_onchange_update-aqua-packages
 - Removed `dot_Brewfile.tmpl` (replaced by `homebrew.nix`)
 
+**Block 3** — commit `b85e32b`
+- New module `nix/modules/home/dotfiles.nix` for link-based dotfiles
+- `xdg.configFile`: ghostty, zellij, aerospace (toml + pip-move.sh), helix (new), karabiner (new)
+- `home.file`: .codex/AGENTS.md, .claude/{CLAUDE.md, settings.json, statusline-command.sh}
+- Removed Vivaldi rule from karabiner config (Vivaldi uninstalled)
+- Dropped: borders (unused), sketchybar (unused), .textlintrc.json (no global need)
+- Removed chezmoi sources: dot_config/{ghostty,zellij,aerospace,borders}, dot_codex, dot_textlintrc.json
+- All 10 managed files verified as symlinks to Nix store
+- cmux skipped (defaults-based config, not file-based)
+
 ### Known issues and learnings
 
 | Issue | Resolution |
