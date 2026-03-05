@@ -25,7 +25,7 @@ nix/
 
 ```bash
 # Validate configuration without applying
-darwin-rebuild build --flake .#JPN-2024-059-home
+darwin-rebuild build --flake .#work
 
 # Compare with current system
 nix store diff-closures /run/current-system ./result
@@ -35,7 +35,7 @@ nix store diff-closures /run/current-system ./result
 
 ```bash
 # Switch to new configuration
-darwin-rebuild switch --flake .#JPN-2024-059-home
+darwin-rebuild switch --flake .#work
 ```
 
 ### Rollback
@@ -47,14 +47,13 @@ darwin-rebuild switch --rollback
 
 ## Host/Profile Naming Convention
 
-Configurations follow the pattern: `<hostname>-<profile>`
+Configurations follow the pattern: `<profile>`
 
-- `hostname`: Machine identifier (e.g., `JPN-2024-059`)
 - `profile`: Either `home` or `work`
 
 Example outputs:
-- `darwinConfigurations."JPN-2024-059-home"`
-- `darwinConfigurations."JPN-2024-059-work"`
+- `darwinConfigurations."home"`
+- `darwinConfigurations."work"`
 
 ## Architecture Boundaries
 

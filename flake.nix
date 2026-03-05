@@ -28,7 +28,7 @@
       configDir = ./config;
 
       mkDarwinConfiguration =
-        { hostname, profile }:
+        { profile }:
         nix-darwin.lib.darwinSystem {
           inherit system;
           specialArgs = { inherit username profile configDir; };
@@ -50,14 +50,8 @@
     in
     {
       darwinConfigurations = {
-        "JPN-2024-059-home" = mkDarwinConfiguration {
-          hostname = "JPN-2024-059";
-          profile = "home";
-        };
-        "JPN-2024-059-work" = mkDarwinConfiguration {
-          hostname = "JPN-2024-059";
-          profile = "work";
-        };
+        "home" = mkDarwinConfiguration { profile = "home"; };
+        "work" = mkDarwinConfiguration { profile = "work"; };
       };
 
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-rfc-style;
