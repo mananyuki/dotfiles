@@ -7,16 +7,7 @@ in
   programs.git = {
     enable = true;
 
-    delta = {
-      enable = true;
-      options = {
-        syntax-theme = "Nord";
-        navigate = true;
-        side-by-side = true;
-      };
-    };
-
-    extraConfig = {
+    settings = {
       ghq.root = [
         "~/src"
         "~/go/src"
@@ -30,5 +21,15 @@ in
     ];
 
     inherit ignores;
+  };
+
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      syntax-theme = "Nord";
+      navigate = true;
+      side-by-side = true;
+    };
   };
 }
