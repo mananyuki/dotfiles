@@ -21,6 +21,7 @@ WHITE='\033[38;5;252m'      # bright white (values)
 
 # ── Symbols (Starship Jetpack geometric) ──────────────────────────────────────
 SYM_MODEL='◎'    # model
+SYM_THINK='⟡'    # thinking/effort level
 SYM_CTX='◈'      # context gauge
 SYM_GIT='△'      # git branch
 SYM_COST='◇'     # session cost
@@ -90,9 +91,27 @@ eval "$(printf '%s' "$INPUT" | jq -r '
   duration_ms=0; lines_add=0; lines_del=0; vim_mode=""
 }
 
+# ── Effort level (not in statusline JSON yet; read from env/settings) ────────
+effort_level=""
+if [[ -n "${CLAUDE_CODE_EFFORT_LEVEL:-}" ]]; then
+  effort_level="$CLAUDE_CODE_EFFORT_LEVEL"
+elif [[ -n "$cwd" && -f "$cwd/.claude/settings.json" ]]; then
+  effort_level=$(jq -r '.effortLevel // empty' "$cwd/.claude/settings.json" 2>/dev/null)
+fi
+if [[ -z "$effort_level" && -f "$HOME/.claude/settings.json" ]]; then
+  effort_level=$(jq -r '.effortLevel // empty' "$HOME/.claude/settings.json" 2>/dev/null)
+fi
+: "${effort_level:=medium}"
+
+effort_color="$YELLOW"
+case "$effort_level" in
+  high) effort_color="$GREEN" ;;
+  low)  effort_color="$GREY"  ;;
+esac
+
 # ── Line 1: Model │ Context bar │ Git ─────────────────────────────────────────
-# Model
-line1="${BOLD}${CYAN}${SYM_MODEL} ${model_name}${RESET}"
+# Model + effort level
+line1="${BOLD}${CYAN}${SYM_MODEL} ${model_name}${RESET} ${DIM}${effort_color}${SYM_THINK} ${effort_level}${RESET}"
 
 # Vim mode (if active)
 if [[ -n "$vim_mode" ]]; then
