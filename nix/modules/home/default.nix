@@ -2,6 +2,7 @@
 let
   worktrunk = pkgs.callPackage ../../packages/worktrunk.nix { };
   pup = pkgs.callPackage ../../packages/pup.nix { };
+  deck = pkgs.callPackage ../../packages/deck.nix { };
   gogcli = pkgs.callPackage ../../packages/gogcli.nix { };
 in
 {
@@ -61,7 +62,6 @@ in
 
       # Infrastructure & containers
       buf
-      deck
       kubectl
       krew
       lazydocker
@@ -86,6 +86,7 @@ in
       gemini-cli
     ])
     ++ [
+      deck
       gogcli
       pup
       worktrunk
