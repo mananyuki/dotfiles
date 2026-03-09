@@ -5,6 +5,7 @@ let
   deck = pkgs.callPackage ../../packages/deck.nix { };
   datadog-mcp-cli = pkgs.callPackage ../../packages/datadog-mcp-cli.nix { };
   gogcli = pkgs.callPackage ../../packages/gogcli.nix { };
+  mo = pkgs.callPackage ../../packages/mo.nix { };
 in
 {
   imports = [
@@ -88,6 +89,7 @@ in
       datadog-mcp-cli
       deck
       gogcli
+      mo
       pup
       worktrunk
     ]
