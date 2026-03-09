@@ -65,7 +65,6 @@ in
       kubectl
       krew
       lazydocker
-      lima
       mas
       minikube
       terraform
@@ -75,7 +74,6 @@ in
       go-task
 
       # Dev tools
-      devcontainer
       duckdb
     ])
     ++ (with llmAgentsPkgs; [
