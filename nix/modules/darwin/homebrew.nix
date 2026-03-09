@@ -11,10 +11,6 @@
       "nikitabobko/tap"
     ];
 
-    brews = [
-      "subversion" # required by some font casks
-    ];
-
     casks = [
       "nikitabobko/tap/aerospace"
       "chatgpt"
@@ -25,14 +21,7 @@
       "deskpad"
       "discord"
       "firefox"
-      "font-biz-udgothic"
-      "font-biz-udmincho"
-      "font-jetbrains-mono-nerd-font"
       "font-line-seed-jp"
-      "font-noto-sans"
-      "font-noto-sans-cjk-jp"
-      "font-noto-serif"
-      "font-ubuntu-mono-nerd-font"
       "gcloud-cli"
       "ghostty"
       "github"

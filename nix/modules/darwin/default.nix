@@ -1,8 +1,13 @@
-{ username, ... }:
+{ pkgs, username, ... }:
 {
   imports = [
     ./homebrew.nix
     ./defaults.nix
+  ];
+
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.ubuntu-mono
   ];
 
   nix.channel.enable = false;
