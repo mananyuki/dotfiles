@@ -18,6 +18,7 @@
 
   home.file = {
     ".codex/AGENTS.md".source = configDir + "/codex/AGENTS.md";
+    ".codex/config.toml".source = configDir + "/codex/config.toml";
     ".claude/CLAUDE.md".source = configDir + "/claude/CLAUDE.md";
     ".claude/settings.json".source = configDir + "/claude/settings.json";
     ".claude/statusline-command.sh" = {

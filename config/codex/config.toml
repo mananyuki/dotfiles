@@ -1,0 +1,12 @@
+model = "gpt-5.4"
+model_reasoning_effort = "high"
+personality = "pragmatic"
+service_tier = "fast"
+
+[features]
+js_repl = true
+multi_agent = true
+prevent_idle_sleep = true
+child_agents_md = true
+memories = true
+voice_transcription = true
