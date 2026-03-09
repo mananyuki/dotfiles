@@ -1,11 +1,11 @@
 { lib, fetchurl, stdenv }:
 stdenv.mkDerivation rec {
   pname = "pup";
-  version = "0.26.0";
+  version = "0.28.0";
 
   src = fetchurl {
     url = "https://github.com/datadog-labs/pup/releases/download/v${version}/pup_${version}_Darwin_arm64.tar.gz";
-    hash = "sha256-pv3oYngZgg4V4hf2zO1xB7meACKAdNrM0AXxLW4W9Qc=";
+    hash = "sha256-iL9Z9OZhbGFTAcPg3GpahewSUa3ZBjDopj+JhFK9v6M=";
   };
 
   sourceRoot = ".";

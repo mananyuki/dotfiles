@@ -1,11 +1,11 @@
 { lib, fetchurl, stdenv }:
 stdenv.mkDerivation rec {
   pname = "gogcli";
-  version = "0.11.0";
+  version = "0.12.0";
 
   src = fetchurl {
     url = "https://github.com/steipete/gogcli/releases/download/v${version}/gogcli_${version}_darwin_arm64.tar.gz";
-    hash = "sha256-ESaGjD+TmhSqlld9Vlj1/vHhU58zJzC/NaBudBYsnmE=";
+    hash = "sha256-03FmSb9taj8F6UvocEmRxp3Ghqz8hNNfHyiBL9JPEVE=";
   };
 
   sourceRoot = ".";
