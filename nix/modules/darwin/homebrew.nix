@@ -16,7 +16,7 @@
     ];
 
     casks = [
-      "aerospace"
+      "nikitabobko/tap/aerospace"
       "chatgpt"
       "claude"
       "cmux"
