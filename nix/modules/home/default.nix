@@ -3,6 +3,7 @@ let
   worktrunk = pkgs.callPackage ../../packages/worktrunk.nix { };
   pup = pkgs.callPackage ../../packages/pup.nix { };
   deck = pkgs.callPackage ../../packages/deck.nix { };
+  datadog-mcp-cli = pkgs.callPackage ../../packages/datadog-mcp-cli.nix { };
   gogcli = pkgs.callPackage ../../packages/gogcli.nix { };
 in
 {
@@ -84,6 +85,7 @@ in
       gemini-cli
     ])
     ++ [
+      datadog-mcp-cli
       deck
       gogcli
       pup
