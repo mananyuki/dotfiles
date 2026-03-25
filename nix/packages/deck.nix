@@ -1,11 +1,11 @@
 { lib, fetchurl, stdenv, unzip }:
 stdenv.mkDerivation rec {
   pname = "deck";
-  version = "1.23.0";
+  version = "1.23.1";
 
   src = fetchurl {
     url = "https://github.com/k1LoW/deck/releases/download/v${version}/deck_v${version}_darwin_arm64.zip";
-    hash = "sha256-UcKJ4lwdyNi+h6bMbyEJhsdizI/x1cQU6mE1bTreF6I=";
+    hash = "sha256-+ot2Ur1X6RFxTy7vgPYqFR+WKotqNp+lTCmOLuKGBXE=";
   };
 
   sourceRoot = ".";
