@@ -28,6 +28,7 @@ SYM_COST='◇'     # session cost
 SYM_TIME='◷'     # duration
 SYM_ADD='▴'      # lines added
 SYM_DEL='▿'      # lines removed
+SYM_RATE='⬡'     # rate limits
 SEP="${DIM}${GREY}│${RESET}"
 
 # ── Constants ─────────────────────────────────────────────────────────────────
@@ -44,16 +45,16 @@ util_color() {
 
 progress_bar() {
   local pct=${1:-0}
-  local filled=$(( pct * BAR_WIDTH / 100 ))
-  local empty=$(( BAR_WIDTH - filled ))
+  local width=${2:-$BAR_WIDTH}
+  local filled=$(( pct * width / 100 ))
+  local empty=$(( width - filled ))
   local color
   color=$(util_color "$pct")
-  printf '%s' "${GREY}▕${RESET}"
   printf '%s' "${color}"
-  for (( i=0; i<filled; i++ )); do printf '█'; done
+  for (( i=0; i<filled; i++ )); do printf '⣿'; done
   printf '%s' "${DIM}${GREY}"
-  for (( i=0; i<empty; i++ )); do printf '░'; done
-  printf '%s' "${RESET}${GREY}▏${RESET}"
+  for (( i=0; i<empty; i++ )); do printf '⣀'; done
+  printf '%s' "${RESET}"
 }
 
 format_duration() {
@@ -74,21 +75,51 @@ format_cost() {
   awk "BEGIN { printf \"\$%.2f\", ${cost} }"
 }
 
+format_countdown() {
+  local reset_at="$1"
+  [[ -z "$reset_at" || "$reset_at" == "null" ]] && return
+  local reset_epoch now_epoch diff_sec
+  # GNU date (-d) or BSD date (-jf)
+  if reset_epoch=$(date -d "$reset_at" +%s 2>/dev/null); then
+    :
+  elif reset_epoch=$(date -jf "%Y-%m-%dT%H:%M:%SZ" "$reset_at" +%s 2>/dev/null); then
+    :
+  else
+    return
+  fi
+  now_epoch=$(date +%s)
+  diff_sec=$(( reset_epoch - now_epoch ))
+  (( diff_sec <= 0 )) && { printf 'now'; return; }
+  if (( diff_sec < 3600 )); then
+    printf '%dm' $(( diff_sec / 60 ))
+  elif (( diff_sec < 86400 )); then
+    printf '%dh%dm' $(( diff_sec / 3600 )) $(( (diff_sec % 3600) / 60 ))
+  else
+    printf '%dd%dh' $(( diff_sec / 86400 )) $(( (diff_sec % 86400) / 3600 ))
+  fi
+}
+
 # ── Read stdin JSON (single jq call for performance) ──────────────────────────
 INPUT=$(cat)
 
 eval "$(printf '%s' "$INPUT" | jq -r '
+  def nn: if . == null then "" else . end;
   @sh "model_name=\(.model.display_name // "Unknown")",
-  @sh "used_pct=\(.context_window.used_percentage // "")",
-  @sh "cwd=\(.workspace.current_dir // .cwd // "")",
-  @sh "cost_usd=\(.cost.total_cost_usd // 0)",
-  @sh "duration_ms=\(.cost.total_duration_ms // 0)",
-  @sh "lines_add=\(.cost.total_lines_added // 0)",
-  @sh "lines_del=\(.cost.total_lines_removed // 0)",
-  @sh "vim_mode=\(.vim.mode // "")"
+  @sh "used_pct=\(.context_window.used_percentage | nn)",
+  @sh "cwd=\(.workspace.current_dir // .cwd | nn)",
+  @sh "cost_usd=\(.cost.total_cost_usd | nn)",
+  @sh "duration_ms=\(.cost.total_duration_ms | nn)",
+  @sh "lines_add=\(.cost.total_lines_added | nn)",
+  @sh "lines_del=\(.cost.total_lines_removed | nn)",
+  @sh "vim_mode=\(.vim.mode | nn)",
+  @sh "rate_5h_pct=\(.rate_limits.five_hour.used_percentage | nn)",
+  @sh "rate_5h_reset=\(.rate_limits.five_hour.resets_at | nn)",
+  @sh "rate_7d_pct=\(.rate_limits.seven_day.used_percentage | nn)",
+  @sh "rate_7d_reset=\(.rate_limits.seven_day.resets_at | nn)"
 ' 2>/dev/null)" 2>/dev/null || {
-  model_name="Unknown"; used_pct=""; cwd=""; cost_usd=0
-  duration_ms=0; lines_add=0; lines_del=0; vim_mode=""
+  model_name="Unknown"; used_pct=""; cwd=""; cost_usd=""
+  duration_ms=""; lines_add=""; lines_del=""; vim_mode=""
+  rate_5h_pct=""; rate_5h_reset=""; rate_7d_pct=""; rate_7d_reset=""
 }
 
 # ── Effort level (not in statusline JSON yet; read from env/settings) ────────
@@ -109,7 +140,7 @@ case "$effort_level" in
   low)  effort_color="$GREY"  ;;
 esac
 
-# ── Line 1: Model │ Context bar │ Git ─────────────────────────────────────────
+# ── Line 1: Model │ Gauges (ctx, 5h, 7d) │ Git ──────────────────────────────
 # Model + effort level
 line1="${BOLD}${CYAN}${SYM_MODEL} ${model_name}${RESET} ${DIM}${effort_color}${SYM_THINK} ${effort_level}${RESET}"
 
@@ -122,30 +153,48 @@ if [[ -n "$vim_mode" ]]; then
   fi
 fi
 
-# Context usage
+# Context usage gauge
 line1+=" ${SEP} "
 if [[ -n "$used_pct" && "$used_pct" != "null" ]]; then
   used_int=$(printf '%.0f' "$used_pct")
   ctx_color=$(util_color "$used_int")
-  bar=$(progress_bar "$used_int")
-  line1+="${ctx_color}${SYM_CTX} ${used_int}%${RESET} ${bar}"
+  bar=$(progress_bar "$used_int" 6)
+  line1+="${ctx_color}${SYM_CTX}${RESET} ${bar} ${ctx_color}${used_int}%${RESET}"
 else
   line1+="${GREY}${SYM_CTX} --${RESET}"
 fi
 
-# Git branch + diff stats
+# Rate limit gauges (5h, 7d)
+if [[ -n "$rate_5h_pct" && "$rate_5h_pct" != "null" ]]; then
+  rate_5h_int=$(printf '%.0f' "$rate_5h_pct")
+  rate_5h_color=$(util_color "$rate_5h_int")
+  bar_5h=$(progress_bar "$rate_5h_int" 6)
+  countdown_5h=$(format_countdown "$rate_5h_reset")
+  line1+=" ${GREY}5h${RESET} ${bar_5h} ${rate_5h_color}${rate_5h_int}%${RESET}"
+  [[ -n "$countdown_5h" ]] && line1+="${DIM}${GREY}(${countdown_5h})${RESET}"
+fi
+if [[ -n "$rate_7d_pct" && "$rate_7d_pct" != "null" ]]; then
+  rate_7d_int=$(printf '%.0f' "$rate_7d_pct")
+  rate_7d_color=$(util_color "$rate_7d_int")
+  bar_7d=$(progress_bar "$rate_7d_int" 6)
+  countdown_7d=$(format_countdown "$rate_7d_reset")
+  line1+=" ${GREY}7d${RESET} ${bar_7d} ${rate_7d_color}${rate_7d_int}%${RESET}"
+  [[ -n "$countdown_7d" ]] && line1+="${DIM}${GREY}(${countdown_7d})${RESET}"
+fi
+
+# Git branch + diff stats (collected here, displayed on line 2)
+git_branch=""
+git_ins=""
+git_del=""
 if [[ -n "$cwd" ]] && git -C "$cwd" rev-parse --git-dir &>/dev/null 2>&1; then
-  branch=$(git -C "$cwd" symbolic-ref --short HEAD 2>/dev/null \
+  git_branch=$(git -C "$cwd" symbolic-ref --short HEAD 2>/dev/null \
     || git -C "$cwd" rev-parse --short HEAD 2>/dev/null \
     || echo "")
-  if [[ -n "$branch" ]]; then
-    line1+=" ${SEP} ${ITALIC}${CYAN}${SYM_GIT} ${branch}${RESET}"
+  if [[ -n "$git_branch" ]]; then
     diff_stat=$(git -C "$cwd" diff --no-lock-index --shortstat HEAD 2>/dev/null || echo "")
     if [[ -n "$diff_stat" ]]; then
-      ins=$(echo "$diff_stat" | grep -oE '[0-9]+ insertion' | grep -oE '[0-9]+' || echo "")
-      del=$(echo "$diff_stat" | grep -oE '[0-9]+ deletion'  | grep -oE '[0-9]+' || echo "")
-      [[ -n "$ins" && "$ins" -gt 0 ]] && line1+=" ${GREEN}${SYM_ADD}${ins}${RESET}"
-      [[ -n "$del" && "$del" -gt 0 ]] && line1+=" ${RED}${SYM_DEL}${del}${RESET}"
+      git_ins=$(echo "$diff_stat" | grep -oE '[0-9]+ insertion' | grep -oE '[0-9]+' || echo "")
+      git_del=$(echo "$diff_stat" | grep -oE '[0-9]+ deletion'  | grep -oE '[0-9]+' || echo "")
     fi
   fi
 fi
@@ -159,7 +208,7 @@ else
 fi
 
 # Animation: alternate on elapsed seconds (odd/even)
-elapsed_sec=$(( duration_ms / 1000 ))
+elapsed_sec=$(( ${duration_ms:-0} / 1000 ))
 
 # Energy tiers:
 #   low  (< 50%): 🐕💨💨 ↔ 🐕💨  — sprinting, lots of wind
@@ -178,21 +227,26 @@ else
 fi
 
 # ── Line 2: Cost │ Duration │ Lines changed │ Dog ─────────────────────────────
-cost_str=$(format_cost "$cost_usd")
-dur_str=$(format_duration "$duration_ms")
+cost_str=$(format_cost "${cost_usd:-0}")
+dur_str=$(format_duration "${duration_ms:-0}")
 
 line2="${ITALIC}${YELLOW}${SYM_COST} ${cost_str}${RESET}"
 line2+=" ${DIM}${GREY}◈${RESET} "
 line2+="${ITALIC}${PURPLE}${SYM_TIME} ${dur_str}${RESET}"
 
-# Lines changed (only show if non-zero)
-if [[ "$lines_add" -gt 0 || "$lines_del" -gt 0 ]]; then
+# Git branch + diff stats + lines changed
+if [[ -n "$git_branch" ]]; then
+  line2+=" ${DIM}${GREY}◈${RESET} ${ITALIC}${CYAN}${SYM_GIT} ${git_branch}${RESET}"
+  [[ -n "$git_ins" && "$git_ins" -gt 0 ]] && line2+=" ${GREEN}${SYM_ADD}${git_ins}${RESET}"
+  [[ -n "$git_del" && "$git_del" -gt 0 ]] && line2+=" ${RED}${SYM_DEL}${git_del}${RESET}"
+fi
+if [[ "${lines_add:-0}" -gt 0 || "${lines_del:-0}" -gt 0 ]]; then
   line2+=" ${DIM}${GREY}◈${RESET} "
-  [[ "$lines_add" -gt 0 ]] && line2+="${ITALIC}${GREEN}${SYM_ADD}${lines_add}${RESET}"
-  if [[ "$lines_add" -gt 0 && "$lines_del" -gt 0 ]]; then
+  [[ "${lines_add:-0}" -gt 0 ]] && line2+="${ITALIC}${GREEN}${SYM_ADD}${lines_add}${RESET}"
+  if [[ "${lines_add:-0}" -gt 0 && "${lines_del:-0}" -gt 0 ]]; then
     line2+=" "
   fi
-  [[ "$lines_del" -gt 0 ]] && line2+="${ITALIC}${RED}${SYM_DEL}${lines_del}${RESET}"
+  [[ "${lines_del:-0}" -gt 0 ]] && line2+="${ITALIC}${RED}${SYM_DEL}${lines_del}${RESET}"
 fi
 
 # Dog
