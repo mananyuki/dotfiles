@@ -6,6 +6,7 @@ let
   datadog-mcp-cli = pkgs.callPackage ../../packages/datadog-mcp-cli.nix { };
   gogcli = pkgs.callPackage ../../packages/gogcli.nix { };
   mo = pkgs.callPackage ../../packages/mo.nix { };
+  pinact = pkgs.callPackage ../../packages/pinact.nix { };
 in
 {
   imports = [
@@ -27,6 +28,7 @@ in
       gnupg
       gnused
       jq
+      poppler-utils
       ripgrep
       sd
       tree
@@ -90,6 +92,7 @@ in
       deck
       gogcli
       mo
+      pinact
       pup
       worktrunk
     ]
