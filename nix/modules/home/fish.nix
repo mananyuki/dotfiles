@@ -15,6 +15,13 @@
       }
     ];
 
+    functions = {
+      claude = {
+        wraps = "claude";
+        body = "caffeinate -dis (command -s claude) $argv";
+      };
+    };
+
     shellAbbrs = {
       k = "kubectl";
       lzd = "lazydocker";
