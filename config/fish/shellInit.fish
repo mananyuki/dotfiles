@@ -5,7 +5,7 @@ set -gx LC_ALL $LANGUAGE
 set -gx LC_CTYPE $LANGUAGE
 
 # Editor
-set -gx EDITOR nvim
+set -gx EDITOR hx
 set -gx GIT_EDITOR $EDITOR
 
 # Go
