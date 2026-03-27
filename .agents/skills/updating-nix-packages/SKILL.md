@@ -54,7 +54,6 @@ The script outputs JSON lines. Convert to a summary table for the user:
 |---------|--------|-------|--------|
 | mo | 0.16.1 | 0.17.0 | updated |
 | deck | 1.23.0 | 1.23.0 | up-to-date |
-| datadog-mcp-cli | — | — | skipped |
 ```
 
 ---
@@ -63,7 +62,7 @@ The script outputs JSON lines. Convert to a summary table for the user:
 
 ### Skip condition
 
-Files without a `github.com/.../releases/download/` URL pattern are skipped. This covers `datadog-mcp-cli.nix` which uses a fixed, non-versioned URL.
+Files without a `github.com/.../releases/download/` URL pattern are skipped.
 
 ### Hash computation
 
