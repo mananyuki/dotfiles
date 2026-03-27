@@ -5,6 +5,15 @@
 - Declarative macOS environment using nix-darwin and Home Manager.
 - `darwin-rebuild switch --flake .#<profile>` reproduces the full environment.
 
+## Single Source of Truth
+
+This repository is the **single source of truth** for the entire macOS environment. All packages, settings, and configurations are managed declaratively through Nix. The running system is a pure function of this repo.
+
+**Consequences:**
+- **Never run imperative package commands** (`brew install`, `brew uninstall`, `nix-env -i`, etc.). To add or remove a package, edit the corresponding Nix file. `darwin-rebuild switch` reconciles the system.
+- **Never modify dotfiles outside this repo.** Symlinked config files point here; editing the target is editing the source.
+- **If it's not in this repo, it doesn't exist.** An app, package, or setting that isn't declared here is either unmanaged (and should be declared) or unwanted (and should stay out).
+
 ## Where things live
 
 - `flake.nix`: entry point. Defines `darwinConfigurations` for `home` and `work` profiles.
