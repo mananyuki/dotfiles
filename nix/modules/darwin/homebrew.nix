@@ -36,7 +36,6 @@
     ] ++ lib.optionals (profile == "home") [
       "balenaetcher"
     ] ++ lib.optionals (profile == "work") [
-      "microsoft-edge"
       "session-manager-plugin"
       "zoom"
     ];
