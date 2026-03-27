@@ -10,6 +10,8 @@
     };
     "helix/config.toml".source = configDir + "/helix/config.toml";
     "karabiner/karabiner.json".source = configDir + "/karabiner/karabiner.json";
+    "uv/uv.toml".source = configDir + "/uv/uv.toml";
+    "bun/bunfig.toml".source = configDir + "/bun/bunfig.toml";
     "nvim" = {
       source = configDir + "/nvim";
       recursive = true;
@@ -25,5 +27,6 @@
       source = configDir + "/claude/statusline-command.sh";
       executable = true;
     };
+    ".npmrc".source = configDir + "/npm/.npmrc";
   };
 }

@@ -11,6 +11,8 @@ set -gx GIT_EDITOR $EDITOR
 # Go
 set -gx GOPATH $HOME/go
 set -gx GOBIN $GOPATH/bin
+set -gx GONOSUMCHECK ""
+set -gx GOFLAGS -mod=readonly
 fish_add_path $GOBIN
 
 # Coursier

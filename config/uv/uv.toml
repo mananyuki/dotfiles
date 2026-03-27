@@ -1,0 +1,3 @@
+# Supply chain risk mitigation: reject packages published less than 72 hours ago.
+# Per-project override: [tool.uv] exclude-newer-package in pyproject.toml.
+exclude-newer = "72 hours"

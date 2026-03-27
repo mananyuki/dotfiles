@@ -1,0 +1,3 @@
+# Supply chain risk mitigation: reject packages published less than 72 hours ago.
+[install]
+minimumReleaseAge = 259200
