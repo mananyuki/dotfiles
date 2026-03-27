@@ -105,6 +105,7 @@ INPUT=$(cat)
 eval "$(printf '%s' "$INPUT" | jq -r '
   def nn: if . == null then "" else . end;
   @sh "model_name=\(.model.display_name // "Unknown")",
+  @sh "app_version=\(.version | nn)",
   @sh "used_pct=\(.context_window.used_percentage | nn)",
   @sh "cwd=\(.workspace.current_dir // .cwd | nn)",
   @sh "cost_usd=\(.cost.total_cost_usd | nn)",
@@ -117,7 +118,7 @@ eval "$(printf '%s' "$INPUT" | jq -r '
   @sh "rate_7d_pct=\(.rate_limits.seven_day.used_percentage | nn)",
   @sh "rate_7d_reset=\(.rate_limits.seven_day.resets_at | nn)"
 ' 2>/dev/null)" 2>/dev/null || {
-  model_name="Unknown"; used_pct=""; cwd=""; cost_usd=""
+  model_name="Unknown"; app_version=""; used_pct=""; cwd=""; cost_usd=""
   duration_ms=""; lines_add=""; lines_del=""; vim_mode=""
   rate_5h_pct=""; rate_5h_reset=""; rate_7d_pct=""; rate_7d_reset=""
 }
@@ -142,7 +143,9 @@ esac
 
 # ── Line 1: Model │ Gauges (ctx, 5h, 7d) │ Git ──────────────────────────────
 # Model + effort level
-line1="${BOLD}${CYAN}${SYM_MODEL} ${model_name}${RESET} ${DIM}${effort_color}${SYM_THINK} ${effort_level}${RESET}"
+line1="${BOLD}${CYAN}${SYM_MODEL} ${model_name}${RESET}"
+[[ -n "$app_version" ]] && line1+=" ${DIM}${GREY}v${app_version}${RESET}"
+line1+=" ${DIM}${effort_color}${SYM_THINK} ${effort_level}${RESET}"
 
 # Vim mode (if active)
 if [[ -n "$vim_mode" ]]; then
